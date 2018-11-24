@@ -2,13 +2,18 @@
 #define	_header_h_
 #include <iostream>
 #include <windows.h>
+#include <string>
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <conio.h>
 using namespace std;
 class CGAME
 {
 	CTRUCK *truck;
 	CCAR *car;
 	CDINOSAUR *dinosaur;
-	CBIRD *bird;
+	CBIRD *bird
 	CPEOPLE player;
 	int MAX_LEVEL = 10;
 	int MAX_BIRD = 10;
@@ -45,8 +50,11 @@ class CPEOPLE
 {
 	int mX, mY;//position
 	bool mState;//status
+	string name;
+	int score;
+	short level;
 public:
-	CPEOPLE(int width) { mX = rand()%(width +1); mY = 0; };
+	CPEOPLE(int width, int length) { mX = rand()%(length +1); mY = width; };
 	void Up(int);
 	void Left(int);
 	void Right(int);
