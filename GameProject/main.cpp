@@ -7,21 +7,26 @@ CGAME cg;
 
 void SubThread()
 {
+	cg.drawBackground();
 	while (IS_RUNNING) {
-		if (!cg.getPeople().isDead()) //Nếu người vẫn còn sống
+		if (!cg.getPlayer().isDead()) //Nếu người vẫn còn sống
 		{
-			cg.updatePosPeople(MOVING);//Cập nhật vị trí người theo thông tin từ main
+			cg.updatePosPlayer(MOVING);//Cập nhật vị trí người theo thông tin từ main
 		}
 		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
 		cg.updatePosVehicle();//Cập nhật vị trí xe
 		cg.updatePosAnimal(); //Cập nhật vị trí thú
 		cg.drawGame();
-		if (cg.getPeople().isImpact(cg.getVehicle() ||
-			cg.getPeople().isImpact(cg.getAnimal())
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[0])|| cg.getPlayer().isImpact1(cg.getVehicle()[1])
+			|| cg.getPlayer().isImpact2(cg.getAnimal()[0]) || cg.getPlayer().isImpact2(cg.getAnimal()[1]))
 		{
-			// Xử lý khi đụng xe hay thú
+			if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
+				cg.getAnimal()[0]->Tell();
+			if (cg.getPlayer().isImpact2(cg.getAnimal()[1]))
+				cg.getAnimal()[1]->Tell();
 		}
-		if (cg.getPeople().isFinish()) {
+		if (cg.getPlayer().isFinish())
+		{
 			// Xử lý khi về đích
 
 		}
@@ -40,7 +45,7 @@ void main()
 	while (1)
 		{
 		temp = toupper(getchar());
-		if (!cg.getPeople().isDead())
+		if (!cg.getPlayer().isDead())
 			{
 			if (temp == 27) {
 			cg.exitGame(t1.native_handle());
