@@ -8,6 +8,8 @@
 #include <vector>
 #include <conio.h>
 using namespace std;
+const int MAXWIDTH = 40;
+const int MAXHEIGHT = 5;
 class CVEHICLE
 {
 	int mX, mY;

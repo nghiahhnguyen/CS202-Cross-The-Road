@@ -1,6 +1,5 @@
 #include"header.h"
-const int MAXWIDTH = 40;
-const int MAXHEIGHT = 5;
+
 //CGAME
 void CGAME::drawBackground()
 {
@@ -246,7 +245,7 @@ void CTRUCK::Draw(int y)
 
 void CTRUCK::Move(int x, int y)
 {
-	CVEHICLE::Move(x, y);
+	CVEHICLE::Move(1, y);
 }
 
 int CTRUCK::getX()
@@ -263,7 +262,7 @@ int CTRUCK::getY()
 CCAR::CCAR():CVEHICLE() {};
 void CCAR::Move(int x, int y)
 {
-	CVEHICLE::Move(x, y);
+	CVEHICLE::Move(1, y);
 }
 
 int CCAR::getX()

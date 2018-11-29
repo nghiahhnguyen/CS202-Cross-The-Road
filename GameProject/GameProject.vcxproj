@@ -22,6 +22,14 @@
     <ClInclude Include="header.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="canimal.cpp" />
+    <ClCompile Include="cbird.cpp" />
+    <ClCompile Include="ccar.cpp" />
+    <ClCompile Include="cdinosaur.cpp" />
+    <ClCompile Include="cgame.cpp" />
+    <ClCompile Include="cpeople.cpp" />
+    <ClCompile Include="ctruck.cpp" />
+    <ClCompile Include="cvehicle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="header.cpp" />
   </ItemGroup>

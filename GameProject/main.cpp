@@ -28,7 +28,6 @@ void SubThread()
 		if (cg.getPlayer().isFinish())
 		{
 			// Xử lý khi về đích
-
 		}
 		Sleep(100);
 
