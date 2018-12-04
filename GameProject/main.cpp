@@ -2,10 +2,10 @@
 #include <thread>
 char MOVING;
 bool IS_RUNNING = false;
-//CGAME cg;
+CGAME cg;
 
 
-/*void SubThread()
+void SubThread()
 {
 	cg.drawBackground();
 	while (IS_RUNNING) {
@@ -37,41 +37,43 @@ bool IS_RUNNING = false;
 
 void main()
 {
+
 	int temp;
 	FixConsoleWindow();
-	cg.startGame();
 	thread t1(SubThread);
 	while (1)
 		{
 		temp = toupper(getchar());
-		if (!cg.getPlayer().isDead())
-			{
-			if (temp == 27) {
-			cg.exitGame(t1.native_handle());
-				return;
-			}
-			else if (temp == 'P') {
-				cg.pauseGame(t1.native_handle());
-				}
-			else 
-				{
-				 cg.resumeGame((HANDLE)t1.native_handle());
-				 MOVING = temp; //Cập nhật bước di chuyển
-				}
-			}
-		else
-			{
-			 if (temp == 'Y') cg.startGame();
-			 else 
-			 {
-				 cg.exitGame(t1.native_handle());
-				 return;
-			}
-			}
-		 }
-}*/
+		cout << "█";
+		MOVING = temp;
+		//if (!cg.getPlayer().isDead())
+		//	{
+		//	if (temp == 27) {
+		//	cg.exitGame(t1.native_handle());
+		//		return;
+		//	}
+		//	else if (temp == 'P') {
+		//		cg.pauseGame(t1.native_handle());
+		//		}
+		//	else 
+		//		{
+		//		 cg.resumeGame((HANDLE)t1.native_handle());
+		//		 MOVING = temp; //Cập nhật bước di chuyển
+		//		}
+		//	}
+		//else
+		//	{
+		//	 if (temp == 'Y') cg.startGame();
+		//	 else 
+		//	 {
+		//		 cg.exitGame(t1.native_handle());
+		//		 return;
+		//	}
+		//	}
+		// }
+}
 
-void main()
+/*void main()
 {
 	CGAME cg;
 	cg.drawBackground();
@@ -82,7 +84,7 @@ void main()
 		{
 			cg.updatePosPlayer(MOVING);//Cập nhật vị trí người theo thông tin từ main
 		}
-		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main*/
+		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
 		cg.getPlayer().DrawPLayer();
 		cg.updatePosVehicle();//Cập nhật vị trí xe
 		cg.updatePosAnimal(); //Cập nhật vị trí thú
@@ -98,7 +100,7 @@ void main()
 		if (cg.getPlayer().isFinish())
 		{
 			// Xử lý khi về đích
-		}*/
+		}
 		//Sleep(50);
 	}
-}
+}*/

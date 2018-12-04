@@ -6,67 +6,65 @@
 #include <cstdio>
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include <conio.h>
 using namespace std;
 const int MAXWIDTH = 110;
 const int MAXHEIGHT = 25;
-inline void GotoXY(int x, int y)
-{
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+
 class CVEHICLE
 {
-	int mX, mY;
+protected:
+	int mX, mY, prevX, prevY;
+	static int n, m;
 public:
-	CVEHICLE(int x) { mX = x; };
-	virtual void Move(int i, int x);
-	virtual void Draw(int y);
-	virtual int getX();
-	virtual int getY();
-	virtual void ready();
-
+	CVEHICLE() = default;
+	CVEHICLE(int, int);
+	virtual void Move(int x, int y);
+	virtual void Draw();
 };
+
+int CVEHICLE::n = 2;
+int CVEHICLE::m = 5;
+
 class CTRUCK :public CVEHICLE
 {
-	int NUMBER_TRUCK;
+private:
+	static void increaseNumTruck();
 public:
+	static int numTruck;
 	CTRUCK();
-	void Move(int i, int x);
-	void Draw(int y);
-	int getX();
-	int getY();
-	void ready();
-
+	CTRUCK(int x, int y) :CVEHICLE(x, y) {};
+	void Draw();
 };
+
+int CTRUCK::numTruck = 3;
+
 class CCAR :public CVEHICLE
 {
-	int NUMBER_CAR;
+private:
+	static void increaseNumCar();
 public:
+	static int numCar;
 	CCAR();
-	void Move(int i, int x);
-	void Draw(int y);
-	int getX();
-	int getY();
-	//void changeX();
-
+	CCAR(int x, int y) :CVEHICLE(x, y) {};
 };
+
+int CCAR::numCar = 3;
+
 class CANIMAL
 {
-	int mX, mY;
+	int mX, mY, prevX, prevY;
+	static int n, m;
 public:
-	CANIMAL(int x) { mX = x; };
+	CANIMAL(int x, int y) {};
 	virtual void Move(int i, int x);
-	virtual void Draw(int y);
-	//virtual void Tell();
-	virtual int getX();
-	virtual int getY();
-	virtual void ready();
-	//virtual void changeX();
-
+	virtual void Draw();
 };
+
+int CANIMAL::n = 2;
+int CANIMAL::m = 5;
+
 class CBIRD : public CANIMAL
 {
 	int NUMBER_BIRD;
@@ -74,13 +72,9 @@ public:
 	CBIRD();
 	void Move(int i,int x);
 	void Draw(int y);
-	//void Tell();
-	int getX();
-	int getY();
-	//void changeX(int x);
-	void ready();
 
 };
+
 class CDINOSAUR : public CANIMAL
 {
 	int NUMBER_DINOSAUR;
@@ -88,11 +82,6 @@ public:
 	CDINOSAUR();
 	void Move(int i,int x);
 	void Draw(int y);
-	//void Tell();
-	int getX();
-	int getY();
-//	void changeX(int x);
-	void ready();
 };
 
 class CPEOPLE
@@ -117,14 +106,15 @@ public:
 	int getLevel();
 	void DrawPLayer();
 };
+
 class CGAME
 {
-	CVEHICLE** vehicle;
-	CANIMAL** animal;
-	CTRUCK *truck;
-	CCAR *car;
-	CDINOSAUR *dinosaur;
-	CBIRD *bird;
+	CVEHICLE** vehicles;
+	CANIMAL** animals;
+	CTRUCK* trucks;
+	CCAR* cars;
+	CDINOSAUR* dinosaurs;
+	CBIRD* birds;
 	CPEOPLE player;
 	int MAX_LEVEL = 10;
 	int MAX_BIRD = 10;
@@ -151,12 +141,21 @@ public:
 	void updatePosVehicle(); //moving vehicle
 	void updatePosAnimal(); //moving animal
 };
-/*void FixConsoleWindow() 
+
+void FixConsoleWindow() 
 {
 	 HWND consoleWindow = GetConsoleWindow();
 	 long style = GetWindowLong(consoleWindow, GWL_STYLE);
 	 style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	 SetWindowLong(consoleWindow, GWL_STYLE, style);
-}*/
+}
+
+inline void GotoXY(int x, int y)
+{
+	COORD coord;
+	coord.X = x;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 
 #endif

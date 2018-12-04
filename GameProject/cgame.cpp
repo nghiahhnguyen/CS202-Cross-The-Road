@@ -2,26 +2,14 @@
 
 CGAME::CGAME()
 {
-	vehicle = new CVEHICLE*[2];
-	car = new CCAR[10];
-	truck = new CTRUCK[10];
-	vehicle[0] = car;
-	vehicle[1] = truck;
-	animal = new CANIMAL*[2];
-	bird = new CBIRD[10];
-	dinosaur = new CDINOSAUR[10];
-	animal[0] = bird;
-	animal[1] = dinosaur;
-	for (int i = 0; i < 10; i++)
-	{
-		CCAR tempcar;
-		car[i] = tempcar;
-		CTRUCK temptruck;
-		truck[i] = temptruck;
-		CBIRD tempbird;
-		bird[i] = tempbird;
-		CDINOSAUR tempdino;
-		dinosaur[i] = tempdino;
+	for (int i = 0; i < 3; ++i) {
+		CTRUCK tmpTruck(3*4, i*MAXWIDTH / 3);
+		trucks.push_back(tmpTruck);
+		CCAR tmpCar(1*4, i*MAXWIDTH / 3);
+		cars.push_back(tmpCar);
+		CDINOSAUR tmpDino(4, i*MAXWIDTH / 3);
+		dinosaurs.push_back(tmpDino);
+		CBIRD tmpBird(0, i*MAXWIDTH / 3);
 	}
 }
 
@@ -50,14 +38,9 @@ void CGAME::drawGame()
 	//player.DrawPLayer();
 	for (int i = 0; i < player.getLevel(); i++)
 	{
-			if(truck[i].getX() >2)
-				truck[i].Draw(17);
-			if(car[i].getX()<MAXWIDTH)
-				car[i].Draw(13);
-			if(dinosaur[i].getX()>2)
-				dinosaur[i].Draw(9);
-			if(bird[i].getX()<MAXWIDTH)
-				bird[i].Draw(5);
+		for (int j = 0; j < 2; ++j) {
+			for(int k = 0; k < )
+		}
 	}
 	Sleep(50);
 }

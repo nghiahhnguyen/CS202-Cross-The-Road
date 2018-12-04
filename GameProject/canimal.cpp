@@ -1,37 +1,26 @@
 #include "header.h"
-//Animal
-void CANIMAL::Move(int i,int x)
+//Vehicle
+
+CANIMAL::CANIMAL(int x, int y)
+	:mX(x), mY(y), prevX(0), prevY(0) {};
+
+void CANIMAL::Move(int x, int y)
 {
-	if (mX > 2 && x == 1)
-	{
-		mX++;
-		if (mX + 4 == MAXWIDTH)
-			mX = 3;
-	}
-	if (mX < MAXWIDTH&&x == 2)
-	{
-		if (mX == 1)
-			mX = MAXWIDTH - 1;
-		else mX--;
-	}
+	prevX = mX;
+	prevY = mY;
+	mX = x;
+	mY = y;
 };
 
-int CANIMAL::getX()
-{
-	return mX;
-}
-
-int CANIMAL::getY()
-{
-	return mY;
-}
-
-void CANIMAL::Draw(int y) {};
-
-void CANIMAL::ready()
-{
-	if (mX == 0)
-		mX = 3;
-	else if (mX == MAXWIDTH)
-		mX = MAXWIDTH - 1;
-}
+void CANIMAL::Draw() {
+	for (int i = 0; i < n; ++i) {
+		GotoXY(prevX, prevY + i);
+		for (int j = 0; j < m; ++j) {
+			cout << ' ';
+		}
+	}
+	for (int i = 0; i < n; ++i) {
+		GotoXY(mX, mY + 1);
+		cout << graphic[i];
+	}
+};
