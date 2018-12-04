@@ -11,22 +11,62 @@ int CPEOPLE::getScore()
 
 void CPEOPLE::Up(int y)
 {
-	mY -= y;
+	tempY = mY;
+	tempX = mX;
+	if (mY - y < 0)
+	{
+		//tempY = mY;
+		mY = mY;
+	}
+	else
+	{
+	//	tempY = mY;
+		mY -= y;
+	}
 }
 
 void CPEOPLE::Down(int y)
 {
-	mY += y;
+	tempY = mY;
+	tempX = mX;
+	if (mY + y > MAXHEIGHT)
+	{
+		//tempY = mY;
+		mY = mY;
+	}
+	else 
+	{
+		//tempY = mY;
+		mY += y;
+	}
 }
 
 void CPEOPLE::Left(int x)
 {
-	mX -= x;
+	tempY = mY;
+	tempX = mX;
+	if (mX - x < 3)
+	{
+		mX = mX;
+	}
+	else
+	{
+		//tempX = mX;
+		mX -= x;
+	}
 }
 
 void CPEOPLE::Right(int x)
 {
-	mX += x;
+	tempY = mY;
+	tempX = mX;
+	if (mX + x >= MAXWIDTH)
+	{
+		mX = mX;
+	}
+	else {
+		mX += x;
+	}
 }
 
 bool CPEOPLE::isImpact1(CVEHICLE *const&vehicle)
@@ -73,8 +113,16 @@ bool CPEOPLE::isDead()
 
 void CPEOPLE::DrawPLayer()
 {
+	GotoXY(tempX, tempY);
+	cout << "   ";
+	GotoXY(tempX, tempY+1);
+	cout << "   ";
+	GotoXY(tempX, tempY+2);
+	cout << "   ";
 	GotoXY(mX, mY);
 	cout << " 0 ";
-	cout << "\|/";
+	GotoXY(mX, mY+1);
+	cout << "<|/";
+	GotoXY(mX, mY+2);
 	cout << "|'|";
 }

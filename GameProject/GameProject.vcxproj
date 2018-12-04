@@ -31,7 +31,6 @@
     <ClCompile Include="ctruck.cpp" />
     <ClCompile Include="cvehicle.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="header.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

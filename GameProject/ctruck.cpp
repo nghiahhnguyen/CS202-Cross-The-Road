@@ -1,58 +1,56 @@
 #include "header.h"
 //Truck
-CTRUCK::CTRUCK() :CVEHICLE() {};
-void CTRUCK::Draw(int y)
+CTRUCK::CTRUCK() :CVEHICLE(0) {};
+void CTRUCK::Draw(int y) //y =17
 {
-	int i = getX(); int j = 6;
-	if (i + j == MAXWIDTH)
+	int i = getX();
+	if (i + 6 == MAXWIDTH)
 	{
-		GotoXY(i + j, 13);
-		cout << "|";
-		GotoXY(i + j, 14);
-		cout << "|";
-		GotoXY(i + j, 15);
-		cout << "|";
-		j--;
-	}
-	else
-	{
-		GotoXY(i, 13);
-		cout << "AAAAA";
-		GotoXY(i - 1, 13);
+		GotoXY(i, 17);
+		cout << "      ";
+		GotoXY(i - 1, 17);
 		cout << " ";
-		GotoXY(i, 14);
-		cout << "AAAAAAA";
-		GotoXY(i - 1, 14);
+		GotoXY(i, 18);
+		cout << "      ";
+		GotoXY(i - 1, 18);
 		cout << " ";
-		GotoXY(i, 15);
-		cout << "AAAAAAA";
-		GotoXY(i - 1, 15);
+		GotoXY(i, 19);
+		cout << "      ";
+		GotoXY(i - 1, 19);
 		cout << " ";
 	}
-	if (i > 1)
+	else {
+		GotoXY(i, 17);
+		cout <<(char)254u << (char)254u << (char)254u<<(char)254u;
+		GotoXY(i, 18);
+		cout << (char)254u << (char)254u << (char)254u << (char)254u <<" "<< (char)254u << (char)254u;
+		GotoXY(i, 19);
+		cout << (char)254u << (char)254u << (char)254u << (char)254u <<" "<< (char)254u << (char)254u;
+	}
+	if (i > 3)
 	{
-		GotoXY(i - 1, 13);
+		GotoXY(i - 1, 17);
 		cout << " ";
-		GotoXY(i - 1, 14);
+		GotoXY(i - 1, 18);
 		cout << " ";
-		GotoXY(i - 1, 15);
+		GotoXY(i - 1, 19);
 		cout << " ";
 	}
-	else if (i == 1)
+	else if (i == 3)
 	{
-		GotoXY(i - 1, 13);
+		GotoXY(i - 1, 17);
 		cout << "|";
-		GotoXY(i - 1, 14);
+		GotoXY(i - 1, 18);
 		cout << "|";
-		GotoXY(i - 1, 15);
+		GotoXY(i - 1, 19);
 		cout << "|";
 	}
-	Sleep(50);
+	//Sleep(50);
 }
 
-void CTRUCK::Move(int x, int y)
+void CTRUCK::Move(int i,int x)
 {
-	CVEHICLE::Move(1, y);
+	CVEHICLE::Move(i,1);
 }
 
 int CTRUCK::getX()
@@ -63,4 +61,9 @@ int CTRUCK::getX()
 int CTRUCK::getY()
 {
 	return CVEHICLE::getY();
+}
+
+void CTRUCK::ready()
+{
+	CVEHICLE::ready();
 }
