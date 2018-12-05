@@ -6,7 +6,9 @@ void CDINOSAUR::Draw()//y=5
 {
 	CANIMAL::Draw();
 	GotoXY(mX, mY);
-	cout << "YY";
+	cout << "  YY";
 	GotoXY(mX, mY + 1);
-	cout << "YYYY";
+	cout << " YY ";
+	GotoXY(mX, mY + 2);
+	cout << "YYY ";
 }

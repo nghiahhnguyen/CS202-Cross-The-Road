@@ -6,7 +6,7 @@ void CBIRD::Draw()//y=5
 {
 	CANIMAL::Draw();
 	GotoXY(mX, mY);
-	cout << "YY";
+	cout << "Y  Y";
 	GotoXY(mX, mY + 1);
-	cout << "YYYY";
+	cout << " YY ";
 }

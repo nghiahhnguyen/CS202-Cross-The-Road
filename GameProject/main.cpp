@@ -79,9 +79,9 @@ void main()
 	cg.drawBackground();
 	cg.getPlayer().DrawPLayer();
 	while (1) {
-		MOVING = _getch();
-		if (!cg.getPlayer().isDead()) //Nếu người vẫn còn sống
+		if (_kbhit()) //Nếu người vẫn còn sống
 		{
+			MOVING = _getch();
 			cg.updatePosPlayer(MOVING);//Cập nhật vị trí người theo thông tin từ main
 		}
 		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main

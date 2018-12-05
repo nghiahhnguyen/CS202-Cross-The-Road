@@ -1,8 +1,8 @@
 #include "canimal.h"
 //Vehicle
 
-int CANIMAL::n = 2;
-int CANIMAL::m = 5;
+int CANIMAL::n = 3;
+int CANIMAL::m = 4;
 
 CANIMAL::CANIMAL(int x, int y)
 	:mX(x), mY(y), prevX(0), prevY(0) {};

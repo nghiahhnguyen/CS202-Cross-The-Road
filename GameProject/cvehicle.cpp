@@ -1,11 +1,9 @@
 #include "cvehicle.h"
 //Vehicle
 int CVEHICLE::n = 2;
-int CVEHICLE::m = 5;
+int CVEHICLE::m = 4;
 
-CVEHICLE::CVEHICLE(int x, int y)
-	:mX(x), mY(y), prevX(0), prevY(0) {
-};
+CVEHICLE::CVEHICLE(int x, int y) :mX(x), mY(y), prevX(0), prevY(0) {};
 
 void CVEHICLE::Move(int x, int y)
 {
