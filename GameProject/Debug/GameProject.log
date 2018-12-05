@@ -1,12 +1,3 @@
 ﻿  main.cpp
-  cpeople.cpp
-  cgame.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  cvehicle.cpp
-  ctruck.cpp
-  cdinosaur.cpp
-  ccar.cpp
-  cbird.cpp
-  canimal.cpp
-LINK : fatal error LNK1168: cannot open D:\repos\GameProject\Debug\GameProject.exe for writing
+  GameProject.vcxproj -> D:\repos\GameProject\Debug\GameProject.exe
+  GameProject.vcxproj -> D:\repos\GameProject\Debug\GameProject.pdb (Partial PDB)

@@ -109,8 +109,8 @@ public:
 	void Left(int);
 	void Right(int);
 	void Down(int);
-	bool isImpact1(CCAR *const&vehicle);//true = impact, false = not impact
-	bool isImpact2(CANIMAL *const&animal);
+	//bool isImpact1(CCAR *const&vehicle);//true = impact, false = not impact
+	//bool isImpact2(CANIMAL *const&animal);
 	bool isFinish();
 	bool isDead();
 	int getScore();

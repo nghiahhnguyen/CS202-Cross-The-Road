@@ -77,7 +77,7 @@ void main()
 	cg.drawBackground();
 	cg.getPlayer().DrawPLayer();
 	while (1) {
-		if (_kbhit()) //Nếu người vẫn còn sống
+		if (!_kbhit()) //Nếu người vẫn còn sống
 		{
 			MOVING = _getch();
 			cg.updatePosPlayer(MOVING);//Cập nhật vị trí người theo thông tin từ main
@@ -88,15 +88,15 @@ void main()
 		cg.updatePosAnimal(); //Cập nhật vị trí thú
 		cg.drawGame();
 		//cg.getVehicle();
-		if (cg.getPlayer().isImpact1(cg.getCar()))
+		/*if (cg.getPlayer().isImpact1(cg.getCar()))
 		{
 			GotoXY(10, 30);
 			cout << "lose" << endl;
 			/*if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
 				cg.getAnimal()[0]->Tell();
 			if (cg.getPlayer().isImpact2(cg.getAnimal()[1]))
-				cg.getAnimal()[1]->Tell();*/
-		}
+				cg.getAnimal()[1]->Tell();
+		}*/
 		/*if (cg.getPlayer().isFinish())
 		{
 			// Xử lý khi về đích

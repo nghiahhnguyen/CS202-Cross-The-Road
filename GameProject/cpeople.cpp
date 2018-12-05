@@ -64,7 +64,7 @@ void CPEOPLE::Right(int x)
 	}
 }
 
-bool CPEOPLE::isImpact1(CVEHICLE *vehicle)
+/*bool CPEOPLE::isImpact1(CVEHICLE *vehicle)
 {
 	for (int i = 0; i < getLevel(); i++)
 	{
@@ -90,7 +90,7 @@ bool CPEOPLE::isImpact2(CANIMAL *const&animal)
 	}
 	mState = false;
 	return false;
-}
+}*/
 
 bool CPEOPLE::isFinish()
 {
