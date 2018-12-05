@@ -1,11 +1,15 @@
-#include "header.h"
+#include "ctruck.h"
 //Truck
-CTRUCK::CTRUCK() :CVEHICLE() {}
+int CTRUCK::numTruck = 3;
 
 void CTRUCK::Draw() {
 	CVEHICLE::Draw();
 	GotoXY(mX, mY);
-	cout << "AA";
+	cout << "AAA";
 	GotoXY(mX, mY + 1);
 	cout << "AAAA";
+}
+
+void CTRUCK::increaseNumTruck() {
+	numTruck++;
 }

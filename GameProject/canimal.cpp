@@ -1,5 +1,8 @@
-#include "header.h"
+#include "canimal.h"
 //Vehicle
+
+int CANIMAL::n = 2;
+int CANIMAL::m = 5;
 
 CANIMAL::CANIMAL(int x, int y)
 	:mX(x), mY(y), prevX(0), prevY(0) {};
@@ -18,9 +21,5 @@ void CANIMAL::Draw() {
 		for (int j = 0; j < m; ++j) {
 			cout << ' ';
 		}
-	}
-	for (int i = 0; i < n; ++i) {
-		GotoXY(mX, mY + 1);
-		cout << graphic[i];
 	}
 };

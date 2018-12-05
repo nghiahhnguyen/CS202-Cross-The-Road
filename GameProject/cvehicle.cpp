@@ -1,5 +1,7 @@
-#include "header.h"
+#include "cvehicle.h"
 //Vehicle
+int CVEHICLE::n = 2;
+int CVEHICLE::m = 5;
 
 CVEHICLE::CVEHICLE(int x, int y)
 	:mX(x), mY(y), prevX(0), prevY(0) {

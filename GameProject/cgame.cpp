@@ -1,15 +1,21 @@
-#include "header.h"
+#include "cgame.h"
 
 CGAME::CGAME()
 {
-	for (int i = 0; i < 3; ++i) {
-		CTRUCK tmpTruck(3*4, i*MAXWIDTH / 3);
-		trucks.push_back(tmpTruck);
-		CCAR tmpCar(1*4, i*MAXWIDTH / 3);
-		cars.push_back(tmpCar);
-		CDINOSAUR tmpDino(4, i*MAXWIDTH / 3);
-		dinosaurs.push_back(tmpDino);
-		CBIRD tmpBird(0, i*MAXWIDTH / 3);
+	trucks = new CTRUCK[10];
+	cars = new CCAR[10];
+	dinosaurs = new CDINOSAUR[5];
+	birds = new CBIRD[5];
+
+	for (int i = 0; i < 5; ++i) {
+		CTRUCK tmpTruck(17, i*MAXWIDTH / 5);
+		trucks[i] = tmpTruck;
+		CCAR tmpCar(13, i*MAXWIDTH / 5);
+		cars[i] = tmpCar;
+		CDINOSAUR tmpDino(9, i*MAXWIDTH / 5);
+		dinosaurs[i] = tmpDino;
+		CBIRD tmpBird(5, i*MAXWIDTH / 5);
+		birds[i] = tmpBird;
 	}
 }
 
@@ -38,9 +44,10 @@ void CGAME::drawGame()
 	//player.DrawPLayer();
 	for (int i = 0; i < player.getLevel(); i++)
 	{
-		for (int j = 0; j < 2; ++j) {
-			for(int k = 0; k < )
-		}
+		trucks[i].Draw();
+		cars[i].Draw();
+		birds[i].Draw();
+		dinosaurs[i].Draw();
 	}
 	Sleep(50);
 }
@@ -61,27 +68,17 @@ void CGAME::updatePosVehicle()
 {
 	for (int i = 0; i < player.getLevel(); i++)
 	{
-		if (i > 0)
-		{
-			if ( truck[i].getX() +20 < truck[i - 1].getX())
-			{
-				truck[i].ready();
-				truck[i].Move(i, 1);
-			}
-			else truck[i].Move(i, 1);
-			if ( car[i].getX() - 20 > car[i - 1].getX())
-			{
-				car[i].ready();
-				car[i].Move(i, 2);
-			}
-			else car[i].Move(i,2);
+		if (trucks[i].mX + 6 >= MAXWIDTH) {
+			trucks[i].Move(0, trucks[i].mY);
 		}
-		else
-		{
-			truck[i].ready();
-			truck[i].Move(i, 1);
-			car[i].ready();
-			car[i].Move(i, 2);
+		else {
+			trucks[i].Move(trucks[i].mX + 3, trucks[i].mY);
+		}
+		if (cars[i].mX + 6 >= MAXWIDTH) {
+			cars[i].Move(0, cars[i].mY);
+		}
+		else {
+			cars[i].Move(cars[i].mX + 3, cars[i].mY);
 		}
 	}
 }
@@ -90,27 +87,17 @@ void CGAME::updatePosAnimal()
 {
 	for (int i = 0; i < player.getLevel(); i++)
 	{
-		if (i > 0)
-		{
-			if (dinosaur[i].getX() + 25 < dinosaur[i - 1].getX())
-			{
-				dinosaur[i].ready();
-				dinosaur[i].Move(i, 1);
-			}
-			else dinosaur[i].Move(i, 1);
-			if (bird[i].getX() - 15 > bird[i - 1].getX())
-			{
-				bird[i].ready();
-				bird[i].Move(i, 2);
-			}
-			else bird[i].Move(i, 2);
+		if (birds[i].mX + 6 >= MAXWIDTH) {
+			birds[i].Move(0, birds[i].mY);
 		}
-		else
-		{
-			dinosaur[i].ready();
-			dinosaur[i].Move(i, 1);
-			bird[i].ready();
-			bird[i].Move(i, 2);
+		else {
+			birds[i].Move(birds[i].mX + 3, birds[i].mY);
+		}
+		if (dinosaurs[i].mX + 6 >= MAXWIDTH) {
+			dinosaurs[i].Move(0, dinosaurs[i].mY);
+		}
+		else {
+			dinosaurs[i].Move(dinosaurs[i].mX + 3, dinosaurs[i].mY);
 		}
 	}
 }
@@ -123,11 +110,11 @@ CPEOPLE CGAME::getPlayer()
 
 CVEHICLE** CGAME::getVehicle()
 {
-	return vehicle; 
+	return vehicles; 
 }
 
 CANIMAL** CGAME::getAnimal()
 {
-	return animal;
+	return animals;
 }
 

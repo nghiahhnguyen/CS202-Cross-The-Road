@@ -18,16 +18,34 @@
     <ClInclude Include="header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ccar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ctruck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cvehicle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cbird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cdinosaur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpeople.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cgame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cgame.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cpeople.cpp">
-      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="canimal.cpp">
       <Filter>Resource Files</Filter>
@@ -35,16 +53,22 @@
     <ClCompile Include="cbird.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="cdinosaur.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cvehicle.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="ccar.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="cdinosaur.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cgame.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpeople.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
     <ClCompile Include="ctruck.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cvehicle.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "header.h"
+#include "cpeople.h"
 int CPEOPLE::getLevel()
 {
 	return level;
@@ -73,7 +73,7 @@ bool CPEOPLE::isImpact1(CVEHICLE *const&vehicle)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		if (mX == vehicle[i].getX() && mY == vehicle[i].getY())
+		if (mX == vehicle[i].mX && mY == vehicle[i].mY)
 		{
 			mState = true;
 			return true;
@@ -87,7 +87,7 @@ bool CPEOPLE::isImpact2(CANIMAL *const&animal)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		if (mX == animal[i].getX() && mY == animal[i].getY())
+		if (mX == animal[i].mX && mY == animal[i].mY)
 		{
 			mState = true;
 			return true;

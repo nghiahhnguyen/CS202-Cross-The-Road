@@ -1,51 +1,10 @@
-﻿  canimal.cpp
-  cbird.cpp
-  ccar.cpp
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(3): error C2664: 'CVEHICLE::CVEHICLE(CVEHICLE &&)': cannot convert argument 1 from 'const int' to 'const CVEHICLE &'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(3): note: Reason: cannot convert from 'const int' to 'const CVEHICLE'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(3): note: No constructor could take the source type, or constructor overload resolution was ambiguous
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(9): error C2039: 'getX': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(11): error C2039: 'getX': is not a member of 'CVEHICLE'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(18): note: see declaration of 'CVEHICLE'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(14): error C2039: 'getY': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(16): error C2039: 'getY': is not a member of 'CVEHICLE'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(18): note: see declaration of 'CVEHICLE'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\ccar.cpp(19): error C2509: 'Draw': member function not declared in 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-  cdinosaur.cpp
-  cgame.cpp
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(53): error C2039: 'getX': is not a member of 'CTRUCK'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(29): note: see declaration of 'CTRUCK'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(54): error C2660: 'CVEHICLE::Draw': function does not take 1 arguments
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(55): error C2039: 'getX': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(56): error C2660: 'CVEHICLE::Draw': function does not take 1 arguments
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(83): error C2039: 'getX': is not a member of 'CTRUCK'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(29): note: see declaration of 'CTRUCK'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(85): error C2039: 'ready': is not a member of 'CTRUCK'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(29): note: see declaration of 'CTRUCK'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(89): error C2039: 'getX': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(91): error C2039: 'ready': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(98): error C2039: 'ready': is not a member of 'CTRUCK'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(29): note: see declaration of 'CTRUCK'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cgame.cpp(100): error C2039: 'ready': is not a member of 'CCAR'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(34): note: see declaration of 'CCAR'
-  cpeople.cpp
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cpeople.cpp(76): error C2039: 'getX': is not a member of 'CVEHICLE'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(18): note: see declaration of 'CVEHICLE'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\cpeople.cpp(76): error C2039: 'getY': is not a member of 'CVEHICLE'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(18): note: see declaration of 'CVEHICLE'
-  ctruck.cpp
-  cvehicle.cpp
-  main.cpp
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\main.cpp(24): error C2039: 'Tell': is not a member of 'CANIMAL'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(42): note: see declaration of 'CANIMAL'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\main.cpp(26): error C2039: 'Tell': is not a member of 'CANIMAL'
-  d:\nghia\học tập nghĩa\cross-the-road\gameproject\header.h(42): note: see declaration of 'CANIMAL'
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\main.cpp(47): warning C4566: character represented by universal-character-name '\u2588' cannot be represented in the current code page (1252)
-d:\nghia\học tập nghĩa\cross-the-road\gameproject\main.cpp(39): fatal error C1075: '{': no matching token found
-  Generating Code...
+﻿main.obj : error LNK2005: "void __cdecl FixConsoleWindow(void)" (?FixConsoleWindow@@YAXXZ) already defined in header.obj
+main.obj : error LNK2005: "protected: static int CVEHICLE::n" (?n@CVEHICLE@@1HA) already defined in header.obj
+main.obj : error LNK2005: "protected: static int CVEHICLE::m" (?m@CVEHICLE@@1HA) already defined in header.obj
+main.obj : error LNK2005: "public: static int CTRUCK::numTruck" (?numTruck@CTRUCK@@2HA) already defined in header.obj
+main.obj : error LNK2005: "public: static int CCAR::numCar" (?numCar@CCAR@@2HA) already defined in header.obj
+main.obj : error LNK2005: "protected: static int CANIMAL::n" (?n@CANIMAL@@1HA) already defined in header.obj
+main.obj : error LNK2005: "protected: static int CANIMAL::m" (?m@CANIMAL@@1HA) already defined in header.obj
+main.obj : error LNK2005: "private: static int CBIRD::numBird" (?numBird@CBIRD@@0HA) already defined in header.obj
+main.obj : error LNK2005: "private: static int CDINOSAUR::numDino" (?numDino@CDINOSAUR@@0HA) already defined in header.obj
+D:\Nghia\Học tập Nghĩa\Cross-The-Road\Debug\GameProject.exe : fatal error LNK1169: one or more multiply defined symbols found
