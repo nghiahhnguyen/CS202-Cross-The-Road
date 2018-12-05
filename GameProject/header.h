@@ -109,7 +109,7 @@ public:
 	void Left(int);
 	void Right(int);
 	void Down(int);
-	bool isImpact1(CVEHICLE *const&vehicle);//true = impact, false = not impact
+	bool isImpact1(CCAR *const&vehicle);//true = impact, false = not impact
 	bool isImpact2(CANIMAL *const&animal);
 	bool isFinish();
 	bool isDead();
@@ -132,7 +132,7 @@ class CGAME
 	int HEIGHT = 10;
 	int WIDTH = 10;
 public:
-	void Input();
+	//void Input();
 	CGAME(); //init game
 	void drawBackground();
 	void drawGame();
@@ -140,7 +140,8 @@ public:
 	CPEOPLE getPlayer(); //get info player
 	CVEHICLE** getVehicle(); //get vehicle list
 	CANIMAL** getAnimal(); //get animal list
-	/*void resetGame();
+	CVEHICLE* getCar();
+/*	void resetGame();
 	void exitGame(HANDLE);
 	void startGame();
 	void loadGame(istream);

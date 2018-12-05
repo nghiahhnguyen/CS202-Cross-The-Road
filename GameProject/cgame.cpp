@@ -5,14 +5,10 @@ CGAME::CGAME()
 	vehicle = new CVEHICLE*[2];
 	car = new CCAR[10];
 	truck = new CTRUCK[10];
-	vehicle[0] = car;
-	vehicle[1] = truck;
 	animal = new CANIMAL*[2];
 	bird = new CBIRD[10];
 	dinosaur = new CDINOSAUR[10];
-	animal[0] = bird;
-	animal[1] = dinosaur;
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 10; i++)
 	{
 		CCAR tempcar;
 		car[i] = tempcar;
@@ -23,6 +19,10 @@ CGAME::CGAME()
 		CDINOSAUR tempdino;
 		dinosaur[i] = tempdino;
 	}
+	vehicle[0] = car;
+	vehicle[1] = truck;
+	animal[0] = bird;
+	animal[1] = dinosaur;
 }
 
 void CGAME::drawBackground()
@@ -140,11 +140,16 @@ CPEOPLE CGAME::getPlayer()
 
 CVEHICLE** CGAME::getVehicle()
 {
-	return vehicle; 
+	return vehicle;
 }
 
 CANIMAL** CGAME::getAnimal()
 {
 	return animal;
+}
+
+CVEHICLE* CGAME::getCar()
+{
+	return car;
 }
 

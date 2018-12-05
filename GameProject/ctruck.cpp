@@ -45,7 +45,6 @@ void CTRUCK::Draw(int y) //y =17
 		GotoXY(i - 1, 19);
 		cout << "|";
 	}
-	//Sleep(50);
 }
 
 void CTRUCK::Move(int i,int x)

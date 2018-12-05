@@ -77,25 +77,27 @@ void main()
 	cg.drawBackground();
 	cg.getPlayer().DrawPLayer();
 	while (1) {
-		MOVING = _getch();
-		if (!cg.getPlayer().isDead()) //Nếu người vẫn còn sống
+		if (_kbhit()) //Nếu người vẫn còn sống
 		{
+			MOVING = _getch();
 			cg.updatePosPlayer(MOVING);//Cập nhật vị trí người theo thông tin từ main
 		}
-		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main*/
+		MOVING = ' ';// Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
 		cg.getPlayer().DrawPLayer();
 		cg.updatePosVehicle();//Cập nhật vị trí xe
 		cg.updatePosAnimal(); //Cập nhật vị trí thú
 		cg.drawGame();
-		/*if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])
-			|| cg.getPlayer().isImpact2(cg.getAnimal()[0]) || cg.getPlayer().isImpact2(cg.getAnimal()[1]))
+		//cg.getVehicle();
+		if (cg.getPlayer().isImpact1(cg.getCar()))
 		{
-			if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
+			GotoXY(10, 30);
+			cout << "lose" << endl;
+			/*if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
 				cg.getAnimal()[0]->Tell();
 			if (cg.getPlayer().isImpact2(cg.getAnimal()[1]))
-				cg.getAnimal()[1]->Tell();
+				cg.getAnimal()[1]->Tell();*/
 		}
-		if (cg.getPlayer().isFinish())
+		/*if (cg.getPlayer().isFinish())
 		{
 			// Xử lý khi về đích
 		}*/

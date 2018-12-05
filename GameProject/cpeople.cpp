@@ -15,12 +15,10 @@ void CPEOPLE::Up(int y)
 	tempX = mX;
 	if (mY - y < 0)
 	{
-		//tempY = mY;
 		mY = mY;
 	}
 	else
 	{
-	//	tempY = mY;
 		mY -= y;
 	}
 }
@@ -31,12 +29,10 @@ void CPEOPLE::Down(int y)
 	tempX = mX;
 	if (mY + y > MAXHEIGHT)
 	{
-		//tempY = mY;
 		mY = mY;
 	}
 	else 
 	{
-		//tempY = mY;
 		mY += y;
 	}
 }
@@ -51,7 +47,6 @@ void CPEOPLE::Left(int x)
 	}
 	else
 	{
-		//tempX = mX;
 		mX -= x;
 	}
 }
@@ -60,7 +55,7 @@ void CPEOPLE::Right(int x)
 {
 	tempY = mY;
 	tempX = mX;
-	if (mX + x >= MAXWIDTH)
+	if (mX + x >= MAXWIDTH-2)
 	{
 		mX = mX;
 	}
@@ -69,9 +64,9 @@ void CPEOPLE::Right(int x)
 	}
 }
 
-bool CPEOPLE::isImpact1(CVEHICLE *const&vehicle)
+bool CPEOPLE::isImpact1(CVEHICLE *vehicle)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < getLevel(); i++)
 	{
 		if (mX == vehicle[i].getX() && mY == vehicle[i].getY())
 		{
@@ -85,7 +80,7 @@ bool CPEOPLE::isImpact1(CVEHICLE *const&vehicle)
 
 bool CPEOPLE::isImpact2(CANIMAL *const&animal)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < getLevel(); i++)
 	{
 		if (mX == animal[i].getX() && mY == animal[i].getY())
 		{
