@@ -49,7 +49,7 @@ void CGAME::drawGame()
 		birds[i].Draw();
 		dinosaurs[i].Draw();
 	}
-	Sleep(50);
+	//Sleep(50);
 }
 
 void CGAME::updatePosPlayer(char a)
