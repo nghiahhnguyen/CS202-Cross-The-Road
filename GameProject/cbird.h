@@ -10,4 +10,5 @@ public:
         : CANIMAL(x, y){};
     void Draw();
     inline static void increaseNumBird() { ++numBird; }
+	void Tell() override;
 };

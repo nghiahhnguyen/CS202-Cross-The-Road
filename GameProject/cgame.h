@@ -16,12 +16,12 @@ class CPEOPLE;
 #include "header.h"
 
 class CGAME {
-    CVEHICLE** vehicles;
-    CANIMAL** animals;
-    CTRUCK* trucks;
-    CCAR* cars;
-    CDINOSAUR* dinosaurs;
-    CBIRD* birds;
+    CVEHICLE** vehicles = nullptr;
+    CANIMAL** animals = nullptr;
+    CTRUCK* trucks = nullptr;
+    CCAR* cars = nullptr;
+    CDINOSAUR* dinosaurs = nullptr;
+    CBIRD* birds = nullptr;
     CPEOPLE player;
     int MAX_LEVEL = 10;
     int MAX_BIRD = 10;
@@ -30,23 +30,24 @@ class CGAME {
     int WIDTH = 10;
 
 public:
-    void Input();
     CGAME(); //init game
     void drawBackground();
     void drawGame();
-    //~CGAME();
+    ~CGAME();
     CPEOPLE getPlayer(); //get info player
     CVEHICLE** getVehicle(); //get vehicle list
     CANIMAL** getAnimal(); //get animal list
     /*void resetGame();
-						   void exitGame(HANDLE);
-						   void startGame();
-						   void loadGame(istream);
-						   void saveGame(istream);
-						   void pauseGame(HANDLE);
-						   void resumeGame(HANDLE);*/
+	void exitGame(HANDLE);
+	void startGame();
+	void loadGame(istream);
+	void saveGame(istream);
+	void pauseGame(HANDLE);
+	void resumeGame(HANDLE);*/
     void updatePosPlayer(char); //control moving player
     void updatePosVehicle(); //moving vehicle
     void updatePosAnimal(); //moving animal
     void increaseTrafficAndFlock();
+	bool isFinish();
+	void makeSound();
 };

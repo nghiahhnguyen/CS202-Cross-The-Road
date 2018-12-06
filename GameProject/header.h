@@ -7,6 +7,9 @@
 #include <vector>
 #include <fstream>
 #include <conio.h>
+#include <Mmsystem.h>
+#include <mciapi.h>
+#pragma comment(lib, "Winmm.lib")
 using namespace std;
 const int MAXWIDTH = 110;
 const int MAXHEIGHT = 25;

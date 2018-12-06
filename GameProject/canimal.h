@@ -12,4 +12,5 @@ public:
 	CANIMAL(int x, int y);
 	virtual void Move(int x, int y);
 	virtual void Draw();
+	virtual void Tell() = 0;
 };

@@ -60,10 +60,10 @@ void CPEOPLE::Right(int x)
 
 bool CPEOPLE::isImpact1(CVEHICLE* const& vehicle)
 {
-    if (vehicle[0] == NULL || mY != vehicle[0].mY)
+    if (mY != vehicle[0].mY)
         return false;
-    for (int i = 0; i < 10; i++) {
-        if (mX <= vehicle[i].mX + 3 || mX >= vehicle[i].mX) {
+    for (int i = 0; i < level; i++) {
+        if (mX <= vehicle[i].mX + 3 && mX >= vehicle[i].mX) {
             mState = true;
             return true;
         }
@@ -73,10 +73,10 @@ bool CPEOPLE::isImpact1(CVEHICLE* const& vehicle)
 
 bool CPEOPLE::isImpact2(CANIMAL* const& animal)
 {
-    if (animal[0] == NULL || mY != animal[0].mY)
+    if (mY != animal[0].mY)
         return false;
-    for (int i = 0; i < 10; i++) {
-        if (mX <= animal[i].mX + 3 || mX >= animal[i].mX) {
+    for (int i = 0; i < level; i++) {
+        if (mX <= animal[i].mX + 3 && mX >= animal[i].mX) {
             mState = true;
             return true;
         }

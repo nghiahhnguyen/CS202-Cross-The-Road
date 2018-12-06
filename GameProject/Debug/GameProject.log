@@ -1,10 +1,2 @@
-﻿main.obj : error LNK2005: "void __cdecl FixConsoleWindow(void)" (?FixConsoleWindow@@YAXXZ) already defined in header.obj
-main.obj : error LNK2005: "protected: static int CVEHICLE::n" (?n@CVEHICLE@@1HA) already defined in header.obj
-main.obj : error LNK2005: "protected: static int CVEHICLE::m" (?m@CVEHICLE@@1HA) already defined in header.obj
-main.obj : error LNK2005: "public: static int CTRUCK::numTruck" (?numTruck@CTRUCK@@2HA) already defined in header.obj
-main.obj : error LNK2005: "public: static int CCAR::numCar" (?numCar@CCAR@@2HA) already defined in header.obj
-main.obj : error LNK2005: "protected: static int CANIMAL::n" (?n@CANIMAL@@1HA) already defined in header.obj
-main.obj : error LNK2005: "protected: static int CANIMAL::m" (?m@CANIMAL@@1HA) already defined in header.obj
-main.obj : error LNK2005: "private: static int CBIRD::numBird" (?numBird@CBIRD@@0HA) already defined in header.obj
-main.obj : error LNK2005: "private: static int CDINOSAUR::numDino" (?numDino@CDINOSAUR@@0HA) already defined in header.obj
-D:\Nghia\Học tập Nghĩa\Cross-The-Road\Debug\GameProject.exe : fatal error LNK1169: one or more multiply defined symbols found
+﻿  cgame.cpp
+  GameProject.vcxproj -> D:\Nghia\Hoc tap Nghia\Cross-The-Road\Debug\GameProject.exe

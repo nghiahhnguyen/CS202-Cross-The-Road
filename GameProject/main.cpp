@@ -1,35 +1,47 @@
 ﻿#include "cgame.h"
 #include "header.h"
 #include <thread>
+#include <random>
 char MOVING;
-bool IS_RUNNING = false;
+bool IS_RUNNING = true;
+CGAME cg;
 
 void SubThread()
 {
     cg.drawBackground();
     while (IS_RUNNING) {
-        if (!cg.getPlayer().isDead()) //Nếu người vẫn còn sống
+        if (!cg.getPlayer().isDead()) // If player is still alive
         {
-            cg.updatePosPlayer(MOVING); //Cập nhật vị trí người theo thông tin từ main
+			if(MOVING != ' ')
+				cg.updatePosPlayer(MOVING); // Update player's position from main
         } else {
             IS_RUNNING = false;
-            break;
+			continue;
         }
-        MOVING = ' '; // Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
-        cg.updatePosVehicle(); //Cập nhật vị trí xe
+        MOVING = ' '; // Waiting for next move from main
+        cg.updatePosVehicle(); //
         cg.updatePosAnimal(); //Cập nhật vị trí thú
         cg.drawGame();
-        if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])
-            || cg.getPlayer().isImpact2(cg.getAnimal()[0]) || cg.getPlayer().isImpact2(cg.getAnimal()[1])) {
-            if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
-                cg.getAnimal()[0]->Tell();
-            if (cg.getPlayer().isImpact2(cg.getAnimal()[1]))
-                cg.getAnimal()[1]->Tell();
-        }
+		cg.getPlayer().DrawPLayer();
+
+		bool hitSth = false;
+		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
+			cg.getAnimal()[0]->Tell();
+			hitSth = true;
+		}
+		if (cg.getPlayer().isImpact2(cg.getAnimal()[1])) {
+			cg.getAnimal()[1]->Tell();
+			hitSth = true;
+		}
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
+			hitSth = true;
+		}
+		if (hitSth)
+			break;
         if (cg.getPlayer().getY() == 0) {
             cg.getPlayer().increaseLevel();
             if (cg.isFinish()) {
-
+				break;
             } else {
                 cg.increaseTrafficAndFlock();
             }
@@ -38,42 +50,52 @@ void SubThread()
     }
 }
 
-void pseudo_main()
+int main()
 {
 
     int temp;
     FixConsoleWindow();
     thread t1(SubThread);
     while (1) {
-        temp = toupper(getchar());
-        MOVING = temp;
-        if (!cg.getPlayer().isDead()) {
-            if (temp == 27) {
-                cg.exitGame(t1.native_handle());
-                return;
-            } else if (temp == 'P') {
-                cg.pauseGame(t1.native_handle());
-            } else {
-                cg.resumeGame((HANDLE)t1.native_handle());
-                MOVING = temp; //Cập nhật bước di chuyển
-            }
-        } else {
-            if (temp == 'Y')
-                cg.startGame();
-            else {
-                cg.exitGame(t1.native_handle());
-                return;
-            }
-        }
+		if (_kbhit()) {
+			temp = _getch();
+			MOVING = temp;
+		}        
+        //if (!cg.getPlayer().isDead()) {
+        //    if (temp == 27) {
+        //        cg.exitGame(t1.native_handle());
+        //        return;
+        //    } else if (temp == 'P') {
+        //        cg.pauseGame(t1.native_handle());
+        //    } else {
+        //        cg.resumeGame((HANDLE)t1.native_handle());
+        //        MOVING = temp; //Cập nhật bước di chuyển
+        //    }
+        //} else {
+        //    if (temp == 'Y')
+        //        cg.startGame();
+        //    else {
+        //        cg.exitGame(t1.native_handle());
+        //        return;
+        //    }
+        //}
     }
+	t1.join();
+	return 0;
 }
 
-void main()
+void sound() {
+	while (true) {
+		cg.makeSound();
+	}
+}
+
+int o_main()
 {
     FixConsoleWindow();
-    CGAME cg;
     cg.drawBackground();
     cg.getPlayer().DrawPLayer();
+	//thread t1(sound);
     while (1) {
         if (_kbhit()) //Nếu người vẫn còn sống
         {
@@ -85,18 +107,7 @@ void main()
         cg.updatePosVehicle(); //Cập nhật vị trí xe
         cg.updatePosAnimal(); //Cập nhật vị trí thú
         cg.drawGame();
-        //if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])
-        //	|| cg.getPlayer().isImpact2(cg.getAnimal()[0]) || cg.getPlayer().isImpact2(cg.getAnimal()[1]))
-        //{
-        //	if (cg.getPlayer().isImpact2(cg.getAnimal()[0]))
-        //		cg.getAnimal()[0]->Tell();
-        //	if (cg.getPlayer().isImpact2(cg.getAnimal()[1]))
-        //		cg.getAnimal()[1]->Tell();
-        //}
-        //if (cg.getPlayer().isFinish())
-        //{
-        //	// Xử lý khi về đích
-        //}
-        ////Sleep(50);
     }
+	//t1.join();
+	return 0;
 }

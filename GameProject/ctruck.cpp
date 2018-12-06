@@ -11,5 +11,5 @@ void CTRUCK::Draw() {
 }
 
 void CTRUCK::increaseNumTruck() {
-	numTruck++;
+	++numTruck;
 }

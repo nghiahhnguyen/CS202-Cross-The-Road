@@ -19,7 +19,7 @@ public:
     {
         mX = (MAXWIDTH / 2) - 1;
         mY = 21;
-        level = 10;
+        level = 5;
         score = 0;
         mState = true;
         tempX = (MAXWIDTH / 2) - 1;
@@ -29,8 +29,7 @@ public:
     void Left(int);
     void Right(int);
     void Down(int);
-    bool isImpact1(
-        CVEHICLE* const& vehicle); // true = impact, false = not impact
+    bool isImpact1(CVEHICLE* const& vehicle); // true = impact, false = not impact
     bool isImpact2(CANIMAL* const& animal);
     bool isFinish();
     bool isDead();
@@ -38,6 +37,6 @@ public:
     int getLevel();
     void DrawPLayer();
     void increaseLevel();
-    inline int getX(){ return mX };
-    inline int getY(){ return mY };
+	inline int getX() { return mX; };
+	inline int getY() { return mY; };
 };

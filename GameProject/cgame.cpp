@@ -6,17 +6,32 @@ CGAME::CGAME()
     cars = new CCAR[10];
     dinosaurs = new CDINOSAUR[10];
     birds = new CBIRD[10];
+	vehicles = new CVEHICLE*[2];
+	vehicles[0] = trucks;
+	vehicles[1] = cars;
+	animals = new CANIMAL*[2];
+	animals[0] = dinosaurs;
+	animals[1] = birds;
 
-    for (int i = 0; i < 10; ++i) {
-        CTRUCK tmpTruck(3 + (i * MAXWIDTH) / 10, 17);
-        trucks[i] = tmpTruck;
-        CCAR tmpCar(3 + (i * MAXWIDTH) / 10, 13);
-        cars[i] = tmpCar;
-        CDINOSAUR tmpDino(3 + (i * MAXWIDTH) / 10, 9);
-        dinosaurs[i] = tmpDino;
-        CBIRD tmpBird(3 + (i * MAXWIDTH) / 10, 5);
-        birds[i] = tmpBird;
+    for (int i = 0; i < getPlayer().getLevel(); ++i) {
+		CTRUCK tmpTruck(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH/10)), 17);
+		trucks[i] = tmpTruck;
+		CCAR tmpCar(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 13);
+		cars[i] = tmpCar;
+		CDINOSAUR tmpDino(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 9);
+		dinosaurs[i] = tmpDino;
+		CBIRD tmpBird(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 5);
+		birds[i] = tmpBird;
     }
+}
+
+CGAME::~CGAME() {
+	delete[] trucks;
+	delete[] cars;
+	delete[] dinosaurs;
+	delete[] birds;
+	delete[] vehicles;
+	delete[] animals;
 }
 
 void CGAME::drawBackground()
@@ -43,7 +58,7 @@ void CGAME::drawGame()
         birds[i].Draw();
         dinosaurs[i].Draw();
     }
-    Sleep(50);
+    //Sleep(100);
 }
 
 void CGAME::updatePosPlayer(char a)
@@ -51,9 +66,9 @@ void CGAME::updatePosPlayer(char a)
     if (a == 'w')
         player.Up(4);
     else if (a == 'a')
-        player.Left(2);
+        player.Left(4);
     else if (a == 'd')
-        player.Right(2);
+        player.Right(4);
     else if (a == 's')
         player.Down(4);
 }
@@ -111,4 +126,12 @@ void CGAME::increaseTrafficAndFlock()
     cars->increaseNumCar();
     birds->increaseNumBird();
     dinosaurs->increaseNumDino();
+}
+
+bool CGAME::isFinish() {
+	return getPlayer().getLevel() > 10;
+}
+
+void CGAME::makeSound() {
+	birds[0].Tell();
 }

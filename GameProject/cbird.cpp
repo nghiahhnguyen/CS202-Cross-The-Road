@@ -10,3 +10,7 @@ void CBIRD::Draw()//y=5
 	GotoXY(mX, mY + 1);
 	cout << " YY ";
 }
+
+void CBIRD::Tell() {
+	PlaySound(L"dino-baby.wav", NULL, SND_FILENAME);
+}

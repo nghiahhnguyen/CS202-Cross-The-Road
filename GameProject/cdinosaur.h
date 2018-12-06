@@ -9,4 +9,5 @@ public:
         : CANIMAL(x, y){};
     void Draw();
     inline static void increaseNumDino() { ++numDino; };
+	virtual void Tell() override;
 };

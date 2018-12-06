@@ -3,11 +3,10 @@
 
 class CTRUCK :public CVEHICLE
 {
-private:
-	static void increaseNumTruck();
-public:
 	static int numTruck;
+public:
 	CTRUCK() = default;
 	CTRUCK(int x, int y) :CVEHICLE(x, y) {};
 	void Draw();
+	static void increaseNumTruck();
 };

@@ -12,3 +12,7 @@ void CDINOSAUR::Draw()//y=5
 	GotoXY(mX, mY + 2);
 	cout << "YYY ";
 }
+
+void CDINOSAUR::Tell() {
+	PlaySound(L"dino-baby.wav", NULL, SND_ASYNC | SND_FILENAME);
+}
