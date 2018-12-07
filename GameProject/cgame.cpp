@@ -80,9 +80,9 @@ void CGAME::updatePosPlayer(char a)
     if (a == 'w')
         player.Up(4);
     else if (a == 'a')
-        player.Left(4);
+        player.Left(2);
     else if (a == 'd')
-        player.Right(4);
+        player.Right(2);
     else if (a == 's')
         player.Down(4);
 }
@@ -143,7 +143,7 @@ void CGAME::increaseTrafficAndFlock()
 }
 
 bool CGAME::isFinish() {
-	return getPlayer().getLevel() > 10;
+	return getPlayer().getLevel() > 5;
 }
 
 void CGAME::makeSound() {
@@ -164,4 +164,33 @@ void CGAME::eraseOldObstacle() {
 		dinosaurs[i].CANIMAL::Erase();
 		birds[i].CANIMAL::Erase();
 	}
+}
+
+void CGAME::resetGame() {
+	eraseOldObstacle();
+	// TODO: FIX THIS BUG
+	GotoXY(MAXWIDTH, 7);
+	cout << '|';
+	getPlayer().eraseOldPlayer();
+	getPlayer().resetPosition();
+	getPlayer().DrawPLayer();
+	updateObstacle();
+}
+
+void CGAME::exitGame(thread* t1, bool& IS_RUNNING) {
+	IS_RUNNING = false;
+	if (t1->joinable())
+		t1->join();
+	system("cls");
+}
+
+void CGAME::startGame() {
+}
+
+void CGAME::pauseGame(HANDLE hd) {
+	SuspendThread(hd);
+}
+
+void CGAME::resumeGame(HANDLE hd) {
+	ResumeThread(hd);
 }

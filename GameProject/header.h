@@ -39,3 +39,5 @@ inline void ShowConsoleCursor(bool showFlag)
 	cursorInfo.bVisible = showFlag; // set the cursor visibility
 	SetConsoleCursorInfo(out, &cursorInfo);
 }
+
+void SubThread();

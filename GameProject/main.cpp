@@ -1,7 +1,7 @@
 ﻿#include "cgame.h"
 #include "header.h"
 #include <thread>
-#include <random>
+#include <condition_variable>
 char MOVING;
 bool IS_RUNNING = true;
 CGAME cg;
@@ -9,7 +9,6 @@ CGAME cg;
 void SubThread()
 {
     cg.drawBackground();
-	int preLevel = -1;
     while (IS_RUNNING) {
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
@@ -27,18 +26,22 @@ void SubThread()
 			cg.getPlayer().dieEffect();
 			break;
 		}
-
-
 		cg.updateLevel();
-        if (!cg.getPlayer().isDead()) // If player is still alive
+		
+		// If player is still alive
+        if (!cg.getPlayer().isDead()) 
         {
 			if(MOVING != ' ')
-				cg.updatePosPlayer(MOVING); // Update player's position from main
+				// Update player's position from main
+				cg.updatePosPlayer(MOVING); 
         } else {
             IS_RUNNING = false;
 			continue;
         }
-        MOVING = ' '; // Waiting for next move from main
+
+		// Waiting for next move from main
+		MOVING = ' '; 
+
         cg.updatePosVehicle();
         cg.updatePosAnimal();
         cg.drawGame();
@@ -48,81 +51,43 @@ void SubThread()
             cg.getPlayer().increaseLevel();
             if (cg.isFinish()) {
 				break;
-            } else {
-                cg.increaseTrafficAndFlock();
-			}
-			cg.eraseOldObstacle();
-			// TODO: FIX THIS BUG
-			GotoXY(MAXWIDTH, 7);
-			cout << '|';
-			cg.getPlayer().eraseOldPlayer();
-			cg.getPlayer().resetPosition();
-			cg.getPlayer().DrawPLayer();
-			preLevel = cg.getPlayer().getLevel();
-			cg.updateObstacle();
+            }
+			cg.resetGame();
         }
-        Sleep(110);
+        Sleep(100);
     }
 }
 
 int main()
 {
-    int temp;
+    int temp = 'Y';
 	ShowConsoleCursor(false);
     FixConsoleWindow();
-    thread t1(SubThread);
+	cg.startGame();
+	thread t1(SubThread);
     while (1) {
 		if (_kbhit()) {
 			temp = _getch();
 			MOVING = temp;
-		}        
-        //if (!cg.getPlayer().isDead()) {
-        //    if (temp == 27) {
-        //        cg.exitGame(t1.native_handle());
-        //        return;
-        //    } else if (temp == 'P') {
-        //        cg.pauseGame(t1.native_handle());
-        //    } else {
-        //        cg.resumeGame((HANDLE)t1.native_handle());
-        //        MOVING = temp; //Cập nhật bước di chuyển
-        //    }
-        //} else {
-        //    if (temp == 'Y')
-        //        cg.startGame();
-        //    else {
-        //        cg.exitGame(t1.native_handle());
-        //        return;
-        //    }
-        //}
+		}
+        if (!cg.getPlayer().isDead()) {
+            if (temp == 27) {
+                cg.exitGame(&t1, IS_RUNNING);
+                return 0;
+            } else if (temp == 'p') {
+                cg.pauseGame(t1.native_handle());
+            } else {
+                cg.resumeGame((HANDLE)t1.native_handle());
+            }
+        } else {
+            if (temp == 'y')
+                cg.startGame();
+            else {
+                cg.exitGame(&t1, IS_RUNNING);
+                return 0;
+            }
+        }
     }
-	t1.join();
+	system("cls");
 	return 0;
 }
-
-void sound() {
-	while (true) {
-		cg.makeSound();
-	}
-}
-
-//int o_main()
-//{
-//    FixConsoleWindow();
-//    cg.drawBackground();
-//    cg.getPlayer().DrawPLayer();
-//	//thread t1(sound);
-//    while (1) {
-//        if (_kbhit()) //Nếu người vẫn còn sống
-//        {
-//            MOVING = _getch();
-//            cg.updatePosPlayer(MOVING); //Cập nhật vị trí người theo thông tin từ main
-//        }
-//        MOVING = ' '; // Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
-//        cg.getPlayer().DrawPLayer();
-//        cg.updatePosVehicle(); //Cập nhật vị trí xe
-//        cg.updatePosAnimal(); //Cập nhật vị trí thú
-//        cg.drawGame();
-//    }
-//	//t1.join();
-//	return 0;
-//}
