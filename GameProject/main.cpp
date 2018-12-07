@@ -11,11 +11,7 @@ void SubThread()
     cg.drawBackground();
 	int preLevel = -1;
     while (IS_RUNNING) {
-		if (cg.getPlayer().getLevel() != preLevel) {
-			cg.updateLevel();
-			preLevel = cg.getPlayer().getLevel();
-			cg.getPlayer().DrawPLayer();
-		}
+		cg.updateLevel();
         if (!cg.getPlayer().isDead()) // If player is still alive
         {
 			if(MOVING != ' ')
@@ -50,8 +46,16 @@ void SubThread()
 				break;
             } else {
                 cg.increaseTrafficAndFlock();
-            }
+			}
+			cg.eraseOldObstacle();
+			// TODO: FIX THIS BUG
+			GotoXY(MAXWIDTH, 7);
+			cout << '|';
+			cg.getPlayer().eraseOldPlayer();
 			cg.getPlayer().resetPosition();
+			cg.getPlayer().DrawPLayer();
+			preLevel = cg.getPlayer().getLevel();
+			cg.updateObstacle();
         }
         Sleep(100);
     }
@@ -59,8 +63,8 @@ void SubThread()
 
 int main()
 {
-
     int temp;
+	ShowConsoleCursor(false);
     FixConsoleWindow();
     thread t1(SubThread);
     while (1) {

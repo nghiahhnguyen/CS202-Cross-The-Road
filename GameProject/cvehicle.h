@@ -12,4 +12,5 @@ public:
 	CVEHICLE(int, int);
 	virtual void Move(int x, int y);
 	virtual void Draw();
+	void Erase();
 };

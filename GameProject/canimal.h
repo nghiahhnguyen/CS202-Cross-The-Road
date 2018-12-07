@@ -13,4 +13,5 @@ public:
 	virtual void Move(int x, int y);
 	virtual void Draw();
 	virtual void Tell() = 0;
+	void Erase();
 };

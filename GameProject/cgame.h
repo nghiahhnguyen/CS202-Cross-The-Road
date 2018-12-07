@@ -51,4 +51,6 @@ public:
 	bool isFinish();
 	void makeSound();
 	void updateLevel();
+	void updateObstacle();
+	void eraseOldObstacle();
 };

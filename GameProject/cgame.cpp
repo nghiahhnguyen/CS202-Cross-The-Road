@@ -1,4 +1,5 @@
 #include "cgame.h"
+#include <algorithm>
 
 CGAME::CGAME()
 {
@@ -14,7 +15,20 @@ CGAME::CGAME()
 	animals[1] = birds;
 
     for (int i = 0; i < getPlayer().getLevel(); ++i) {
-		CTRUCK tmpTruck(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH/10)), 17);
+		CTRUCK tmpTruck(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH/10)), 110), 17);
+		trucks[i] = tmpTruck;
+		CCAR tmpCar(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 13);
+		cars[i] = tmpCar;
+		CDINOSAUR tmpDino(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 9);
+		dinosaurs[i] = tmpDino;
+		CBIRD tmpBird(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 5);
+		birds[i] = tmpBird;
+    }
+}
+
+void CGAME::updateObstacle() {
+	for (int i = 0; i < getPlayer().getLevel(); ++i) {
+		CTRUCK tmpTruck(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 17);
 		trucks[i] = tmpTruck;
 		CCAR tmpCar(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 13);
 		cars[i] = tmpCar;
@@ -22,7 +36,7 @@ CGAME::CGAME()
 		dinosaurs[i] = tmpDino;
 		CBIRD tmpBird(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 5);
 		birds[i] = tmpBird;
-    }
+	}
 }
 
 CGAME::~CGAME() {
@@ -137,8 +151,17 @@ void CGAME::makeSound() {
 }
 
 void CGAME::updateLevel() {
-	GotoXY(45, 27);
+	GotoXY(45, 30);
 	cout << "              ";
-	GotoXY(45, 27);
+	GotoXY(45, 30);
 	cout << "LEVEL " << getPlayer().getLevel();
+}
+
+void CGAME::eraseOldObstacle() {
+	for (int i = 0; i < getPlayer().getLevel(); ++i) {
+		trucks[i].CVEHICLE::Erase();
+		cars[i].CVEHICLE::Erase();
+		dinosaurs[i].CANIMAL::Erase();
+		birds[i].CANIMAL::Erase();
+	}
 }

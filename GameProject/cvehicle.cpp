@@ -21,3 +21,12 @@ void CVEHICLE::Draw() {
 		}
 	}
 };
+
+void CVEHICLE::Erase() {
+	for (int i = 0; i < n; ++i) {
+		GotoXY(mX, mY + i);
+		for (int j = 0; j < m; ++j) {
+			cout << ' ';
+		}
+	}
+};

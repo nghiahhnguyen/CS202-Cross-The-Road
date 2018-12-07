@@ -23,3 +23,12 @@ void CANIMAL::Draw() {
 		}
 	}
 };
+
+void CANIMAL::Erase() {
+	for (int i = 0; i < n; ++i) {
+		GotoXY(mX, mY + i);
+		for (int j = 0; j < m; ++j) {
+			cout << ' ';
+		}
+	}
+};

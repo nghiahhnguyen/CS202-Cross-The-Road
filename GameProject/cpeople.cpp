@@ -121,3 +121,12 @@ void CPEOPLE::increaseLevel()
         ++level;
     }
 }
+
+void CPEOPLE::eraseOldPlayer() {
+	GotoXY(mX, mY);
+	cout << "   ";
+	GotoXY(mX, mY + 1);
+	cout << "   ";
+	GotoXY(mX, mY + 2);
+	cout << "   ";
+}

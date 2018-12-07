@@ -40,6 +40,7 @@ public:
 	inline int getX() { return mX; };
 	inline int getY() { return mY; };
 	inline void resetPosition() {
-		mY = 1;
+		mY = 21;
 	}
+	void eraseOldPlayer();
 };
