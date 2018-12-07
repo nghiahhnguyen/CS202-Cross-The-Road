@@ -9,7 +9,13 @@ CGAME cg;
 void SubThread()
 {
     cg.drawBackground();
+	int preLevel = -1;
     while (IS_RUNNING) {
+		if (cg.getPlayer().getLevel() != preLevel) {
+			cg.updateLevel();
+			preLevel = cg.getPlayer().getLevel();
+			cg.getPlayer().DrawPLayer();
+		}
         if (!cg.getPlayer().isDead()) // If player is still alive
         {
 			if(MOVING != ' ')
@@ -38,13 +44,14 @@ void SubThread()
 		}
 		if (hitSth)
 			break;
-        if (cg.getPlayer().getY() == 0) {
+        if (cg.getPlayer().getY() == 1) {
             cg.getPlayer().increaseLevel();
             if (cg.isFinish()) {
 				break;
             } else {
                 cg.increaseTrafficAndFlock();
             }
+			cg.getPlayer().resetPosition();
         }
         Sleep(100);
     }
@@ -90,24 +97,24 @@ void sound() {
 	}
 }
 
-int o_main()
-{
-    FixConsoleWindow();
-    cg.drawBackground();
-    cg.getPlayer().DrawPLayer();
-	//thread t1(sound);
-    while (1) {
-        if (_kbhit()) //Nếu người vẫn còn sống
-        {
-            MOVING = _getch();
-            cg.updatePosPlayer(MOVING); //Cập nhật vị trí người theo thông tin từ main
-        }
-        MOVING = ' '; // Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
-        cg.getPlayer().DrawPLayer();
-        cg.updatePosVehicle(); //Cập nhật vị trí xe
-        cg.updatePosAnimal(); //Cập nhật vị trí thú
-        cg.drawGame();
-    }
-	//t1.join();
-	return 0;
-}
+//int o_main()
+//{
+//    FixConsoleWindow();
+//    cg.drawBackground();
+//    cg.getPlayer().DrawPLayer();
+//	//thread t1(sound);
+//    while (1) {
+//        if (_kbhit()) //Nếu người vẫn còn sống
+//        {
+//            MOVING = _getch();
+//            cg.updatePosPlayer(MOVING); //Cập nhật vị trí người theo thông tin từ main
+//        }
+//        MOVING = ' '; // Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
+//        cg.getPlayer().DrawPLayer();
+//        cg.updatePosVehicle(); //Cập nhật vị trí xe
+//        cg.updatePosAnimal(); //Cập nhật vị trí thú
+//        cg.drawGame();
+//    }
+//	//t1.join();
+//	return 0;
+//}

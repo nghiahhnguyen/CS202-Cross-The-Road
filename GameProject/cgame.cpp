@@ -66,9 +66,9 @@ void CGAME::updatePosPlayer(char a)
     if (a == 'w')
         player.Up(4);
     else if (a == 'a')
-        player.Left(4);
+        player.Left(5);
     else if (a == 'd')
-        player.Right(4);
+        player.Right(5);
     else if (a == 's')
         player.Down(4);
 }
@@ -105,7 +105,7 @@ void CGAME::updatePosAnimal()
     }
 }
 
-CPEOPLE CGAME::getPlayer()
+CPEOPLE& CGAME::getPlayer()
 {
     return this->player;
 }
@@ -134,4 +134,11 @@ bool CGAME::isFinish() {
 
 void CGAME::makeSound() {
 	birds[0].Tell();
+}
+
+void CGAME::updateLevel() {
+	GotoXY(45, 27);
+	cout << "              ";
+	GotoXY(45, 27);
+	cout << "LEVEL " << getPlayer().getLevel();
 }

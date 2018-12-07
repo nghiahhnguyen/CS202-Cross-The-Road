@@ -34,7 +34,7 @@ public:
     void drawBackground();
     void drawGame();
     ~CGAME();
-    CPEOPLE getPlayer(); //get info player
+    CPEOPLE& getPlayer(); //get info player
     CVEHICLE** getVehicle(); //get vehicle list
     CANIMAL** getAnimal(); //get animal list
     /*void resetGame();
@@ -50,4 +50,5 @@ public:
     void increaseTrafficAndFlock();
 	bool isFinish();
 	void makeSound();
+	void updateLevel();
 };

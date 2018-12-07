@@ -11,7 +11,7 @@
 #include <mciapi.h>
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
-const int MAXWIDTH = 110;
+const int MAXWIDTH = 130;
 const int MAXHEIGHT = 25;
 inline void FixConsoleWindow() 
 {

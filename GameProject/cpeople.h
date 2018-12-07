@@ -19,7 +19,7 @@ public:
     {
         mX = (MAXWIDTH / 2) - 1;
         mY = 21;
-        level = 5;
+        level = 1;
         score = 0;
         mState = true;
         tempX = (MAXWIDTH / 2) - 1;
@@ -39,4 +39,7 @@ public:
     void increaseLevel();
 	inline int getX() { return mX; };
 	inline int getY() { return mY; };
+	inline void resetPosition() {
+		mY = 1;
+	}
 };
