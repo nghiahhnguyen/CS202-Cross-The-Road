@@ -42,4 +42,5 @@ public:
 	inline void resetPosition() {
 		mY = 1;
 	}
+	void dieEffect();
 };
