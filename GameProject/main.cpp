@@ -11,21 +11,6 @@ void SubThread()
     cg.drawBackground();
 	int preLevel = -1;
     while (IS_RUNNING) {
-		cg.updateLevel();
-        if (!cg.getPlayer().isDead()) // If player is still alive
-        {
-			if(MOVING != ' ')
-				cg.updatePosPlayer(MOVING); // Update player's position from main
-        } else {
-            IS_RUNNING = false;
-			continue;
-        }
-        MOVING = ' '; // Waiting for next move from main
-        cg.updatePosVehicle(); //
-        cg.updatePosAnimal(); //Cập nhật vị trí thú
-        cg.drawGame();
-		cg.getPlayer().DrawPLayer();
-
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
@@ -38,8 +23,27 @@ void SubThread()
 		if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
 			hitSth = true;
 		}
-		if (hitSth)
+		if (hitSth) {
+			cg.getPlayer().dieEffect();
 			break;
+		}
+
+
+		cg.updateLevel();
+        if (!cg.getPlayer().isDead()) // If player is still alive
+        {
+			if(MOVING != ' ')
+				cg.updatePosPlayer(MOVING); // Update player's position from main
+        } else {
+            IS_RUNNING = false;
+			continue;
+        }
+        MOVING = ' '; // Waiting for next move from main
+        cg.updatePosVehicle();
+        cg.updatePosAnimal();
+        cg.drawGame();
+		cg.getPlayer().DrawPLayer();
+		
         if (cg.getPlayer().getY() == 1) {
             cg.getPlayer().increaseLevel();
             if (cg.isFinish()) {
@@ -57,7 +61,7 @@ void SubThread()
 			preLevel = cg.getPlayer().getLevel();
 			cg.updateObstacle();
         }
-        Sleep(100);
+        Sleep(110);
     }
 }
 

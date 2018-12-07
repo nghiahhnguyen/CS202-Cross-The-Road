@@ -43,4 +43,5 @@ public:
 		mY = 21;
 	}
 	void eraseOldPlayer();
+	void dieEffect();
 };

@@ -80,9 +80,9 @@ void CGAME::updatePosPlayer(char a)
     if (a == 'w')
         player.Up(4);
     else if (a == 'a')
-        player.Left(5);
+        player.Left(4);
     else if (a == 'd')
-        player.Right(5);
+        player.Right(4);
     else if (a == 's')
         player.Down(4);
 }
