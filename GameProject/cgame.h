@@ -7,6 +7,7 @@ class CTRUCK;
 class CDINOSAUR;
 class CBIRD;
 class CPEOPLE;
+class CTRAFFICLIGHT;
 
 #include "cbird.h"
 #include "ccar.h"
@@ -14,6 +15,7 @@ class CPEOPLE;
 #include "cpeople.h"
 #include "ctruck.h"
 #include "header.h"
+#include "ctrafficlight.h"
 
 class CGAME {
     CVEHICLE** vehicles = nullptr;
@@ -23,6 +25,8 @@ class CGAME {
     CDINOSAUR* dinosaurs = nullptr;
     CBIRD* birds = nullptr;
     CPEOPLE player;
+	CTRAFFICLIGHT carlane;
+	CTRAFFICLIGHT trucklane;
     int MAX_LEVEL = 10;
     int MAX_BIRD = 10;
     int NUMBER_LANE = 10;
@@ -53,4 +57,6 @@ public:
 	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
+	CTRAFFICLIGHT& getCarLaneLight();
+	CTRAFFICLIGHT& getTruckLaneLight();
 };

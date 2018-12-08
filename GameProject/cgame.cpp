@@ -66,6 +66,42 @@ void CGAME::drawBackground()
 void CGAME::drawGame()
 {
     //player.DrawPLayer();
+	if (trucklane.getGreen())
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+		GotoXY(MAXWIDTH + 1, 18);
+		cout << " ";
+		GotoXY(MAXWIDTH+1,17);
+		cout << char(254);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else if (!trucklane.getGreen())
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+		GotoXY(MAXWIDTH + 1, 17);
+		cout << " ";
+		GotoXY(MAXWIDTH + 1, 18);
+		cout << char(254);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	if (carlane.getGreen())
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+		GotoXY(1, 14);
+		cout << " ";
+		GotoXY(1, 13);
+		cout << char(254);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
+	else if (!carlane.getGreen())
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+		GotoXY(1, 13);
+		cout << " ";
+		GotoXY(1, 14);
+		cout << char(254);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	}
     for (int i = 0; i < player.getLevel(); i++) {
         trucks[i].Draw();
         cars[i].Draw();
@@ -90,16 +126,24 @@ void CGAME::updatePosPlayer(char a)
 void CGAME::updatePosVehicle()
 {
     for (int i = 0; i < player.getLevel(); i++) {
-        if (trucks[i].mX + 5 >= MAXWIDTH) {
-            trucks[i].Move(3, trucks[i].mY);
-        } else {
-            trucks[i].Move(trucks[i].mX + 2, trucks[i].mY);
-        }
-        if (cars[i].mX <= 5) {
-            cars[i].Move(MAXWIDTH - 4, cars[i].mY);
-        } else {
-            cars[i].Move(cars[i].mX - 3, cars[i].mY);
-        }
+		if (trucklane.getGreen())
+		{
+			if (trucks[i].mX + 5 >= MAXWIDTH) {
+				trucks[i].Move(3, trucks[i].mY);
+			}
+			else {
+				trucks[i].Move(trucks[i].mX + 2, trucks[i].mY);
+			}
+		}
+		if (carlane.getGreen())
+		{
+			if (cars[i].mX <= 5) {
+				cars[i].Move(MAXWIDTH - 4, cars[i].mY);
+			}
+			else {
+				cars[i].Move(cars[i].mX - 3, cars[i].mY);
+			}
+		}
     }
 }
 
@@ -164,4 +208,14 @@ void CGAME::eraseOldObstacle() {
 		dinosaurs[i].CANIMAL::Erase();
 		birds[i].CANIMAL::Erase();
 	}
+}
+
+CTRAFFICLIGHT& CGAME::getTruckLaneLight()
+{
+	return trucklane;
+}
+
+CTRAFFICLIGHT& CGAME::getCarLaneLight()
+{
+	return carlane;
 }

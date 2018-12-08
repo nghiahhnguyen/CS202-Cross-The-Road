@@ -2,15 +2,34 @@
 #include "header.h"
 #include <thread>
 #include <random>
+#include <chrono>
 char MOVING;
 bool IS_RUNNING = true;
 CGAME cg;
-
+chrono::steady_clock sc;
 void SubThread()
 {
     cg.drawBackground();
 	int preLevel = -1;
+	auto startTruck = sc.now();
+	auto startCar = sc.now();
     while (IS_RUNNING) {
+		auto endTruck = sc.now();
+		auto endCar = sc.now();
+		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
+		auto time_spanCar = static_cast<chrono::duration<double>>(endCar - startCar);
+		if (int(time_spanTruck.count()) < 10)
+			cg.getTruckLaneLight().setGreen(true);
+		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 15)
+			cg.getTruckLaneLight().setGreen(false);
+		else if (int(time_spanTruck.count()) > 15)
+			startTruck = endTruck;
+		if (int(time_spanCar.count()) < 15)
+			cg.getCarLaneLight().setGreen(true);
+		else if (int(time_spanCar.count()) > 5 && int(time_spanCar.count()) < 20)
+			cg.getCarLaneLight().setGreen(false);
+		else if (int(time_spanCar.count()) > 20)
+			startCar = endCar;
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
