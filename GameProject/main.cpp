@@ -15,22 +15,24 @@ void SubThread()
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
     while (IS_RUNNING) {
+		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
 		auto time_spanCar = static_cast<chrono::duration<double>>(endCar - startCar);
-		if (int(time_spanTruck.count()) < 10)
+		if (int(time_spanTruck.count()) < 5)
 			cg.getTruckLaneLight().setGreen(true);
-		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 15)
+		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 10)
 			cg.getTruckLaneLight().setGreen(false);
-		else if (int(time_spanTruck.count()) > 15)
+		else if (int(time_spanTruck.count()) > 10)
 			startTruck = endTruck;
-		if (int(time_spanCar.count()) < 15)
+		if (int(time_spanCar.count()) < 10)
 			cg.getCarLaneLight().setGreen(true);
-		else if (int(time_spanCar.count()) > 5 && int(time_spanCar.count()) < 20)
+		else if (int(time_spanCar.count()) > 5 && int(time_spanCar.count()) < 15)
 			cg.getCarLaneLight().setGreen(false);
-		else if (int(time_spanCar.count()) > 20)
+		else if (int(time_spanCar.count()) > 15)
 			startCar = endCar;
+
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();

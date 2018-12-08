@@ -237,13 +237,16 @@ void CGAME::pauseGame(HANDLE hd)
 
 void CGAME::resumeGame(HANDLE hd)
 {
-    ResumeThread(hd);
-    CTRAFFICLIGHT& CGAME::getTruckLaneLight()
-    {
-        return trucklane;
-    }
+	ResumeThread(hd);
 
-    CTRAFFICLIGHT& CGAME::getCarLaneLight()
-    {
-        return carlane;
-    }
+}
+
+CTRAFFICLIGHT& CGAME::getTruckLaneLight()
+{
+    return trucklane;
+}
+
+CTRAFFICLIGHT& CGAME::getCarLaneLight()
+{
+    return carlane;
+}
