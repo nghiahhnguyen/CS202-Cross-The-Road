@@ -7,45 +7,47 @@ CGAME::CGAME()
     cars = new CCAR[10];
     dinosaurs = new CDINOSAUR[10];
     birds = new CBIRD[10];
-	vehicles = new CVEHICLE*[2];
-	vehicles[0] = trucks;
-	vehicles[1] = cars;
-	animals = new CANIMAL*[2];
-	animals[0] = dinosaurs;
-	animals[1] = birds;
+    vehicles = new CVEHICLE*[2];
+    vehicles[0] = trucks;
+    vehicles[1] = cars;
+    animals = new CANIMAL*[2];
+    animals[0] = dinosaurs;
+    animals[1] = birds;
 
     for (int i = 0; i < getPlayer().getLevel(); ++i) {
-		CTRUCK tmpTruck(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH/10)), 110), 17);
-		trucks[i] = tmpTruck;
-		CCAR tmpCar(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 13);
-		cars[i] = tmpCar;
-		CDINOSAUR tmpDino(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 9);
-		dinosaurs[i] = tmpDino;
-		CBIRD tmpBird(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 5);
-		birds[i] = tmpBird;
+        CTRUCK tmpTruck(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 17);
+        trucks[i] = tmpTruck;
+        CCAR tmpCar(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 13);
+        cars[i] = tmpCar;
+        CDINOSAUR tmpDino(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 9);
+        dinosaurs[i] = tmpDino;
+        CBIRD tmpBird(min(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 110), 5);
+        birds[i] = tmpBird;
     }
 }
 
-void CGAME::updateObstacle() {
-	for (int i = 0; i < getPlayer().getLevel(); ++i) {
-		CTRUCK tmpTruck(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 17);
-		trucks[i] = tmpTruck;
-		CCAR tmpCar(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 13);
-		cars[i] = tmpCar;
-		CDINOSAUR tmpDino(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 9);
-		dinosaurs[i] = tmpDino;
-		CBIRD tmpBird(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 5);
-		birds[i] = tmpBird;
-	}
+void CGAME::updateObstacle()
+{
+    for (int i = 0; i < getPlayer().getLevel(); ++i) {
+        CTRUCK tmpTruck(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 17);
+        trucks[i] = tmpTruck;
+        CCAR tmpCar(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 13);
+        cars[i] = tmpCar;
+        CDINOSAUR tmpDino(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 9);
+        dinosaurs[i] = tmpDino;
+        CBIRD tmpBird(3 + (i * MAXWIDTH) / getPlayer().getLevel() + (rand() % (MAXWIDTH / 10)), 5);
+        birds[i] = tmpBird;
+    }
 }
 
-CGAME::~CGAME() {
-	delete[] trucks;
-	delete[] cars;
-	delete[] dinosaurs;
-	delete[] birds;
-	delete[] vehicles;
-	delete[] animals;
+CGAME::~CGAME()
+{
+    delete[] trucks;
+    delete[] cars;
+    delete[] dinosaurs;
+    delete[] birds;
+    delete[] vehicles;
+    delete[] animals;
 }
 
 void CGAME::drawBackground()
@@ -66,6 +68,36 @@ void CGAME::drawBackground()
 void CGAME::drawGame()
 {
     //player.DrawPLayer();
+    if (trucklane.getGreen()) {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+        GotoXY(MAXWIDTH + 1, 18);
+        cout << " ";
+        GotoXY(MAXWIDTH + 1, 17);
+        cout << char(254);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    } else if (!trucklane.getGreen()) {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+        GotoXY(MAXWIDTH + 1, 17);
+        cout << " ";
+        GotoXY(MAXWIDTH + 1, 18);
+        cout << char(254);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    }
+    if (carlane.getGreen()) {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+        GotoXY(1, 14);
+        cout << " ";
+        GotoXY(1, 13);
+        cout << char(254);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    } else if (!carlane.getGreen()) {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+        GotoXY(1, 13);
+        cout << " ";
+        GotoXY(1, 14);
+        cout << char(254);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    }
     for (int i = 0; i < player.getLevel(); i++) {
         trucks[i].Draw();
         cars[i].Draw();
@@ -90,15 +122,19 @@ void CGAME::updatePosPlayer(char a)
 void CGAME::updatePosVehicle()
 {
     for (int i = 0; i < player.getLevel(); i++) {
-        if (trucks[i].mX + 5 >= MAXWIDTH) {
-            trucks[i].Move(3, trucks[i].mY);
-        } else {
-            trucks[i].Move(trucks[i].mX + 2, trucks[i].mY);
+        if (trucklane.getGreen()) {
+            if (trucks[i].mX + 5 >= MAXWIDTH) {
+                trucks[i].Move(3, trucks[i].mY);
+            } else {
+                trucks[i].Move(trucks[i].mX + 2, trucks[i].mY);
+            }
         }
-        if (cars[i].mX <= 5) {
-            cars[i].Move(MAXWIDTH - 4, cars[i].mY);
-        } else {
-            cars[i].Move(cars[i].mX - 3, cars[i].mY);
+        if (carlane.getGreen()) {
+            if (cars[i].mX <= 5) {
+                cars[i].Move(MAXWIDTH - 4, cars[i].mY);
+            } else {
+                cars[i].Move(cars[i].mX - 3, cars[i].mY);
+            }
         }
     }
 }
@@ -142,55 +178,72 @@ void CGAME::increaseTrafficAndFlock()
     dinosaurs->increaseNumDino();
 }
 
-bool CGAME::isFinish() {
-	return getPlayer().getLevel() > 5;
+bool CGAME::isFinish()
+{
+    return getPlayer().getLevel() > 5;
 }
 
-void CGAME::makeSound() {
-	birds[0].Tell();
+void CGAME::makeSound()
+{
+    birds[0].Tell();
 }
 
-void CGAME::updateLevel() {
-	GotoXY(45, 30);
-	cout << "              ";
-	GotoXY(45, 30);
-	cout << "LEVEL " << getPlayer().getLevel();
+void CGAME::updateLevel()
+{
+    GotoXY(45, 30);
+    cout << "              ";
+    GotoXY(45, 30);
+    cout << "LEVEL " << getPlayer().getLevel();
 }
 
-void CGAME::eraseOldObstacle() {
-	for (int i = 0; i < getPlayer().getLevel(); ++i) {
-		trucks[i].CVEHICLE::Erase();
-		cars[i].CVEHICLE::Erase();
-		dinosaurs[i].CANIMAL::Erase();
-		birds[i].CANIMAL::Erase();
-	}
+void CGAME::eraseOldObstacle()
+{
+    for (int i = 0; i < getPlayer().getLevel(); ++i) {
+        trucks[i].CVEHICLE::Erase();
+        cars[i].CVEHICLE::Erase();
+        dinosaurs[i].CANIMAL::Erase();
+        birds[i].CANIMAL::Erase();
+    }
 }
 
-void CGAME::resetGame() {
-	eraseOldObstacle();
-	// TODO: FIX THIS BUG
-	GotoXY(MAXWIDTH, 7);
-	cout << '|';
-	getPlayer().eraseOldPlayer();
-	getPlayer().resetPosition();
-	getPlayer().DrawPLayer();
-	updateObstacle();
+void CGAME::resetGame()
+{
+    eraseOldObstacle();
+    // TODO: FIX THIS BUG
+    GotoXY(MAXWIDTH, 7);
+    cout << '|';
+    getPlayer().eraseOldPlayer();
+    getPlayer().resetPosition();
+    getPlayer().DrawPLayer();
+    updateObstacle();
 }
 
-void CGAME::exitGame(thread* t1, bool& IS_RUNNING) {
-	IS_RUNNING = false;
-	if (t1->joinable())
-		t1->join();
-	system("cls");
+void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
+{
+    IS_RUNNING = false;
+    if (t1->joinable())
+        t1->join();
+    system("cls");
 }
 
-void CGAME::startGame() {
+void CGAME::startGame()
+{
 }
 
-void CGAME::pauseGame(HANDLE hd) {
-	SuspendThread(hd);
+void CGAME::pauseGame(HANDLE hd)
+{
+    SuspendThread(hd);
 }
 
-void CGAME::resumeGame(HANDLE hd) {
-	ResumeThread(hd);
-}
+void CGAME::resumeGame(HANDLE hd)
+{
+    ResumeThread(hd);
+    CTRAFFICLIGHT& CGAME::getTruckLaneLight()
+    {
+        return trucklane;
+    }
+
+    CTRAFFICLIGHT& CGAME::getCarLaneLight()
+    {
+        return carlane;
+    }
