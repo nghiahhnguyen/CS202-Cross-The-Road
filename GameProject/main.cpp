@@ -4,7 +4,8 @@
 #include <condition_variable>
 #include <random>
 #include <chrono>
-
+#include <consoleapi.h>
+//#include <cls>
 char MOVING;
 bool IS_RUNNING = true; 
 CGAME cg;
@@ -13,16 +14,25 @@ chrono::steady_clock sc;
 void SubThread()
 {
     cg.drawBackground();
-	int preLevel = -1;
+	int preLevel = 11;
+	int templv = 11;
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
-    while (IS_RUNNING) {
+  while (IS_RUNNING) {
 		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
 		auto time_spanCar = static_cast<chrono::duration<double>>(endCar - startCar);
-		if (int(time_spanTruck.count()) < 5)
+
+		if (templv < cg.getPlayer().getLevel())
+		{
+			startCar = endCar;
+			startTruck = endTruck;
+		}
+		else
+		{
+			if (int(time_spanTruck.count()) < 5)
 			cg.getTruckLaneLight().setGreen(true);
 		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 10)
 			cg.getTruckLaneLight().setGreen(false);
@@ -34,8 +44,10 @@ void SubThread()
 			cg.getCarLaneLight().setGreen(false);
 		else if (int(time_spanCar.count()) > 15)
 			startCar = endCar;
+		}
+		templv = cg.getPlayer().getLevel();
 
-		bool hitSth = false;
+    bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
 			hitSth = true;
@@ -50,6 +62,8 @@ void SubThread()
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
 			cg.getPlayer().setDead();
+			cg.ambulanceEffect();
+			break;
 		}
 		cg.updateLevel();
 		

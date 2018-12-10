@@ -51,7 +51,7 @@ void CPEOPLE::Right(int x)
 {
     tempY = mY;
     tempX = mX;
-    if (mX + x >= MAXWIDTH) {
+    if (mX + x >= MAXWIDTH-2) {
         mX = mX;
     } else {
         mX += x;
@@ -131,7 +131,7 @@ void CPEOPLE::eraseOldPlayer() {
 
 void CPEOPLE::dieEffect()
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		if (i == 0 || i == 2)
 		{

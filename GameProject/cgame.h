@@ -18,6 +18,7 @@ class CTRAFFICLIGHT;
 #include "header.h"
 #include "ctrafficlight.h"
 #include <fstream>
+#include "cambulance.h"
 
 class CGAME {
     CVEHICLE** vehicles = nullptr;
@@ -29,6 +30,7 @@ class CGAME {
     CPEOPLE player;
 	CTRAFFICLIGHT carlane;
 	CTRAFFICLIGHT trucklane;
+	//CAMBULANCE ambulane;
     int MAX_LEVEL = 10;
     int MAX_BIRD = 10;
     int NUMBER_LANE = 10;
@@ -67,6 +69,7 @@ public:
 	void updateObstacle();
 	void eraseOldObstacle();
 	bool askForRestart();
+	void ambulanceEffect();
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
 };
