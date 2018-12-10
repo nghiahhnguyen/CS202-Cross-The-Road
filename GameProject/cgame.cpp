@@ -211,58 +211,6 @@ void CGAME::resetGame()
 {
     eraseOldObstacle();
     // TODO: FIX THIS BUG
-    for (int i = 0; i < MAXHEIGHT; i++) {
-        GotoXY(MAXWIDTH, i);
-        cout << '|';
-        GotoXY(2, i);
-        cout << '|';
-    }
-    getPlayer().eraseOldPlayer();
-    getPlayer().resetPosition();
-    getPlayer().DrawPLayer();
-    updateObstacle();
-}
-
-void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
-{
-    Sleep(60000);
-    IS_RUNNING = false;
-    if (t1->joinable())
-        t1->join();
-    system("cls");
-}
-
-void CGAME::startGame()
-{
-}
-
-void CGAME::pauseGame(HANDLE hd)
-{
-    SuspendThread(hd);
-}
-
-void CGAME::updateLevel()
-{
-    GotoXY(45, 30);
-    cout << "              ";
-    GotoXY(45, 30);
-    cout << "LEVEL " << getPlayer().getLevel();
-}
-
-void CGAME::eraseOldObstacle()
-{
-    for (int i = 0; i < getPlayer().getLevel(); ++i) {
-        trucks[i].CVEHICLE::Erase();
-        cars[i].CVEHICLE::Erase();
-        dinosaurs[i].CANIMAL::Erase();
-        birds[i].CANIMAL::Erase();
-    }
-}
-
-void CGAME::resetGame()
-{
-    eraseOldObstacle();
-    // TODO: FIX THIS BUG
     GotoXY(MAXWIDTH, 7);
     cout << '|';
     getPlayer().eraseOldPlayer();
@@ -325,25 +273,11 @@ bool CGAME::askForRestart()
         else
             cout << ' ';
     }
-    /*GotoXY(startBoxX, startBoxY + 2);
-	for (int j = 0; j < boxWidth; ++j) {
-		if (j == 0 || j == boxWidth - 1)
-			cout << '|';
-		else
-			cout << ' ';
-	}*/
+
     GotoXY(startBoxX, startBoxY + 2);
     for (int j = 0; j < boxWidth; ++j) {
         cout << '=';
     }
-
-    /*string line1;
-	if (isDead)
-		line1 = "You are dead!";
-	else
-		line1 = "You have finished the game!";
-	GotoXY(startBoxX + (boxWidth - line1.size())/2, startBoxY + 1);
-	cout << line1;*/
 
     string line2 = "Do you want to restart the game? (Y/n)";
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
@@ -372,11 +306,11 @@ void CGAME::ambulanceEffect()
         for (int i = 0; i < getPlayer().getLevel(); ++i)
             birds[i].CANIMAL::Erase();
     }
-    GotoXY(mX, mY);
+    GotoXY(getPlayer().getX(), getPlayer().getY());
     cout << "\\ /";
-    GotoXY(mX, mY + 1);
+    GotoXY(getPlayer().getX(), getPlayer().getY() + 1);
     cout << " X ";
-    GotoXY(mX, mY + 2);
+    GotoXY(getPlayer().getX(), getPlayer().getY() + 2);
     cout << "/"
          << " "
          << "\\";

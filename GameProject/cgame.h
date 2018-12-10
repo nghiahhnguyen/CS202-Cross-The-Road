@@ -53,7 +53,7 @@ public:
 	void exitGame(thread*, bool&);
 	void startGame(thread&);
 	//void loadGame(istream);
-	void saveGame();
+	//void saveGame();
 	void pauseGame(thread&);
 	void resumeGame(thread&);
 	//control moving player

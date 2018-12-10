@@ -10,6 +10,7 @@ char MOVING;
 bool IS_RUNNING = true; 
 CGAME cg;
 chrono::steady_clock sc;
+mutex mx;
 
 void SubThread()
 {
@@ -18,8 +19,9 @@ void SubThread()
 	int templv = 11;
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
-  while (IS_RUNNING) {
+	while (IS_RUNNING) {
 		// functions to simulate traffic lights
+		mx.lock();
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
@@ -46,8 +48,9 @@ void SubThread()
 			startCar = endCar;
 		}
 		templv = cg.getPlayer().getLevel();
+		mx.unlock();
 
-    bool hitSth = false;
+		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
 			hitSth = true;
@@ -68,33 +71,35 @@ void SubThread()
 		cg.updateLevel();
 		
 		// If player is still alive
-        if (!cg.getPlayer().isDead()) 
-        {
+		if (!cg.getPlayer().isDead()) 
+		{
 			if(MOVING != ' ')
 				// Update player's position from main
 				cg.updatePosPlayer(MOVING); 
-        } else {
-            IS_RUNNING = false;
+		} else {
+			IS_RUNNING = false;
 			continue;
-        }
+		}
 
 		// Waiting for next move from main
 		MOVING = ' '; 
 
-        cg.updatePosVehicle();
-        cg.updatePosAnimal();
-        cg.drawGame();
+		mx.lock();
+		cg.updatePosVehicle();
+		cg.updatePosAnimal();
+		cg.drawGame();
 		cg.getPlayer().DrawPLayer();
+		mx.unlock();
 		
-        if (cg.getPlayer().getY() == 1) {
-            cg.getPlayer().increaseLevel();
-            if (cg.isFinish()) {
+		if (cg.getPlayer().getY() == 1) {
+			cg.getPlayer().increaseLevel();
+			if (cg.isFinish()) {
 				break;
-            }
+			}
 			cg.resetGame();
-        }
-        Sleep(100);
-    }
+		}
+		Sleep(100);
+	}
 }
 
 int main()
