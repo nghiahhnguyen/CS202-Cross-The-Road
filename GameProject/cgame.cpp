@@ -1,5 +1,6 @@
 #include "cgame.h"
 #include <algorithm>
+#include <mutex>
 
 CGAME::CGAME()
 {
@@ -190,9 +191,9 @@ void CGAME::makeSound()
 
 void CGAME::updateLevel()
 {
-    GotoXY(45, 30);
+    GotoXY(60, 30);
     cout << "              ";
-    GotoXY(45, 30);
+    GotoXY(60, 30);
     cout << "LEVEL " << getPlayer().getLevel();
 }
 
@@ -226,19 +227,20 @@ void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
     system("cls");
 }
 
-void CGAME::startGame()
+void CGAME::startGame(thread& t1)
 {
+	if (t1.joinable()) t1.join();
+	t1 = thread(SubThread);
 }
 
-void CGAME::pauseGame(HANDLE hd)
+void CGAME::pauseGame(thread& t1)
 {
-    SuspendThread(hd);
+    SuspendThread(t1.native_handle());
 }
 
-void CGAME::resumeGame(HANDLE hd)
+void CGAME::resumeGame(thread& t1)
 {
-	ResumeThread(hd);
-
+	ResumeThread(t1.native_handle());
 }
 
 CTRAFFICLIGHT& CGAME::getTruckLaneLight()
@@ -249,4 +251,54 @@ CTRAFFICLIGHT& CGAME::getTruckLaneLight()
 CTRAFFICLIGHT& CGAME::getCarLaneLight()
 {
     return carlane;
+}
+
+bool CGAME::askForRestart() {
+	int boxWidth = 42, boxHeight = 4, startBoxX = 44, startBoxY = 32;
+
+	mutex mx;
+	mx.lock();
+
+	//Draw the board
+	GotoXY(startBoxX, startBoxY);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+	GotoXY(startBoxX, startBoxY + 1);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}
+	/*GotoXY(startBoxX, startBoxY + 2);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}*/
+	GotoXY(startBoxX, startBoxY + 2);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+	
+	/*string line1;
+	if (isDead)
+		line1 = "You are dead!";
+	else
+		line1 = "You have finished the game!";
+	GotoXY(startBoxX + (boxWidth - line1.size())/2, startBoxY + 1);
+	cout << line1;*/
+
+	string line2 = "Do you want to restart the game? (Y/n)";
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
+	cout << line2;
+
+	char answer = _getch();
+	mx.unlock();
+	if (answer == 'y')
+		return true;
+	else
+		return false;
 }

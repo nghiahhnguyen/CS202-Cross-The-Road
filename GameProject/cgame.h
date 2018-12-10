@@ -17,6 +17,7 @@ class CTRAFFICLIGHT;
 #include "ctruck.h"
 #include "header.h"
 #include "ctrafficlight.h"
+#include <fstream>
 
 class CGAME {
     CVEHICLE** vehicles = nullptr;
@@ -48,11 +49,11 @@ public:
     CANIMAL** getAnimal(); 
     void resetGame();
 	void exitGame(thread*, bool&);
-	void startGame();
-	/*void loadGame(istream);
-	void saveGame(istream);*/
-	void pauseGame(HANDLE);
-	void resumeGame(HANDLE);
+	void startGame(thread&);
+	//void loadGame(istream);
+	void saveGame();
+	void pauseGame(thread&);
+	void resumeGame(thread&);
 	//control moving player
     void updatePosPlayer(char);
 	//moving vehicle
@@ -65,6 +66,7 @@ public:
 	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
+	bool askForRestart();
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
 };

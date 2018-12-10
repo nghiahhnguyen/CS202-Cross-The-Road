@@ -4,10 +4,12 @@
 #include <condition_variable>
 #include <random>
 #include <chrono>
+
 char MOVING;
-bool IS_RUNNING = true;
+bool IS_RUNNING = true; 
 CGAME cg;
 chrono::steady_clock sc;
+
 void SubThread()
 {
     cg.drawBackground();
@@ -47,7 +49,7 @@ void SubThread()
 		}
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
-			break;
+			cg.getPlayer().setDead();
 		}
 		cg.updateLevel();
 		
@@ -83,11 +85,11 @@ void SubThread()
 
 int main()
 {
-    int temp = 'Y';
+    int temp = ' ';
 	ShowConsoleCursor(false);
     FixConsoleWindow();
-	cg.startGame();
-	thread t1(SubThread);
+	thread t1;
+	cg.startGame(t1);
     while (1) {
 		if (_kbhit()) {
 			temp = _getch();
@@ -98,16 +100,21 @@ int main()
                 cg.exitGame(&t1, IS_RUNNING);
                 return 0;
             } else if (temp == 'p') {
-                cg.pauseGame(t1.native_handle());
+                cg.pauseGame(t1);
             } else {
-                cg.resumeGame((HANDLE)t1.native_handle());
+                cg.resumeGame(t1);
             }
         } else {
-            if (temp == 'y')
-                cg.startGame();
+			Sleep(3000);
+			if (cg.askForRestart()) {
+				cg.getPlayer() = CPEOPLE();
+				system("cls");
+				IS_RUNNING = true;
+				cg.startGame(t1);
+			}
             else {
                 cg.exitGame(&t1, IS_RUNNING);
-                return 0;
+				break;
             }
         }
     }

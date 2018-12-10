@@ -37,11 +37,15 @@ public:
     int getLevel();
     void DrawPLayer();
     void increaseLevel();
-	inline int getX() { return mX; };
-	inline int getY() { return mY; };
-	inline void resetPosition() {
-		mY = 21;
-	}
+	inline int getX() { 
+		return mX; };
+	inline int getY() { 
+		return mY; };
+	inline void resetPosition() { 
+		mY = 21; };
 	void eraseOldPlayer();
 	void dieEffect();
+	inline void setDead() {
+		mState = false;
+	};
 };

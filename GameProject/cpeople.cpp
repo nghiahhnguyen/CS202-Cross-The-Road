@@ -93,9 +93,7 @@ bool CPEOPLE::isFinish()
 
 bool CPEOPLE::isDead()
 {
-    if (mState == true)
-        return false;
-    return true;
+	return !mState;
 }
 
 void CPEOPLE::DrawPLayer()
@@ -133,7 +131,7 @@ void CPEOPLE::eraseOldPlayer() {
 
 void CPEOPLE::dieEffect()
 {
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		if (i == 0 || i == 2)
 		{
@@ -153,6 +151,6 @@ void CPEOPLE::dieEffect()
 			GotoXY(mX, mY + 2);
 			cout << "/" << " " << "\\";
 		}
-		Sleep(800);
+		Sleep(500);
 	}
 }
