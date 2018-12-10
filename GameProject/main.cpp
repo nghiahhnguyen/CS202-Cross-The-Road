@@ -17,12 +17,13 @@ void SubThread()
 	int templv = 11;
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
-	while (IS_RUNNING) {
+  while (IS_RUNNING) {
 		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
 		auto time_spanCar = static_cast<chrono::duration<double>>(endCar - startCar);
+
 		if (templv < cg.getPlayer().getLevel())
 		{
 			startCar = endCar;
@@ -44,7 +45,8 @@ void SubThread()
 			startCar = endCar;
 		}
 		templv = cg.getPlayer().getLevel();
-		bool hitSth = false;
+
+    bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
 			hitSth = true;

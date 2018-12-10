@@ -241,6 +241,56 @@ void CGAME::pauseGame(HANDLE hd)
     SuspendThread(hd);
 }
 
+=======
+}
+
+void CGAME::updateLevel()
+{
+    GotoXY(45, 30);
+    cout << "              ";
+    GotoXY(45, 30);
+    cout << "LEVEL " << getPlayer().getLevel();
+}
+
+void CGAME::eraseOldObstacle()
+{
+    for (int i = 0; i < getPlayer().getLevel(); ++i) {
+        trucks[i].CVEHICLE::Erase();
+        cars[i].CVEHICLE::Erase();
+        dinosaurs[i].CANIMAL::Erase();
+        birds[i].CANIMAL::Erase();
+    }
+}
+
+void CGAME::resetGame()
+{
+    eraseOldObstacle();
+    // TODO: FIX THIS BUG
+    GotoXY(MAXWIDTH, 7);
+    cout << '|';
+    getPlayer().eraseOldPlayer();
+    getPlayer().resetPosition();
+    getPlayer().DrawPLayer();
+    updateObstacle();
+}
+
+void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
+{
+    IS_RUNNING = false;
+    if (t1->joinable())
+        t1->join();
+    system("cls");
+}
+
+void CGAME::startGame()
+{
+}
+
+void CGAME::pauseGame(HANDLE hd)
+{
+    SuspendThread(hd);
+}
+
 void CGAME::resumeGame(HANDLE hd)
 {
 	ResumeThread(hd);
