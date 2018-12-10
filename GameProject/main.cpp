@@ -1,8 +1,11 @@
 ﻿#include "cgame.h"
 #include "header.h"
 #include <thread>
+#include <condition_variable>
 #include <random>
 #include <chrono>
+#include <consoleapi.h>
+//#include <cls>
 char MOVING;
 bool IS_RUNNING = true;
 CGAME cg;
@@ -10,26 +13,37 @@ chrono::steady_clock sc;
 void SubThread()
 {
     cg.drawBackground();
-	int preLevel = -1;
+	int preLevel = 11;
+	int templv = 11;
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
-    while (IS_RUNNING) {
+	while (IS_RUNNING) {
+		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
 		auto time_spanCar = static_cast<chrono::duration<double>>(endCar - startCar);
-		if (int(time_spanTruck.count()) < 10)
-			cg.getTruckLaneLight().setGreen(true);
-		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 15)
-			cg.getTruckLaneLight().setGreen(false);
-		else if (int(time_spanTruck.count()) > 15)
-			startTruck = endTruck;
-		if (int(time_spanCar.count()) < 15)
-			cg.getCarLaneLight().setGreen(true);
-		else if (int(time_spanCar.count()) > 5 && int(time_spanCar.count()) < 20)
-			cg.getCarLaneLight().setGreen(false);
-		else if (int(time_spanCar.count()) > 20)
+		if (templv < cg.getPlayer().getLevel())
+		{
 			startCar = endCar;
+			startTruck = endTruck;
+		}
+		else
+		{
+			if (int(time_spanTruck.count()) < 5)
+			cg.getTruckLaneLight().setGreen(true);
+		else if (int(time_spanTruck.count()) > 5 && int(time_spanTruck.count()) < 10)
+			cg.getTruckLaneLight().setGreen(false);
+		else if (int(time_spanTruck.count()) > 10)
+			startTruck = endTruck;
+		if (int(time_spanCar.count()) < 10)
+			cg.getCarLaneLight().setGreen(true);
+		else if (int(time_spanCar.count()) > 5 && int(time_spanCar.count()) < 15)
+			cg.getCarLaneLight().setGreen(false);
+		else if (int(time_spanCar.count()) > 15)
+			startCar = endCar;
+		}
+		templv = cg.getPlayer().getLevel();
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
 			cg.getAnimal()[0]->Tell();
@@ -44,20 +58,25 @@ void SubThread()
 		}
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
+			cg.ambulanceEffect();
 			break;
 		}
-
-
 		cg.updateLevel();
-        if (!cg.getPlayer().isDead()) // If player is still alive
+		
+		// If player is still alive
+        if (!cg.getPlayer().isDead()) 
         {
 			if(MOVING != ' ')
-				cg.updatePosPlayer(MOVING); // Update player's position from main
+				// Update player's position from main
+				cg.updatePosPlayer(MOVING); 
         } else {
             IS_RUNNING = false;
 			continue;
         }
-        MOVING = ' '; // Waiting for next move from main
+
+		// Waiting for next move from main
+		MOVING = ' '; 
+
         cg.updatePosVehicle();
         cg.updatePosAnimal();
         cg.drawGame();
@@ -67,81 +86,43 @@ void SubThread()
             cg.getPlayer().increaseLevel();
             if (cg.isFinish()) {
 				break;
-            } else {
-                cg.increaseTrafficAndFlock();
-			}
-			cg.eraseOldObstacle();
-			// TODO: FIX THIS BUG
-			GotoXY(MAXWIDTH, 7);
-			cout << '|';
-			cg.getPlayer().eraseOldPlayer();
-			cg.getPlayer().resetPosition();
-			cg.getPlayer().DrawPLayer();
-			preLevel = cg.getPlayer().getLevel();
-			cg.updateObstacle();
+            }
+			cg.resetGame();
         }
-        Sleep(110);
+        Sleep(100);
     }
 }
 
 int main()
 {
-    int temp;
+    int temp = 'Y';
 	ShowConsoleCursor(false);
     FixConsoleWindow();
-    thread t1(SubThread);
+	cg.startGame();
+	thread t1(SubThread);
     while (1) {
 		if (_kbhit()) {
 			temp = _getch();
 			MOVING = temp;
-		}        
-        //if (!cg.getPlayer().isDead()) {
-        //    if (temp == 27) {
-        //        cg.exitGame(t1.native_handle());
-        //        return;
-        //    } else if (temp == 'P') {
-        //        cg.pauseGame(t1.native_handle());
-        //    } else {
-        //        cg.resumeGame((HANDLE)t1.native_handle());
-        //        MOVING = temp; //Cập nhật bước di chuyển
-        //    }
-        //} else {
-        //    if (temp == 'Y')
-        //        cg.startGame();
-        //    else {
-        //        cg.exitGame(t1.native_handle());
-        //        return;
-        //    }
-        //}
+		}
+        if (!cg.getPlayer().isDead()) {
+            if (temp == 27) {
+                cg.exitGame(&t1, IS_RUNNING);
+                return 0;
+            } else if (temp == 'p') {
+                cg.pauseGame(t1.native_handle());
+            } else {
+                cg.resumeGame((HANDLE)t1.native_handle());
+            }
+        } else {
+            if (temp == 'y')
+                cg.startGame();
+            else {
+                cg.exitGame(&t1, IS_RUNNING);
+                return 0;
+            }
+        }
     }
-	t1.join();
+	system("cls");
 	return 0;
 }
-
-void sound() {
-	while (true) {
-		cg.makeSound();
-	}
-}
-
-//int o_main()
-//{
-//    FixConsoleWindow();
-//    cg.drawBackground();
-//    cg.getPlayer().DrawPLayer();
-//	//thread t1(sound);
-//    while (1) {
-//        if (_kbhit()) //Nếu người vẫn còn sống
-//        {
-//            MOVING = _getch();
-//            cg.updatePosPlayer(MOVING); //Cập nhật vị trí người theo thông tin từ main
-//        }
-//        MOVING = ' '; // Tạm khóa không cho di chuyển, chờ nhận phím từ hàm main
-//        cg.getPlayer().DrawPLayer();
-//        cg.updatePosVehicle(); //Cập nhật vị trí xe
-//        cg.updatePosAnimal(); //Cập nhật vị trí thú
-//        cg.drawGame();
-//    }
-//	//t1.join();
-//	return 0;
-//}

@@ -9,6 +9,7 @@ class CBIRD;
 class CPEOPLE;
 class CTRAFFICLIGHT;
 
+#include <thread>
 #include "cbird.h"
 #include "ccar.h"
 #include "cdinosaur.h"
@@ -16,6 +17,7 @@ class CTRAFFICLIGHT;
 #include "ctruck.h"
 #include "header.h"
 #include "ctrafficlight.h"
+#include "cambulance.h"
 
 class CGAME {
     CVEHICLE** vehicles = nullptr;
@@ -27,6 +29,7 @@ class CGAME {
     CPEOPLE player;
 	CTRAFFICLIGHT carlane;
 	CTRAFFICLIGHT trucklane;
+	//CAMBULANCE ambulane;
     int MAX_LEVEL = 10;
     int MAX_BIRD = 10;
     int NUMBER_LANE = 10;
@@ -34,29 +37,37 @@ class CGAME {
     int WIDTH = 10;
 
 public:
-    CGAME(); //init game
+	//init game
+    CGAME(); 
     void drawBackground();
     void drawGame();
     ~CGAME();
-    CPEOPLE& getPlayer(); //get info player
-    CVEHICLE** getVehicle(); //get vehicle list
-    CANIMAL** getAnimal(); //get animal list
-    /*void resetGame();
-	void exitGame(HANDLE);
+	//get info player
+    CPEOPLE& getPlayer(); 
+	//get vehicle list
+    CVEHICLE** getVehicle(); 
+	//get animal list
+    CANIMAL** getAnimal(); 
+    void resetGame();
+	void exitGame(thread*, bool&);
 	void startGame();
-	void loadGame(istream);
-	void saveGame(istream);
+	/*void loadGame(istream);
+	void saveGame(istream);*/
 	void pauseGame(HANDLE);
-	void resumeGame(HANDLE);*/
-    void updatePosPlayer(char); //control moving player
-    void updatePosVehicle(); //moving vehicle
-    void updatePosAnimal(); //moving animal
+	void resumeGame(HANDLE);
+	//control moving player
+    void updatePosPlayer(char);
+	//moving vehicle
+    void updatePosVehicle(); 
+	//moving animal
+    void updatePosAnimal(); 
     void increaseTrafficAndFlock();
 	bool isFinish();
 	void makeSound();
 	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
+	void ambulanceEffect();
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
 };
