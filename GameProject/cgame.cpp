@@ -210,6 +210,62 @@ void CGAME::resetGame()
 {
     eraseOldObstacle();
     // TODO: FIX THIS BUG
+	for (int i = 0; i < MAXHEIGHT; i++)
+	{
+		GotoXY(MAXWIDTH, i);
+		cout << '|';
+		GotoXY(2, i);
+		cout << '|';
+	}
+    getPlayer().eraseOldPlayer();
+    getPlayer().resetPosition();
+    getPlayer().DrawPLayer();
+    updateObstacle();
+}
+
+void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
+{
+	Sleep(60000);
+    IS_RUNNING = false;
+    if (t1->joinable())
+        t1->join();
+    system("cls");
+}
+
+void CGAME::startGame()
+{
+}
+
+void CGAME::pauseGame(HANDLE hd)
+{
+    SuspendThread(hd);
+}
+
+=======
+}
+
+void CGAME::updateLevel()
+{
+    GotoXY(45, 30);
+    cout << "              ";
+    GotoXY(45, 30);
+    cout << "LEVEL " << getPlayer().getLevel();
+}
+
+void CGAME::eraseOldObstacle()
+{
+    for (int i = 0; i < getPlayer().getLevel(); ++i) {
+        trucks[i].CVEHICLE::Erase();
+        cars[i].CVEHICLE::Erase();
+        dinosaurs[i].CANIMAL::Erase();
+        birds[i].CANIMAL::Erase();
+    }
+}
+
+void CGAME::resetGame()
+{
+    eraseOldObstacle();
+    // TODO: FIX THIS BUG
     GotoXY(MAXWIDTH, 7);
     cout << '|';
     getPlayer().eraseOldPlayer();
@@ -249,4 +305,103 @@ CTRAFFICLIGHT& CGAME::getTruckLaneLight()
 CTRAFFICLIGHT& CGAME::getCarLaneLight()
 {
     return carlane;
+}
+
+//ambulance effect
+void CGAME::ambulanceEffect()
+{
+	if (player.getY() == 17 )
+	{
+		for (int i = 0; i < getPlayer().getLevel(); ++i)
+			trucks[i].CVEHICLE::Erase();
+	}
+	else if (player.getY() == 13)
+	{
+		for (int i = 0; i < getPlayer().getLevel(); ++i)
+			cars[i].CVEHICLE::Erase();
+	}
+	else if (player.getY() == 9)
+	{
+		for (int i = 0; i < getPlayer().getLevel(); ++i)
+			dinosaurs[i].CANIMAL::Erase();
+	}
+	else if (player.getY() == 5)
+	{
+		for (int i = 0; i < getPlayer().getLevel(); ++i)
+			birds[i].CANIMAL::Erase();
+	}
+	GotoXY(mX, mY);
+	cout << "\\ /";
+	GotoXY(mX, mY + 1);
+	cout << " X ";
+	GotoXY(mX, mY + 2);
+	cout << "/" << " " << "\\";
+	if (player.getX() > MAXWIDTH / 2)
+	{
+		CAMBULANCE ambulance(3, player.getY());
+		for (int i = 1; i < 100; i++)
+		{
+			if (ambulance.mX + 5 >= player.getX()) {
+				ambulance.Move(ambulance.mX, ambulance.mY);
+			}
+			else 
+			{
+				ambulance.Move(ambulance.mX + 2, ambulance.mY);
+			}
+			ambulance.DrawRight();
+			Sleep(50);
+		}
+		player.eraseOldPlayer();
+		for (int i = 1; i < 100; i++)
+		{
+			if (ambulance.mX  <= 5)
+			{
+				GotoXY(ambulance.mX, player.getY());
+				cout << "    ";
+				GotoXY(ambulance.mX, player.getY() + 1);
+				cout << "    ";
+				GotoXY(ambulance.mX, player.getY() + 2);
+				cout << "    ";
+			}
+			else {
+				ambulance.Move(ambulance.mX - 2, ambulance.mY);
+				ambulance.DrawLeft();
+			}
+				Sleep(50);
+		}
+	}
+	else if (player.getX() < MAXWIDTH / 2)
+	{
+		CAMBULANCE ambulance(MAXWIDTH-4, player.getY());
+		for (int i = 1; i < 100; i++)
+		{
+			if (ambulance.mX <= player.getX()+ 5) {
+				ambulance.Move(ambulance.mX, ambulance.mY);
+			}
+			else {
+				ambulance.Move(ambulance.mX - 2, ambulance.mY);
+
+			}
+			ambulance.DrawLeft();
+			Sleep(50);
+		}
+		player.eraseOldPlayer();
+		for (int i = 0; i < 100; i++)
+		{
+			if (ambulance.mX + 5 >=MAXWIDTH)
+			{
+				GotoXY(ambulance.mX, player.getY());
+				cout << "    ";
+				GotoXY(ambulance.mX, player.getY()+1);
+				cout << "    ";
+				GotoXY(ambulance.mX, player.getY()+2);
+				cout << "    ";
+			}
+			else {
+				ambulance.Move(ambulance.mX + 2, ambulance.mY);
+				ambulance.DrawRight();
+			}
+			Sleep(50);
+		}
+	}
 }
