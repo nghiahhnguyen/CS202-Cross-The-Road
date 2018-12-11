@@ -1,6 +1,6 @@
 #include "cgame.h"
 #include <algorithm>
-#include <mutex>
+#include "header.h"
 
 CGAME::CGAME()
 {
@@ -254,13 +254,11 @@ CTRAFFICLIGHT& CGAME::getCarLaneLight()
     return carlane;
 }
 
-bool CGAME::askForRestart()
+bool CGAME::askForRestart(mutex& mx)
 {
     int boxWidth = 42, boxHeight = 4, startBoxX = 44, startBoxY = 32;
-
-    mutex mx;
-    mx.lock();
-
+	lock_guard<mutex>lock(mx);
+	
     //Draw the board
     GotoXY(startBoxX, startBoxY);
     for (int j = 0; j < boxWidth; ++j) {
@@ -284,15 +282,15 @@ bool CGAME::askForRestart()
     cout << line2;
 
     char answer = _getch();
-    mx.unlock();
     if (answer == 'y')
         return true;
     else
         return false;
 }
 //ambulance effect
-void CGAME::ambulanceEffect()
+void CGAME::ambulanceEffect(mutex& mx)
 {
+	lock_guard<mutex>lock(mx);
     if (player.getY() == 17) {
         for (int i = 0; i < getPlayer().getLevel(); ++i)
             trucks[i].CVEHICLE::Erase();
@@ -316,7 +314,7 @@ void CGAME::ambulanceEffect()
          << "\\";
     if (player.getX() > MAXWIDTH / 2) {
         CAMBULANCE ambulance(3, player.getY());
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
             if (ambulance.mX + 5 >= player.getX()) {
                 ambulance.Move(ambulance.mX, ambulance.mY);
             } else {
@@ -326,7 +324,7 @@ void CGAME::ambulanceEffect()
             Sleep(50);
         }
         player.eraseOldPlayer();
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
             if (ambulance.mX <= 5) {
                 GotoXY(ambulance.mX, player.getY());
                 cout << "    ";
@@ -342,7 +340,7 @@ void CGAME::ambulanceEffect()
         }
     } else if (player.getX() < MAXWIDTH / 2) {
         CAMBULANCE ambulance(MAXWIDTH - 4, player.getY());
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 50; i++) {
             if (ambulance.mX <= player.getX() + 5) {
                 ambulance.Move(ambulance.mX, ambulance.mY);
             } else {
@@ -352,7 +350,7 @@ void CGAME::ambulanceEffect()
             Sleep(50);
         }
         player.eraseOldPlayer();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             if (ambulance.mX + 5 >= MAXWIDTH) {
                 GotoXY(ambulance.mX, player.getY());
                 cout << "    ";

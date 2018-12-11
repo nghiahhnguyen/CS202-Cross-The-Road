@@ -68,8 +68,8 @@ public:
 	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
-	bool askForRestart();
-	void ambulanceEffect();
+	bool askForRestart(mutex&);
+	void ambulanceEffect(mutex&);
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
 };
