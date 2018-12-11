@@ -1,7 +1,5 @@
 ﻿#include "cgame.h"
 #include "header.h"
-#include <thread>
-#include <condition_variable>
 #include <random>
 #include <chrono>
 #include <consoleapi.h>
@@ -21,7 +19,6 @@ void SubThread()
 	auto startCar = sc.now();
 	while (IS_RUNNING) {
 		// functions to simulate traffic lights
-		mx.lock();
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
@@ -48,7 +45,6 @@ void SubThread()
 			startCar = endCar;
 		}
 		templv = cg.getPlayer().getLevel();
-		mx.unlock();
 
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
@@ -59,13 +55,18 @@ void SubThread()
 			cg.getAnimal()[1]->Tell();
 			hitSth = true;
 		}
-		if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[0])) {
+			cg.getVehicle()[0]->Crash();
+			hitSth = true;
+		}
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
+			cg.getVehicle()[1]->Crash();
 			hitSth = true;
 		}
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
 			cg.getPlayer().setDead();
-			cg.ambulanceEffect();
+			cg.ambulanceEffect(mx);
 			break;
 		}
 		cg.updateLevel();
@@ -118,14 +119,22 @@ int main()
             if (temp == 27) {
                 cg.exitGame(&t1, IS_RUNNING);
                 return 0;
-            } else if (temp == 'p') {
+            }
+			else if (temp == 'l') {
+				cg.pauseGame(t1);
+				cg.saveGame(mx);
+				cg.resumeGame(t1);
+				temp = '\'';
+			}
+			else if (temp == 'p') {
                 cg.pauseGame(t1);
-            } else {
+            } 
+			else {
                 cg.resumeGame(t1);
             }
         } else {
-			Sleep(3000);
-			if (cg.askForRestart()) {
+			Sleep(5000);
+			if (cg.askForRestart(mx)) {
 				cg.getPlayer() = CPEOPLE();
 				system("cls");
 				IS_RUNNING = true;

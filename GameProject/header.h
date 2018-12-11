@@ -9,6 +9,8 @@
 #include <conio.h>
 #include <Mmsystem.h>
 #include <mciapi.h>
+#include <thread>
+#include <condition_variable>
 #pragma comment(lib, "Winmm.lib")
 using namespace std;
 const int MAXWIDTH = 130;
@@ -19,7 +21,7 @@ inline void FixConsoleWindow()
 	 long style = GetWindowLong(consoleWindow, GWL_STYLE);
 	 style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	 SetWindowLong(consoleWindow, GWL_STYLE, style);
-}
+};
 
 inline void GotoXY(int x, int y)
 {
@@ -27,7 +29,7 @@ inline void GotoXY(int x, int y)
 	coord.X = x;
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+};
 
 inline void ShowConsoleCursor(bool showFlag)
 {
@@ -38,6 +40,6 @@ inline void ShowConsoleCursor(bool showFlag)
 	GetConsoleCursorInfo(out, &cursorInfo);
 	cursorInfo.bVisible = showFlag; // set the cursor visibility
 	SetConsoleCursorInfo(out, &cursorInfo);
-}
+};
 
 void SubThread();
