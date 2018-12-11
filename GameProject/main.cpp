@@ -1,7 +1,5 @@
 ﻿#include "cgame.h"
 #include "header.h"
-#include <thread>
-#include <condition_variable>
 #include <random>
 #include <chrono>
 #include <consoleapi.h>
@@ -11,7 +9,6 @@ bool IS_RUNNING = true;
 CGAME cg;
 chrono::steady_clock sc;
 mutex mx;
-int level = 1;
 
 void SubThread()
 {
@@ -22,8 +19,6 @@ void SubThread()
 	auto startCar = sc.now();
 	while (IS_RUNNING) {
 		// functions to simulate traffic lights
-		level = cg.getPlayer().getLevel();
-		mx.lock();
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
 		auto time_spanTruck = static_cast<chrono::duration<double>>(endTruck - startTruck);
@@ -50,7 +45,6 @@ void SubThread()
 			startCar = endCar;
 		}
 		templv = cg.getPlayer().getLevel();
-		mx.unlock();
 
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
@@ -61,13 +55,18 @@ void SubThread()
 			cg.getAnimal()[1]->Tell();
 			hitSth = true;
 		}
-		if (cg.getPlayer().isImpact1(cg.getVehicle()[0]) || cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[0])) {
+			cg.getVehicle()[0]->Crash();
+			hitSth = true;
+		}
+		if (cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
+			cg.getVehicle()[1]->Crash();
 			hitSth = true;
 		}
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
 			cg.getPlayer().setDead();
-			cg.ambulanceEffect();
+			cg.ambulanceEffect(mx);
 			break;
 		}
 		cg.updateLevel();
@@ -100,71 +99,53 @@ void SubThread()
 			}
 			cg.resetGame();
 		}
-		Sleep(150/difficulty);
+		Sleep(100);
 	}
 }
 
 int main()
 {
-	int temp = ' ';
+    int temp = ' ';
 	ShowConsoleCursor(false);
-	FixConsoleWindow();
-	StartMenu();
-	EraseMenu();
+    FixConsoleWindow();
 	thread t1;
-	if (menu == 0)
-		cg.startGame(t1);
-	else if (menu == 1)
-	{
-
-	}
-	else if (menu == 2)
-	{
-		Settings();
-		EraseMenu();
-		if (settings == 0)
-		{
-			ChangeSound();
+	cg.startGame(t1);
+    while (1) {
+		if (_kbhit()) {
+			temp = _getch();
+			MOVING = temp;
 		}
-		else if (settings == 1)
-		{
-			DifficultyByLevel(level);
-		}
-	}
-	if (menu != 3)
-	{
-		while (1) {
-			if (_kbhit()) {
-				temp = _getch();
-				MOVING = temp;
+        if (!cg.getPlayer().isDead()) {
+            if (temp == 27) {
+                cg.exitGame(&t1, IS_RUNNING);
+                return 0;
+            }
+			else if (temp == 'l') {
+				cg.pauseGame(t1);
+				cg.saveGame(mx);
+				cg.resumeGame(t1);
+				temp = '\'';
 			}
-			if (!cg.getPlayer().isDead()) {
-				if (temp == 27) {
-					cg.exitGame(&t1, IS_RUNNING);
-					return 0;
-				}
-				else if (temp == 'p') {
-					cg.pauseGame(t1);
-				}
-				else {
-					cg.resumeGame(t1);
-				}
-			}
+			else if (temp == 'p') {
+                cg.pauseGame(t1);
+            } 
 			else {
-				Sleep(3000);
-				if (cg.askForRestart()) {
-					cg.getPlayer() = CPEOPLE();
-					system("cls");
-					IS_RUNNING = true;
-					cg.startGame(t1);
-				}
-				else {
-					cg.exitGame(&t1, IS_RUNNING);
-					break;
-				}
+                cg.resumeGame(t1);
+            }
+        } else {
+			Sleep(5000);
+			if (cg.askForRestart(mx)) {
+				cg.getPlayer() = CPEOPLE();
+				system("cls");
+				IS_RUNNING = true;
+				cg.startGame(t1);
 			}
-		}
-	}
+            else {
+                cg.exitGame(&t1, IS_RUNNING);
+				break;
+            }
+        }
+    }
 	system("cls");
 	return 0;
 }

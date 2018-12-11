@@ -1,6 +1,6 @@
 #include "cgame.h"
 #include <algorithm>
-#include <mutex>
+#include "header.h"
 
 CGAME::CGAME()
 {
@@ -254,13 +254,11 @@ CTRAFFICLIGHT& CGAME::getCarLaneLight()
     return carlane;
 }
 
-bool CGAME::askForRestart()
+bool CGAME::askForRestart(mutex& mx)
 {
     int boxWidth = 42, boxHeight = 4, startBoxX = 44, startBoxY = 32;
-
-    mutex mx;
-    mx.lock();
-
+	lock_guard<mutex>lock(mx);
+	
     //Draw the board
     GotoXY(startBoxX, startBoxY);
     for (int j = 0; j < boxWidth; ++j) {
@@ -284,15 +282,15 @@ bool CGAME::askForRestart()
     cout << line2;
 
     char answer = _getch();
-    mx.unlock();
     if (answer == 'y')
         return true;
     else
         return false;
 }
 //ambulance effect
-void CGAME::ambulanceEffect()
+void CGAME::ambulanceEffect(mutex& mx)
 {
+	lock_guard<mutex>lock(mx);
     if (player.getY() == 17) {
         for (int i = 0; i < getPlayer().getLevel(); ++i)
             trucks[i].CVEHICLE::Erase();
@@ -352,7 +350,7 @@ void CGAME::ambulanceEffect()
             Sleep(50);
         }
         player.eraseOldPlayer();
-        for (int i = 0; i <50; i++) {
+        for (int i = 0; i < 50; i++) {
             if (ambulance.mX + 5 >= MAXWIDTH) {
                 GotoXY(ambulance.mX, player.getY());
                 cout << "    ";
@@ -367,4 +365,143 @@ void CGAME::ambulanceEffect()
             Sleep(50);
         }
     }
+}
+
+bool CGAME::fileExist(const string& fileName) {
+	struct stat buffer;
+	return stat(fileName.c_str(), &buffer) == 0;
+}
+
+void clearLine(int x, int y, int length) {
+	GotoXY(x, y);
+	for (int i = 0; i < length; ++i) {
+		cout << ' ';
+	}
+}
+
+void CGAME::saveGame(mutex& mx) {
+
+	lock_guard<mutex>lock(mx);
+	int boxWidth = 62, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+
+	//Draw the board
+	GotoXY(startBoxX, startBoxY);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+	GotoXY(startBoxX, startBoxY + 1);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}
+	GotoXY(startBoxX, startBoxY + 2);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}
+
+	GotoXY(startBoxX, startBoxY + 3);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+
+	string line2 = "Enter the name of save file: ", fileName, buffer;
+	buffer.reserve(10000);
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
+	cout << line2;
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
+	ShowConsoleCursor(true);
+
+	while (true) {
+
+		cin >> fileName;
+		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
+		fileName += ".bin";
+		// if the file already exists
+		if (fileExist(fileName)) {
+			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
+			// write the line
+			string line3 = "File already exist. Do you want to override? (y/n)";
+			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
+			cout << line3;
+
+			string ans;
+			GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
+			cin >> ans;
+			if (ans != "y")
+			{
+				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
+				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
+				string line4 = "Enter another file name:";
+				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 1);
+				cout << line4;
+				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 2);
+				continue;
+			}
+		}
+		ofstream fout(fileName, ios::binary);
+		buffer.clear();
+
+		// player
+		buffer += to_string(getPlayer().getX());
+		buffer.push_back(' ');
+		buffer += to_string(getPlayer().getY());
+		buffer += "\n";
+
+		// level
+		buffer += to_string(getPlayer().getLevel());
+		buffer.push_back('\n');
+
+		// trucks
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			if (i > 0) 
+				buffer.push_back(' ');
+			buffer += to_string(trucks[i].mX);
+			buffer.push_back(' ');
+			buffer += to_string(trucks[i].mY);
+		}
+		buffer.push_back('\n');
+
+		// cars
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			if (i > 0)
+				buffer.push_back(' ');
+			buffer += to_string(cars[i].mX);
+			buffer.push_back(' ');
+			buffer += to_string(cars[i].mY);
+		}
+		buffer.push_back('\n');
+
+		// dinos
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			if (i > 0)
+				buffer.push_back(' ');
+			buffer += to_string(dinosaurs[i].mX);
+			buffer.push_back(' ');
+			buffer += to_string(dinosaurs[i].mY);
+		}
+		buffer.push_back('\n');
+
+		// birds
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			if (i > 0)
+				buffer.push_back(' ');
+			buffer += to_string(birds[i].mX);
+			buffer.push_back(' ');
+			buffer += to_string(birds[i].mY);
+		}
+
+		fout.open(fileName, ios::binary);
+		fout.write(buffer.c_str(), sizeof buffer);
+		fout.close();
+		ShowConsoleCursor(false);
+		break;
+	}
+	for (int i = 0; i < 4; ++i) {
+		clearLine(startBoxX, startBoxY + i, boxWidth);
+	}
 }

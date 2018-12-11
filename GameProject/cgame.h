@@ -19,6 +19,7 @@ class CTRAFFICLIGHT;
 #include "ctrafficlight.h"
 #include <fstream>
 #include "cambulance.h"
+#include <sys/stat.h>
 
 class CGAME {
     CVEHICLE** vehicles = nullptr;
@@ -53,7 +54,7 @@ public:
 	void exitGame(thread*, bool&);
 	void startGame(thread&);
 	//void loadGame(istream);
-	//void saveGame();
+	void saveGame(mutex&);
 	void pauseGame(thread&);
 	void resumeGame(thread&);
 	//control moving player
@@ -68,8 +69,9 @@ public:
 	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
-	bool askForRestart();
-	void ambulanceEffect();
+	bool askForRestart(mutex&);
+	void ambulanceEffect(mutex&);
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
+	bool fileExist(const string&);
 };
