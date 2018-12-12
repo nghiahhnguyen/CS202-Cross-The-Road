@@ -1,6 +1,6 @@
 #include "cvehicle.h"
 //Vehicle
-int CVEHICLE::n = 2;
+int CVEHICLE::n = 3;
 int CVEHICLE::m = 4;
 
 CVEHICLE::CVEHICLE(int x, int y) :mX(x), mY(y), prevX(0), prevY(0) {};

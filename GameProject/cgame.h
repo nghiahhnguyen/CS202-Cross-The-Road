@@ -43,6 +43,7 @@ public:
     CGAME(); 
     void drawBackground();
     void drawGame();
+	void guide();
     ~CGAME();
 	//get info player
     CPEOPLE& getPlayer(); 
@@ -74,4 +75,5 @@ public:
 	CTRAFFICLIGHT& getCarLaneLight();
 	CTRAFFICLIGHT& getTruckLaneLight();
 	bool fileExist(const string&);
+	void resetData();
 };

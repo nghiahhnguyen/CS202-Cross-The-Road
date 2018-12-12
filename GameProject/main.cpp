@@ -15,6 +15,7 @@ bool backToMainMenu = false;
 void SubThread()
 {
     cg.drawBackground();
+	cg.guide();
 	int preLevel = 11;
 	int templv = 11;
 	auto startTruck = sc.now();
@@ -101,94 +102,152 @@ void SubThread()
 			}
 			cg.resetGame();
 		}
-		Sleep(100);
+		Sleep(150/difficulty);
 	}
 }
 
 int main()
 {
-	//int temp = ' ';
-	//ShowConsoleCursor(false);
-	//FixConsoleWindow();
-	////menu = 0;
-	//while (1)
-	//{
-	//	StartMenu();
-	//	EraseMenu();
-	//	thread t1;
-	//	if (menu == 0)
-	//	{
-	//		cg.startGame(t1);
-	//		while (1) {
-	//			if(temp != 'p')
-	//				temp = ' ';
-	//			if (_kbhit()) {
-	//				temp = _getch();
-	//				MOVING = temp;
-	//			}
-	//			if (!cg.getPlayer().isDead()) {
-	//				if (temp == 27) {
-	//					cg.exitGame(&t1, IS_RUNNING);
-	//					break;
-	//					//return 0;
-	//				}
-	//				else if (temp == 'p') {
-	//					cg.pauseGame(t1);
-	//				}
-	//				else {
-	//					cg.resumeGame(t1);
-	//				}
-	//			}
-	//			else {
-	//				Sleep(5000);
-	//				if (cg.askForRestart(mx)) {
-	//					cg.getPlayer() = CPEOPLE();
-	//					system("cls");
-	//					IS_RUNNING = true;
-	//					cg.startGame(t1);
-	//				}
-	//				else {
-	//					cg.exitGame(&t1, IS_RUNNING);
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	}
-	//	else if (menu == 1)
-	//	{
+	int temp = ' ';
+	ShowConsoleCursor(false);
+	FixConsoleWindow();
+	//menu = 0;
+	while (1)
+	{
+		StartMenu();
+		EraseMenu();
+		thread t1;
+		if (menu == 0)
+		{
+			cg.resetData();
+			IS_RUNNING = true;
+			temp = ' ';
+			cg.startGame(t1);
+			while (1) {
+				if (_kbhit()) {
+					temp = _getch();
+					MOVING = temp;
+				}
+				if (!cg.getPlayer().isDead()) {
+					if (temp == 27) {
+						cg.exitGame(&t1, IS_RUNNING);
+						break;
+						//return 0;
+					}
+					else if (temp == 'p') {
+						cg.pauseGame(t1);
+						while (1)
+						{
+							IngameMenu();
+							EraseMenu();
+							if (menuInGame == 0)
+							{
+								break;
+							}
+							else if (menuInGame == 1)
+							{
+								
+							}
+							else if (menuInGame == 2)
+							{
 
-	//	}
-	//	else if (menu == 2)
-	//	{
-	//		while (1)
-	//		{
-	//			Settings();
-	//			EraseMenu();
-	//			temp = ' ';
-	//			if (settings == 0)
-	//			{
-	//				ChangeSound();
-	//				continue;
-	//			}
-	//			else if (settings == 1)
-	//			{
-	//				DifficultyByLevel(level);
-	//				continue;
-	//			}
-	//			else if (settings == 2)
-	//			{
-	//				Credit();
-	//				continue;
-	//			}
-	//			else if (settings == 3)
-	//				break;
-	//		}
-	//	}
-	//	else if (menu == 3)
-	//	{
-	//		break;
-	//	}
-	//}
-	cg.loadGame(mx);
+							}
+							else if (menuInGame == 3)
+							{
+								while (1)
+								{
+									Settings();
+									EraseMenu();
+									//temp = ' ';
+									if (settings == 0)
+									{
+										ChangeSound();
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 1)
+									{
+										DifficultyByLevel(level);
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 2)
+									{
+										Credit();
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 3)
+									{
+										temp = ' ';
+										break;
+									}
+								}
+							}
+						}
+						cg.resumeGame(t1);
+					}
+					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+						cg.resumeGame(t1);
+					}*/
+				}
+				else {
+					Sleep(5000);
+					if (cg.askForRestart(mx)) {
+						cg.getPlayer() = CPEOPLE();
+						system("cls");
+						IS_RUNNING = true;
+						cg.startGame(t1);
+					}
+					else {
+						cg.exitGame(&t1, IS_RUNNING);
+						break;
+					}
+				}
+			}
+		}
+		else if (menu == 1)
+		{
+
+		}
+		else if (menu == 2)
+		{
+			while (1)
+			{
+				Settings();
+				EraseMenu();
+				//temp = ' ';
+				if (settings == 0)
+				{
+					ChangeSound();
+					temp = ' ';
+					continue;
+				}
+				else if (settings == 1)
+				{
+					DifficultyByLevel(level);
+					temp = ' ';
+					continue;
+				}
+				else if (settings == 2)
+				{
+					Credit();
+					temp = ' ';
+					continue;
+				}
+				else if (settings == 3)
+				{
+					temp = ' ';
+					break;
+				}
+			}
+		}
+		else if (menu == 3)
+		{
+			break;
+		}
+		//system("cls");
+	}
 	return 0;
+	//return 0;
 }
