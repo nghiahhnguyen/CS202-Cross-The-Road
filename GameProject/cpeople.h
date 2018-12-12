@@ -2,6 +2,7 @@
 
 class CVEHICLE;
 class CANIMAL;
+class CGAME;
 
 #include "canimal.h"
 #include "cvehicle.h"
@@ -15,6 +16,7 @@ class CPEOPLE {
     int tempX, tempY;
 
 public:
+	friend class CGAME;
     CPEOPLE()
     {
         mX = (MAXWIDTH / 2) - 1;
@@ -37,9 +39,9 @@ public:
     int getLevel();
     void DrawPLayer();
     void increaseLevel();
-	inline int getX() { 
+	inline int& getX() { 
 		return mX; };
-	inline int getY() { 
+	inline int& getY() { 
 		return mY; };
 	inline void resetPosition() { 
 		mY = 21; };

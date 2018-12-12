@@ -3,7 +3,7 @@
 #include <random>
 #include <chrono>
 #include <consoleapi.h>
-//#include <cls>
+
 char MOVING;
 bool IS_RUNNING = true; 
 CGAME cg;
@@ -250,5 +250,4 @@ int main()
 		//system("cls");
 	}
 	return 0;
-	//return 0;
 }

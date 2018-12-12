@@ -2,6 +2,9 @@
 #include "header.h"
 #include <algorithm>
 #include <experimental/filesystem>
+#include <sstream>
+#pragma warning(disable:4996)
+#define _CRT_SECURE_NO_WARNINGS
 
 CGAME::CGAME()
 {
@@ -323,7 +326,7 @@ bool CGAME::askForRestart(mutex& mx)
         cout << '=';
     }
 
-    string line2 = "Do you want to restart the game? (Y/n)";
+    string line2 = "Do you want to restart the game? (y/n)";
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
     cout << line2;
 
@@ -556,11 +559,117 @@ void CGAME::saveGame(mutex& mx)
 
 void CGAME::loadGame(mutex& mx)
 {
-    lock_guard<mutex> lock(mx);
     string path = "D:\\Nghia\\Hoc Tap Nghia\\Cross-The-Road\\GameProject\\saves", extension = ".bin";
-    for (auto& file : experimental::filesystem::recursive_directory_iterator(path)) {
-        cout << file.path();
-    }
+	lock_guard<mutex> lock(mx);
+	int boxWidth = 62, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+
+	//Draw the board
+	GotoXY(startBoxX, startBoxY);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+	GotoXY(startBoxX, startBoxY + 1);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}
+	GotoXY(startBoxX, startBoxY + 2);
+	for (int j = 0; j < boxWidth; ++j) {
+		if (j == 0 || j == boxWidth - 1)
+			cout << '|';
+		else
+			cout << ' ';
+	}
+
+	GotoXY(startBoxX, startBoxY + 3);
+	for (int j = 0; j < boxWidth; ++j) {
+		cout << '=';
+	}
+
+	string line2 = "Enter the name of save file: ", fileName, buffer;
+	buffer.reserve(10000);
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
+	cout << line2;
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
+	ShowConsoleCursor(true);
+	while (true) {
+
+		cin >> fileName;
+		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
+		
+		bool isNonexistent = false;
+
+		char buffer[1000];
+		ifstream fin(fileName, ios::binary);
+		if (!fin.read(buffer, 1000)) {
+			isNonexistent = true;
+		}
+
+		if (isNonexistent) {
+			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
+			// write the line
+			string line3 = "File do not exist. Do you want to abort? (y/n)";
+			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
+			cout << line3;
+
+			string ans;
+			GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
+			cin >> ans;
+			if (ans != "y") {
+				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
+				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
+				string line4 = "Enter another file name:";
+				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 1);
+				cout << line4;
+				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 2);
+				continue;
+			}
+			else break;
+		}
+		string tmp(buffer);
+		stringstream ss(tmp);
+		
+		// player
+		getPlayer().tempX = getPlayer().mX;
+		getPlayer().tempY = getPlayer().mY;
+		ss >> getPlayer().mX;
+		ss >> getPlayer().mY;
+
+		// level
+		ss >> getPlayer().level;
+
+		// trucks
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			trucks[i].prevX = trucks[i].mX;
+			trucks[i].prevX = trucks[i].mY;
+			ss >> trucks[i].mX >> trucks[i].mY;
+		}
+
+		// cars
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			cars[i].prevX = cars[i].mX;
+			cars[i].prevX = cars[i].mY;
+			ss >> cars[i].mX >> cars[i].mY;
+		}
+
+		// dinos
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			dinosaurs[i].prevX = dinosaurs[i].mX;
+			dinosaurs[i].prevX = dinosaurs[i].mY;
+			ss >> dinosaurs[i].mX >> dinosaurs[i].mY;
+		}
+
+		// birds
+		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+			birds[i].prevX = birds[i].mX;
+			birds[i].prevX = birds[i].mY;
+			ss >> birds[i].mX >> birds[i].mY;
+		}
+	}
+
+
 }
 
 void CGAME::resetData()
