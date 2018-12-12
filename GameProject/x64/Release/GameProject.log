@@ -1,13 +1,7 @@
-﻿  canimal.cpp
-  cbird.cpp
-  ccar.cpp
-  cdinosaur.cpp
-  cgame.cpp
-  cpeople.cpp
-  ctruck.cpp
-  cvehicle.cpp
-  main.cpp
+﻿  main.cpp
   Generating code
-  All 231 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 357 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   GameProject.vcxproj -> D:\Nghia\Học tập Nghĩa\Cross-The-Road\x64\Release\GameProject.exe
