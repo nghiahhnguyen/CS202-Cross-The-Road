@@ -1,6 +1,7 @@
-#include "cgame.h"
+﻿#include "cgame.h"
 #include <algorithm>
 #include "header.h"
+#include <experimental/filesystem>
 
 CGAME::CGAME()
 {
@@ -420,7 +421,7 @@ void CGAME::saveGame(mutex& mx) {
 
 		cin >> fileName;
 		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
-		fileName += ".bin";
+		fileName = "\save" + fileName + ".bin";
 		// if the file already exists
 		if (fileExist(fileName)) {
 			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
@@ -503,5 +504,13 @@ void CGAME::saveGame(mutex& mx) {
 	}
 	for (int i = 0; i < 4; ++i) {
 		clearLine(startBoxX, startBoxY + i, boxWidth);
+	}
+}
+
+void CGAME::loadGame(mutex& mx) {
+	lock_guard<mutex> lock(mx);
+	string path = "D:\\Nghia\\Hoc Tap Nghia\\Cross-The-Road\\GameProject\\saves", extension = ".bin";
+	for (auto& file : experimental::filesystem::recursive_directory_iterator(path)) {
+		cout << file.path();
 	}
 }

@@ -12,5 +12,6 @@ void CBIRD::Draw()//y=5
 }
 
 void CBIRD::Tell() {
-	PlaySound(L"crow-1.wav", NULL, SND_FILENAME);
+	if(sound)
+		PlaySound(L"crow-1.wav", NULL, SND_FILENAME);
 }

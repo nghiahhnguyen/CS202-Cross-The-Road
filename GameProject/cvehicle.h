@@ -14,6 +14,7 @@ public:
 	virtual void Draw();
 	void Erase();
 	virtual void Crash() {
-		PlaySound(L"Car-crash-sound-effect (edited).wav", NULL, SND_FILENAME);
+		if(sound)
+			PlaySound(L"Car-crash-sound-effect (edited).wav", NULL, SND_FILENAME);
 	};
 };

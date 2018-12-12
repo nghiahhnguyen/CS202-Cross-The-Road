@@ -53,7 +53,7 @@ public:
     void resetGame();
 	void exitGame(thread*, bool&);
 	void startGame(thread&);
-	//void loadGame(istream);
+	void loadGame(mutex&);
 	void saveGame(mutex&);
 	void pauseGame(thread&);
 	void resumeGame(thread&);

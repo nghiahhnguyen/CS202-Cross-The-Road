@@ -14,5 +14,6 @@ void CDINOSAUR::Draw()//y=5
 }
 
 void CDINOSAUR::Tell() {
-	PlaySound(L"dino-snarl (audio-cutter.com).wav", NULL, SND_ASYNC | SND_FILENAME);
+	if(sound)
+		PlaySound(L"dino-snarl (audio-cutter.com).wav", NULL, SND_ASYNC | SND_FILENAME);
 }
