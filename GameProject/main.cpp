@@ -185,6 +185,7 @@ int main()
 								}
 							}
 						}
+						cg.drawBackground();
 						cg.resumeGame(t1);
 					}
 					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){

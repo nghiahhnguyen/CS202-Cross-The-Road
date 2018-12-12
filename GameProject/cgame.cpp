@@ -469,7 +469,7 @@ void CGAME::saveGame(mutex& mx)
 
         cin >> fileName;
         clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
-        fileName = "\save" + fileName + ".bin";
+        fileName = "\\saves" + fileName + ".bin";
         // if the file already exists
         if (fileExist(fileName)) {
             clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
