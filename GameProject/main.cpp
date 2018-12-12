@@ -15,6 +15,7 @@ bool backToMainMenu = false;
 void SubThread()
 {
     cg.drawBackground();
+	cg.guide();
 	int preLevel = 11;
 	int templv = 11;
 	auto startTruck = sc.now();
@@ -101,7 +102,7 @@ void SubThread()
 			}
 			cg.resetGame();
 		}
-		Sleep(100);
+		Sleep(150/difficulty);
 	}
 }
 
@@ -116,12 +117,14 @@ int main()
 		StartMenu();
 		EraseMenu();
 		thread t1;
+		
 		if (menu == 0)
 		{
+			cg.resetData();
+			IS_RUNNING = true;
+			temp = ' ';
 			cg.startGame(t1);
 			while (1) {
-				if(temp != 'p')
-					temp = ' ';
 				if (_kbhit()) {
 					temp = _getch();
 					MOVING = temp;
@@ -135,12 +138,12 @@ int main()
 					else if (temp == 'p') {
 						cg.pauseGame(t1);
 					}
-					else {
+					else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
 						cg.resumeGame(t1);
 					}
 				}
 				else {
-					Sleep(3000);
+					Sleep(5000);
 					if (cg.askForRestart(mx)) {
 						cg.getPlayer() = CPEOPLE();
 						system("cls");
@@ -164,24 +167,30 @@ int main()
 			{
 				Settings();
 				EraseMenu();
-				temp = ' ';
+				//temp = ' ';
 				if (settings == 0)
 				{
 					ChangeSound();
+					temp = ' ';
 					continue;
 				}
 				else if (settings == 1)
 				{
 					DifficultyByLevel(level);
+					temp = ' ';
 					continue;
 				}
 				else if (settings == 2)
 				{
 					Credit();
+					temp = ' ';
 					continue;
 				}
 				else if (settings == 3)
+				{
+					temp = ' ';
 					break;
+				}
 			}
 		}
 		else if (menu == 3)
@@ -191,5 +200,5 @@ int main()
 		//system("cls");
 	}
 	return 0;
-	return 0;
+	//return 0;
 }

@@ -128,6 +128,7 @@ inline int StartMenu()
 }
 inline void ChangeSound()
 {
+	int temp = ' ';
 	string Sound = "    ";
 	if (sound == true)
 		Sound = "ON ";
@@ -160,8 +161,14 @@ inline void ChangeSound()
 				sound = true;
 			}
 		}
-		else if ((GetAsyncKeyState(VK_ESCAPE) != 0))
-			break;
+		else
+		{
+			temp = _getch();
+			if (temp == 27) {
+				temp = ' ';
+				break;
+			}
+		}
 	}
 }
 inline void EraseMenu()
@@ -175,6 +182,7 @@ inline void EraseMenu()
 }
 inline void DifficultyByLevel(int level)
 {
+	int temp = ' ';
 	int pointer = 0;
 	bool back = false;
 	string Menu[3] = { "1.Easy          ", "2.Medium           ", "3.Nightmare           " };
@@ -265,14 +273,19 @@ inline void DifficultyByLevel(int level)
 					break;
 					}
 				}
-				else if ((GetAsyncKeyState(VK_ESCAPE) != 0))
+				else
 				{
-					back = true;
-					break;
+					temp = _getch();
+					if (temp == 27) {
+						temp = ' ';
+						back = true;
+						break;
+					}
 				}
 			}
 		}
-		else break;
+		else if(back)
+			break;
 	}
 
 
@@ -280,6 +293,7 @@ inline void DifficultyByLevel(int level)
 
 inline void Credit()
 {
+	int temp = ' ';
 	while (1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
@@ -294,12 +308,17 @@ inline void Credit()
 		cout << "TRAN NGUYEN HIEN";
 		GotoXY(95, 24);
 		cout << "LE HOANG DAT";
-		if (GetAsyncKeyState(VK_ESCAPE) != 0)
+		temp = _getch();
+		if (temp == 27)
+		{
+			temp = ' ';
 			break;
+		}
 	}
 }
 inline int Settings()
 {
+	int temp = ' ';
 	int pointer = 0;
 	string Menu[3] = { "1.Sound", "2.Difficulty", "3.Credit" };
 	while (1)
@@ -364,10 +383,13 @@ inline int Settings()
 				break;
 				}
 			}
-			else if ((GetAsyncKeyState(VK_ESCAPE) != 0))
+			else
 			{
-				settings = 3;
-				return settings;
+				temp = _getch();
+				if (temp == 27) {
+					settings = 3;
+					return settings;
+				}
 			}
 		}
 	}
