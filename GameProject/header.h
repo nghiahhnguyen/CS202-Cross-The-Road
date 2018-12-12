@@ -398,13 +398,13 @@ inline int Settings()
 inline int IngameMenu()
 {
 	int pointer = 0;
-	string Menu[4] = { "1.Save game", "2.Load game", "3.Settings", "4.Exit" };
+	string Menu[4] = { "1.Resume game", "2.Save game", "3.Load game", "4.Settings" };
 	while (1)
 	{
 		system("cls");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		GotoXY(95, 20);
-		cout << "CROSS ROAD GAME";
+		cout << "PAUSE";
 		for (int i = 0; i < 4; i++)
 		{
 			if (i == pointer)
@@ -469,11 +469,6 @@ inline int IngameMenu()
 				}
 				break;
 				}
-			}
-			else if ((GetAsyncKeyState(VK_RETURN) != 0))
-			{
-				menuInGame = 4;
-				return menuInGame;
 			}
 		}
 	}

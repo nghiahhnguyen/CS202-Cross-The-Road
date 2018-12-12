@@ -117,7 +117,6 @@ int main()
 		StartMenu();
 		EraseMenu();
 		thread t1;
-		
 		if (menu == 0)
 		{
 			cg.resetData();
@@ -137,10 +136,60 @@ int main()
 					}
 					else if (temp == 'p') {
 						cg.pauseGame(t1);
-					}
-					else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+						while (1)
+						{
+							IngameMenu();
+							EraseMenu();
+							if (menuInGame == 0)
+							{
+								break;
+							}
+							else if (menuInGame == 1)
+							{
+								
+							}
+							else if (menuInGame == 2)
+							{
+
+							}
+							else if (menuInGame == 3)
+							{
+								while (1)
+								{
+									Settings();
+									EraseMenu();
+									//temp = ' ';
+									if (settings == 0)
+									{
+										ChangeSound();
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 1)
+									{
+										DifficultyByLevel(level);
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 2)
+									{
+										Credit();
+										temp = ' ';
+										continue;
+									}
+									else if (settings == 3)
+									{
+										temp = ' ';
+										break;
+									}
+								}
+							}
+						}
 						cg.resumeGame(t1);
 					}
+					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+						cg.resumeGame(t1);
+					}*/
 				}
 				else {
 					Sleep(5000);
