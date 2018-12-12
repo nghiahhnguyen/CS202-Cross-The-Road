@@ -453,6 +453,7 @@ inline int IngameMenu()
 				menuInGame = 4;
 				return menuInGame;
 			}
+			Sleep(1000);
 		}
 	}
 }

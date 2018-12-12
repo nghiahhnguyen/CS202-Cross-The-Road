@@ -107,89 +107,88 @@ void SubThread()
 
 int main()
 {
-	int temp = ' ';
-	ShowConsoleCursor(false);
-	FixConsoleWindow();
-	//menu = 0;
-	while (1)
-	{
-		StartMenu();
-		EraseMenu();
-		thread t1;
-		if (menu == 0)
-		{
-			cg.startGame(t1);
-			while (1) {
-				if(temp != 'p')
-					temp = ' ';
-				if (_kbhit()) {
-					temp = _getch();
-					MOVING = temp;
-				}
-				if (!cg.getPlayer().isDead()) {
-					if (temp == 27) {
-						cg.exitGame(&t1, IS_RUNNING);
-						break;
-						//return 0;
-					}
-					else if (temp == 'p') {
-						cg.pauseGame(t1);
-					}
-					else {
-						cg.resumeGame(t1);
-					}
-				}
-				else {
-					Sleep(3000);
-					if (cg.askForRestart(mx)) {
-						cg.getPlayer() = CPEOPLE();
-						system("cls");
-						IS_RUNNING = true;
-						cg.startGame(t1);
-					}
-					else {
-						cg.exitGame(&t1, IS_RUNNING);
-						break;
-					}
-				}
-			}
-		}
-		else if (menu == 1)
-		{
+	//int temp = ' ';
+	//ShowConsoleCursor(false);
+	//FixConsoleWindow();
+	////menu = 0;
+	//while (1)
+	//{
+	//	StartMenu();
+	//	EraseMenu();
+	//	thread t1;
+	//	if (menu == 0)
+	//	{
+	//		cg.startGame(t1);
+	//		while (1) {
+	//			if(temp != 'p')
+	//				temp = ' ';
+	//			if (_kbhit()) {
+	//				temp = _getch();
+	//				MOVING = temp;
+	//			}
+	//			if (!cg.getPlayer().isDead()) {
+	//				if (temp == 27) {
+	//					cg.exitGame(&t1, IS_RUNNING);
+	//					break;
+	//					//return 0;
+	//				}
+	//				else if (temp == 'p') {
+	//					cg.pauseGame(t1);
+	//				}
+	//				else {
+	//					cg.resumeGame(t1);
+	//				}
+	//			}
+	//			else {
+	//				Sleep(5000);
+	//				if (cg.askForRestart(mx)) {
+	//					cg.getPlayer() = CPEOPLE();
+	//					system("cls");
+	//					IS_RUNNING = true;
+	//					cg.startGame(t1);
+	//				}
+	//				else {
+	//					cg.exitGame(&t1, IS_RUNNING);
+	//					break;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	else if (menu == 1)
+	//	{
 
-		}
-		else if (menu == 2)
-		{
-			while (1)
-			{
-				Settings();
-				EraseMenu();
-				temp = ' ';
-				if (settings == 0)
-				{
-					ChangeSound();
-					continue;
-				}
-				else if (settings == 1)
-				{
-					DifficultyByLevel(level);
-					continue;
-				}
-				else if (settings == 2)
-				{
-					Credit();
-					continue;
-				}
-				else if (settings == 3)
-					break;
-			}
-		}
-		else if (menu == 3)
-		{
-			break;
-		}
-		//system("cls");
-	}
-	return 0;
+	//	}
+	//	else if (menu == 2)
+	//	{
+	//		while (1)
+	//		{
+	//			Settings();
+	//			EraseMenu();
+	//			temp = ' ';
+	//			if (settings == 0)
+	//			{
+	//				ChangeSound();
+	//				continue;
+	//			}
+	//			else if (settings == 1)
+	//			{
+	//				DifficultyByLevel(level);
+	//				continue;
+	//			}
+	//			else if (settings == 2)
+	//			{
+	//				Credit();
+	//				continue;
+	//			}
+	//			else if (settings == 3)
+	//				break;
+	//		}
+	//	}
+	//	else if (menu == 3)
+	//	{
+	//		break;
+	//	}
+	//}
+	cg.loadGame(mx);
 	return 0;
 }
