@@ -128,7 +128,7 @@ void CGAME::guide()
     GotoXY(150, 15);
     cout << "L:   Save game";
     GotoXY(150, 16);
-    cout << "S:   Load game";
+    cout << "T:   Load game";
     GotoXY(30, 30);
 }
 
