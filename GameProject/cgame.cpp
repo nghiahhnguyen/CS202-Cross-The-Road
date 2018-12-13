@@ -128,7 +128,7 @@ void CGAME::guide()
     GotoXY(150, 15);
     cout << "L:   Save game";
     GotoXY(150, 16);
-    cout << "S:   Load game";
+    cout << "T:   Load game";
     GotoXY(30, 30);
 }
 
@@ -470,8 +470,10 @@ void CGAME::loadingBar()
 {
 	for (int i = 1; i < 101; i++)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
 		GotoXY(30 + i, 30);
-		cout << "/";
+		cout << char(219);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 		if (i == 100)
 		{
 			GotoXY(75, 31);

@@ -115,6 +115,7 @@ void SubThread()
 			}
 			cg.drawBackground();
 			cg.resetGame();
+			cg.drawBackground();
 		}
 		Sleep(150/difficulty);
 	}
@@ -209,7 +210,9 @@ int main()
 					}
 					else if (temp == 't') {
 						cg.pauseGame(t1);
-						cg.loadGame(mx); 
+						cg.loadGame(mx);
+						cg.drawBackground();
+						cg.guide();
 						cg.resumeGame(t1);
 					}
 					else if (temp == 'l') {
