@@ -18,10 +18,10 @@ void SubThread()
 	cg.guide();
 	int preLevel = 11;
 	int templv = 11;
+	cg.drawBackground();
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
 	while (IS_RUNNING) {
-		cg.drawBackground();
 		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
@@ -113,6 +113,7 @@ void SubThread()
 				else
 					break;
 			}
+			cg.drawBackground();
 			cg.resetGame();
 		}
 		Sleep(150/difficulty);
@@ -160,7 +161,10 @@ int main()
 							}
 							else if (menuInGame == 1)
 							{
-								cg.saveGame(mx);
+								if (cg.saveGame(mx)) {
+									cg.exitGame(&t1, IS_RUNNING);
+									break;
+								}
 							}
 							else if (menuInGame == 2)
 							{
@@ -210,7 +214,12 @@ int main()
 					}
 					else if (temp == 'l') {
 						cg.pauseGame(t1);
-						cg.saveGame(mx);
+						if (cg.saveGame(mx))
+						{
+							//cg.resumeGame(t1);
+							cg.exitGame(&t1, IS_RUNNING);
+							break;
+						}
 						cg.resumeGame(t1);
 					}
 					else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){

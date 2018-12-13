@@ -310,7 +310,7 @@ void CGAME::resetGame()
 void CGAME::exitGame(thread* t1, bool& IS_RUNNING)
 {
     IS_RUNNING = false;
-    Sleep(200);
+    Sleep(500);
     if (t1->joinable())
         t1->join();
     system("cls");
@@ -506,7 +506,7 @@ void clearLine(int x, int y, int length)
     }
 }
 
-void CGAME::saveGame(mutex& mx)
+bool CGAME::saveGame(mutex& mx)
 {
 
     lock_guard<mutex> lock(mx);
@@ -551,7 +551,7 @@ void CGAME::saveGame(mutex& mx)
         if (fileExist(fileName)) {
             clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
             // write the line
-            string line3 = "File already exist. Do you want to override? (y/n)";
+            string line3 = "File already exists. Do you want to override? (y/n)";
             GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
             cout << line3;
 
@@ -602,10 +602,24 @@ void CGAME::saveGame(mutex& mx)
         }
         fout.close();
         break;
-    }
+    } 
+
+	for (int i = 1; i < 3; ++i) {
+		clearLine(startBoxX + 1, startBoxY + i, boxWidth - 2);
+	}
+	
+	string line3 = "Do you want to exit the game? (y/n)";
+	GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
+	cout << line3;
+
+	string ans;
+	GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
+	cin >> ans;
     for (int i = 0; i < 4; ++i) {
         clearLine(startBoxX, startBoxY + i, boxWidth);
     }
+	if (ans == "y") return true;
+	return false;
 }
 
 void CGAME::loadGame(mutex& mx)
@@ -651,7 +665,7 @@ void CGAME::loadGame(mutex& mx)
 		if (!fin) {
 			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
 			// write the line
-			string line3 = "File do not exist. Do you want to abort? (y/n)";
+			string line3 = "File do not exists. Do you want to abort? (y/n)";
 			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
 			cout << line3;
 
