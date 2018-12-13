@@ -79,4 +79,5 @@ public:
 	void congrats();
 	void ambulanceVoice(mutex&);
 	void congratsVoice();
+	void loadingBar();
 };

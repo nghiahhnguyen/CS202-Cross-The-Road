@@ -108,9 +108,9 @@ void CGAME::guide()
     GotoXY(150, 14);
     cout << "P:   Pause";
     GotoXY(150, 15);
-    cout << "T:   Save game";
+    cout << "L:   Save game";
     GotoXY(150, 16);
-    cout << "L:   Load game";
+    cout << "S:   Load game";
     GotoXY(30, 30);
 }
 
@@ -446,6 +446,27 @@ void CGAME::ambulanceEffect(mutex& mx)
 void CGAME::congratsVoice()
 {
 	PlaySound(L"congrats.wav", NULL, SND_FILENAME);
+}
+
+void CGAME::loadingBar()
+{
+	for (int i = 1; i < 101; i++)
+	{
+		GotoXY(30 + i, 30);
+		cout << "/";
+		if (i == 100)
+		{
+			GotoXY(75, 31);
+			cout << "ready        ";
+		}
+		else
+		{
+			GotoXY(75, 31);
+			cout << "loading " << i << "%";
+		}
+		Sleep(25);
+	}
+	system("cls");
 }
 
 void CGAME::ambulanceVoice(mutex& mx)

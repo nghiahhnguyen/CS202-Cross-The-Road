@@ -133,6 +133,7 @@ int main()
 		thread t1;
 		if (menu == 0)
 		{
+			cg.loadingBar();
 			cg.resetData();
 			IS_RUNNING = true;
 			temp = ' ';
