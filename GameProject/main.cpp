@@ -89,10 +89,10 @@ void SubThread()
 		MOVING = ' '; 
 
 		mx.lock();
+		cg.getPlayer().DrawPLayer();
 		cg.updatePosVehicle();
 		cg.updatePosAnimal();
 		cg.drawGame();
-		cg.getPlayer().DrawPLayer();
 		mx.unlock();
 		
 		if (cg.getPlayer().getY() == 1) {
@@ -132,7 +132,6 @@ int main()
 					if (temp == 27) {
 						cg.exitGame(&t1, IS_RUNNING);
 						break;
-						//return 0;
 					}
 					else if (temp == 'p') {
 						cg.pauseGame(t1);
@@ -146,11 +145,11 @@ int main()
 							}
 							else if (menuInGame == 1)
 							{
-								
+								cg.saveGame(mx);
 							}
 							else if (menuInGame == 2)
 							{
-
+								cg.loadGame(mx);
 							}
 							else if (menuInGame == 3)
 							{
@@ -188,9 +187,19 @@ int main()
 						cg.drawBackground();
 						cg.resumeGame(t1);
 					}
-					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+					else if (temp == 't') {
+						cg.pauseGame(t1);
+						cg.loadGame(mx); 
 						cg.resumeGame(t1);
-					}*/
+					}
+					else if (temp == 'l') {
+						cg.pauseGame(t1);
+						cg.saveGame(mx);
+						cg.resumeGame(t1);
+					}
+					else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+						cg.resumeGame(t1);
+					}
 				}
 				else {
 					Sleep(5000);
@@ -205,11 +214,13 @@ int main()
 						break;
 					}
 				}
+				int c;
+				temp = ' ';
 			}
 		}
 		else if (menu == 1)
 		{
-
+			cg.loadGame(mx);
 		}
 		else if (menu == 2)
 		{
