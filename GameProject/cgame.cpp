@@ -470,8 +470,10 @@ void CGAME::loadingBar()
 {
 	for (int i = 1; i < 101; i++)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
 		GotoXY(30 + i, 30);
-		cout << "/";
+		cout << char(219);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 		if (i == 100)
 		{
 			GotoXY(75, 31);

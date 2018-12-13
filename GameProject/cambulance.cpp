@@ -11,9 +11,9 @@ void CAMBULANCE::DrawRight() {
 	cout << char(254);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	GotoXY(mX, mY+1);
-	cout << "AAA ";
+	cout <<char(219)<< char(219)<<char(219)<<char(220);
 	GotoXY(mX, mY + 2);
-	cout << "AAAA";
+	cout << "0  0";
 }
 
 void CAMBULANCE::DrawLeft()
@@ -26,8 +26,8 @@ void CAMBULANCE::DrawLeft()
 	cout << char(254);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	GotoXY(mX, mY + 1);
-	cout << " AAA";
+	cout <<char(220)<<char(219)<<char(219)<<char(219);
 	GotoXY(mX, mY + 2);
-	cout << "AAAA";
+	cout << "0  0";
 }
 
