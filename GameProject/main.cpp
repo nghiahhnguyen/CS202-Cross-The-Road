@@ -170,6 +170,8 @@ int main()
 							else if (menuInGame == 2)
 							{
 								cg.loadGame(mx);
+								cg.startGame(t1);
+								break;
 							}
 							else if (menuInGame == 3)
 							{

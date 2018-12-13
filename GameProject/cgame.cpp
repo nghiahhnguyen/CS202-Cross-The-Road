@@ -547,6 +547,7 @@ bool CGAME::saveGame(mutex& mx)
     while (true) {
 
         cin >> fileName;
+		GetAsyncKeyState(VK_RETURN);
         clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
         fileName = "./saves/" + fileName;
         // if the file already exists
@@ -557,10 +558,10 @@ bool CGAME::saveGame(mutex& mx)
             GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
             cout << line3;
 
-            string ans;
+            int ans;
             GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
-            cin >> ans;
-            if (ans != "y") {
+			ans = _getch();
+            if (ans != 'y') {
                 clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
                 clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
                 string line4 = "Enter another file name:";
@@ -614,13 +615,12 @@ bool CGAME::saveGame(mutex& mx)
 	GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
 	cout << line3;
 
-	string ans;
 	GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
-	cin >> ans;
+	int c = _getch();
     for (int i = 0; i < 4; ++i) {
         clearLine(startBoxX, startBoxY + i, boxWidth);
     }
-	if (ans == "y") return true;
+	if (c == 'y') return true;
 	return false;
 }
 
@@ -660,9 +660,9 @@ void CGAME::loadGame(mutex& mx)
 	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 	while (true) {
 		cin >> fileName;
+		GetAsyncKeyState(VK_RETURN);
 		fileName = "./saves/" + fileName;
 		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
-		char buffer[1000];
 		ifstream fin(fileName, ios::out | ios::binary);
 		if (!fin) {
 			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
@@ -671,10 +671,9 @@ void CGAME::loadGame(mutex& mx)
 			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
 			cout << line3;
 
-			string ans;
+			int c = _getch();
 			GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
-			cin >> ans;
-			if (ans != "y") {
+			if (c != 'y') {
 				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
 				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
 				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
@@ -690,8 +689,6 @@ void CGAME::loadGame(mutex& mx)
 		getPlayer().tempY = getPlayer().mY;
 		getPlayer().mX = binary_read(fin);
 		getPlayer().mY = binary_read(fin);
-		//binary_read(fin, getPlayer().mX);/*
-		//binary_read(fin, getPlayer().mY);*/
 
 		// level
 		getPlayer().getLevel() = binary_read(fin);
@@ -708,8 +705,8 @@ void CGAME::loadGame(mutex& mx)
 		for (int i = 0; i < getPlayer().getLevel(); ++i) {
 			cars[i].prevX = cars[i].mX;
 			cars[i].prevY = cars[i].mY;
-			birds[i].mX = binary_read(fin);
-			birds[i].mY = binary_read(fin);
+			cars[i].mX = binary_read(fin);
+			cars[i].mY = binary_read(fin);
 		}
 
 		// dinos

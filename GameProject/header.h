@@ -73,6 +73,7 @@ inline int StartMenu()
 				cout << Menu[i];
 			}
 		}
+		while (GetAsyncKeyState(VK_RETURN) != 0) {}
 		while (true)
 		{
 			if (GetAsyncKeyState(VK_UP) != 0)
