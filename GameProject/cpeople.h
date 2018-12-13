@@ -35,7 +35,7 @@ public:
     bool isFinish();
     bool isDead();
     int getScore();
-    int getLevel();
+    short& getLevel();
     void DrawPLayer();
     void increaseLevel();
 	inline int& getX() { 

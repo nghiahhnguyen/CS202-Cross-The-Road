@@ -14,13 +14,13 @@ bool backToMainMenu = false;
 
 void SubThread()
 {
-    cg.drawBackground();
 	cg.guide();
 	int preLevel = 11;
 	int templv = 11;
 	auto startTruck = sc.now();
 	auto startCar = sc.now();
 	while (IS_RUNNING) {
+		cg.drawBackground();
 		// functions to simulate traffic lights
 		auto endTruck = sc.now();
 		auto endCar = sc.now();
@@ -214,7 +214,6 @@ int main()
 						break;
 					}
 				}
-				int c;
 				temp = ' ';
 			}
 		}

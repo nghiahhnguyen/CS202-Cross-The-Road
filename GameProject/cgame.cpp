@@ -5,6 +5,24 @@
 #include <sstream>
 #pragma warning(disable:4996)
 #define _CRT_SECURE_NO_WARNINGS
+void binary_write(std::ostream& stream, int x) {
+	stream.write((char*)&x, sizeof(int));
+}
+
+void printInt(int x, ofstream& outfile) {
+	outfile.write((char*)&x, sizeof(int));
+}
+
+int binary_read(ifstream& stream) {
+	int x;
+	stream.read((char*)&x, sizeof(int));
+	return x;
+}
+int readInt(ifstream& infile) {
+	int x;
+	infile.read((char*)&x, sizeof(int));
+	return x;
+}
 
 CGAME::CGAME()
 {
@@ -467,11 +485,9 @@ void CGAME::saveGame(mutex& mx)
         cout << '=';
     }
 
-    string line2 = "Enter the name of save file: ", fileName, buffer;
-    buffer.reserve(10000);
+    string line2 = "Enter the name of save file: ", fileName;
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
     cout << line2;
-	ShowConsoleCursor(true);
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 
     while (true) {
@@ -500,61 +516,39 @@ void CGAME::saveGame(mutex& mx)
                 continue;
             }
         }
-        ofstream fout(fileName, ios::out | ios::binary);
-        buffer.clear();
-
+		ofstream fout(fileName, ios::out | ios::binary);
         // player
 		// save mX and mY
-		fout.write((char*)&(getPlayer().getX()), sizeof getPlayer().getX());
-		fout.write((char*)&(getPlayer().getY()), sizeof getPlayer().getY());
+		binary_write(fout, getPlayer().mX);
+		binary_write(fout, getPlayer().mY);
 
         // level
-        buffer += to_string(getPlayer().getLevel());
-        buffer.push_back('\n');
+		binary_write(fout, getPlayer().getLevel());
 
         // trucks
         for (int i = 0; i < getPlayer().getLevel(); ++i) {
-            if (i > 0)
-                buffer.push_back(' ');
-            buffer += to_string(trucks[i].mX);
-            buffer.push_back(' ');
-            buffer += to_string(trucks[i].mY);
+			binary_write(fout, trucks[i].mX);
+			binary_write(fout, trucks[i].mY);
         }
-        buffer.push_back('\n');
 
         // cars
         for (int i = 0; i < getPlayer().getLevel(); ++i) {
-            if (i > 0)
-                buffer.push_back(' ');
-            buffer += to_string(cars[i].mX);
-            buffer.push_back(' ');
-            buffer += to_string(cars[i].mY);
+			binary_write(fout, cars[i].mX);
+			binary_write(fout, cars[i].mY);
         }
-        buffer.push_back('\n');
 
         // dinos
         for (int i = 0; i < getPlayer().getLevel(); ++i) {
-            if (i > 0)
-                buffer.push_back(' ');
-            buffer += to_string(dinosaurs[i].mX);
-            buffer.push_back(' ');
-            buffer += to_string(dinosaurs[i].mY);
+			binary_write(fout, dinosaurs[i].mX);
+			binary_write(fout, dinosaurs[i].mY);
         }
-        buffer.push_back('\n');
 
         // birds
         for (int i = 0; i < getPlayer().getLevel(); ++i) {
-            if (i > 0)
-                buffer.push_back(' ');
-            buffer += to_string(birds[i].mX);
-            buffer.push_back(' ');
-            buffer += to_string(birds[i].mY);
+			binary_write(fout, birds[i].mX);
+			binary_write(fout, birds[i].mY);
         }
-
-        fout.open(fileName, ios::binary);
-        fout.write(buffer.c_str(), sizeof buffer);
         fout.close();
-        ShowConsoleCursor(false);
         break;
     }
     for (int i = 0; i < 4; ++i) {
@@ -595,15 +589,14 @@ void CGAME::loadGame(mutex& mx)
 	string line2 = "Enter the name of save file: ", fileName;
 	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
 	cout << line2;
-	ShowConsoleCursor(true);
 	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 	while (true) {
 		cin >> fileName;
 		fileName = "./saves/" + fileName;
 		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
 		char buffer[1000];
-		ifstream fin(fileName, ios::in | ios::binary);
-		if (!fileExist(fileName)) {
+		ifstream fin(fileName, ios::out | ios::binary);
+		if (!fin) {
 			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
 			// write the line
 			string line3 = "File do not exist. Do you want to abort? (y/n)";
@@ -616,57 +609,60 @@ void CGAME::loadGame(mutex& mx)
 			if (ans != "y") {
 				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
 				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
+				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
 				string line4 = "Enter another file name:";
-				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 				cout << line4;
 				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 				continue;
 			}
 			else break;
 		}
-
-		fin.read(buffer, 1000);
-		string tmp(buffer);
-		stringstream ss(tmp);
-		
 		// player
 		getPlayer().tempX = getPlayer().mX;
 		getPlayer().tempY = getPlayer().mY;
-		ss >> getPlayer().mX;
-		ss >> getPlayer().mY;
+		getPlayer().mX = binary_read(fin);
+		getPlayer().mY = binary_read(fin);
+		//binary_read(fin, getPlayer().mX);/*
+		//binary_read(fin, getPlayer().mY);*/
 
 		// level
-		ss >> getPlayer().level;
+		getPlayer().getLevel() = binary_read(fin);
 
 		// trucks
 		for (int i = 0; i < getPlayer().getLevel(); ++i) {
 			trucks[i].prevX = trucks[i].mX;
-			trucks[i].prevX = trucks[i].mY;
-			ss >> trucks[i].mX >> trucks[i].mY;
+			trucks[i].prevY = trucks[i].mY;
+			trucks[i].mX = binary_read(fin);
+			trucks[i].mY = binary_read(fin);
 		}
 
 		// cars
 		for (int i = 0; i < getPlayer().getLevel(); ++i) {
 			cars[i].prevX = cars[i].mX;
-			cars[i].prevX = cars[i].mY;
-			ss >> cars[i].mX >> cars[i].mY;
+			cars[i].prevY = cars[i].mY;
+			birds[i].mX = binary_read(fin);
+			birds[i].mY = binary_read(fin);
 		}
 
 		// dinos
 		for (int i = 0; i < getPlayer().getLevel(); ++i) {
 			dinosaurs[i].prevX = dinosaurs[i].mX;
-			dinosaurs[i].prevX = dinosaurs[i].mY;
-			ss >> dinosaurs[i].mX >> dinosaurs[i].mY;
+			dinosaurs[i].prevY = dinosaurs[i].mY;
+			dinosaurs[i].mX = binary_read(fin);
+			dinosaurs[i].mY = binary_read(fin);
 		}
 
 		// birds
 		for (int i = 0; i < getPlayer().getLevel(); ++i) {
 			birds[i].prevX = birds[i].mX;
-			birds[i].prevX = birds[i].mY;
-			ss >> birds[i].mX >> birds[i].mY;
+			birds[i].prevY = birds[i].mY;
+			birds[i].mX = binary_read(fin);
+			birds[i].mY = binary_read(fin);
 		}
+		system("cls");
+		drawBackground();
+		break;
 	}
-	ShowConsoleCursor(false);
 }
 
 void CGAME::resetData()
