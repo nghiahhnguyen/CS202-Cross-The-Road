@@ -126,9 +126,9 @@ void CGAME::guide()
     GotoXY(150, 14);
     cout << "P:   Pause";
     GotoXY(150, 15);
-    cout << "T:   Save game";
+    cout << "L:   Save game";
     GotoXY(150, 16);
-    cout << "L:   Load game";
+    cout << "S:   Load game";
     GotoXY(30, 30);
 }
 
@@ -172,6 +172,25 @@ void CGAME::drawGame()
         dinosaurs[i].Draw();
     }
     //Sleep(100);
+}
+
+void CGAME::congrats()
+{
+	system("cls");
+	GotoXY(15, 4);
+	cout << "    __   ___   ____    ____  ____    ____  ______  __ __  _       ____  ______  ____  ___   ____   _____ __  __ ";
+	GotoXY(15, 5);
+	cout << "   /  ] /   \\ |    \\  /    ||    \\  /    ||      ||  |  || |     /    ||      ||    |/   \\ |    \\ / ___/|  ||  |";
+	GotoXY(15, 6);
+	cout << "  /  / |     ||  _  ||   __||  D  )|  o  ||      ||  |  || |    |  o  ||      | |  ||     ||  _  (   \\_ |  ||  |";
+	GotoXY(15, 7);
+	cout << " /  /  |  O  ||  |  ||  |  ||    / |     ||_|  |_||  |  || |___ |     ||_|  |_| |  ||  O  ||  |  |\\__  ||__||__|";
+	GotoXY(15, 8);
+	cout << "/   \\_ |     ||  |  ||  |_ ||    \\ |  _  |  |  |  |  :  ||     ||  _  |  |  |   |  ||     ||  |  |/  \\ | __  __ ";
+	GotoXY(15, 9);
+	cout << "\\     ||     ||  |  ||     ||  .  \\|  |  |  |  |  |     ||     ||  |  |  |  |   |  ||     ||  |  |\\    ||  ||  |";
+	GotoXY(15, 10);
+	cout << " \\____| \\___/ |__|__||___,_||__|\\_||__|__|  |__|   \\__,_||_____||__|__|  |__|  |____|\\___/ |__|__| \\___||__||__|";
 }
 
 void CGAME::updatePosPlayer(char a)
@@ -275,6 +294,9 @@ void CGAME::eraseOldObstacle()
 
 void CGAME::resetGame()
 {
+	system("cls");
+	drawBackground();
+	guide();
     eraseOldObstacle();
     // TODO: FIX THIS BUG
     GotoXY(MAXWIDTH, 7);
@@ -439,7 +461,37 @@ void CGAME::ambulanceEffect(mutex& mx)
         }
     }
 }
+void CGAME::congratsVoice()
+{
+	PlaySound(L"congrats.wav", NULL, SND_FILENAME);
+}
 
+void CGAME::loadingBar()
+{
+	for (int i = 1; i < 101; i++)
+	{
+		GotoXY(30 + i, 30);
+		cout << "/";
+		if (i == 100)
+		{
+			GotoXY(75, 31);
+			cout << "ready        ";
+		}
+		else
+		{
+			GotoXY(75, 31);
+			cout << "loading " << i << "%";
+		}
+		Sleep(25);
+	}
+	system("cls");
+}
+
+void CGAME::ambulanceVoice(mutex& mx)
+{
+	//lock_guard<mutex> lock(mx);
+	PlaySound(L"ambulance.wav", NULL, SND_FILENAME);
+}
 bool CGAME::fileExist(const string& fileName)
 {
     struct stat buffer;

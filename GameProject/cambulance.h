@@ -1,6 +1,5 @@
 #pragma once
 #include "cvehicle.h"
-
 class CAMBULANCE :public CVEHICLE
 {
 	static int numAmbulance;
