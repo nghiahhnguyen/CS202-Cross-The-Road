@@ -130,9 +130,9 @@ inline void ChangeSound()
 {
 	int temp = ' ';
 	string Sound = "    ";
-	if (sound == true)
+	if (sound)
 		Sound = "ON ";
-	else if (sound == false)
+	else if (!sound)
 		Sound = "OFF";
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
@@ -143,22 +143,27 @@ inline void ChangeSound()
 	cout << Sound;
 	while (true)
 	{
-		Sleep(500);
+		Sleep(100);
 		if ((GetAsyncKeyState(VK_RETURN) != 0))
 		{
-			if (sound == true)
+			switch (sound)
 			{
+			case true:
+			{
+				sound = false;
 				Sound = "OFF";
 				GotoXY(95, 21);
 				cout << Sound;
-				sound = false;
+				break;
 			}
-			else if (sound == false)
+			case false:
 			{
+				sound = true;
 				Sound = "ON ";
 				GotoXY(95, 21);
 				cout << Sound;
-				sound = true;
+				break; 
+			}
 			}
 		}
 		else
@@ -426,7 +431,7 @@ inline int IngameMenu()
 			{
 				pointer -= 1;
 				if (pointer == -1)
-					pointer = 2;
+					pointer = 3;
 				break;
 			}
 			else if ((GetAsyncKeyState(VK_DOWN) != 0))

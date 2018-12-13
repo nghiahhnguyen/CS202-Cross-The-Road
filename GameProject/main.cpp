@@ -11,6 +11,7 @@ chrono::steady_clock sc;
 mutex mx;
 int level = 1;
 bool backToMainMenu = false;
+int temp = ' ';
 
 void SubThread()
 {
@@ -51,24 +52,25 @@ void SubThread()
 
 		bool hitSth = false;
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[0])) {
-			cg.getAnimal()[0]->Tell();
+			if (sound) cg.getAnimal()[0]->Tell();
 			hitSth = true;
 		}
 		if (cg.getPlayer().isImpact2(cg.getAnimal()[1])) {
-			cg.getAnimal()[1]->Tell();
+			if (sound) cg.getAnimal()[1]->Tell();
 			hitSth = true;
 		}
 		if (cg.getPlayer().isImpact1(cg.getVehicle()[0])) {
-			cg.getVehicle()[0]->Crash();
+			if (sound) cg.getVehicle()[0]->Crash();
 			hitSth = true;
 		}
 		if (cg.getPlayer().isImpact1(cg.getVehicle()[1])) {
-			cg.getVehicle()[1]->Crash();
+			if (sound) cg.getVehicle()[1]->Crash();
 			hitSth = true;
 		}
 		if (hitSth) {
 			cg.getPlayer().dieEffect();
 			cg.getPlayer().setDead();
+			//if (sound) cg.ambulanceVoice();
 			cg.ambulanceEffect(mx);
 			break;
 		}
@@ -89,16 +91,27 @@ void SubThread()
 		MOVING = ' '; 
 
 		mx.lock();
+		cg.getPlayer().DrawPLayer();
 		cg.updatePosVehicle();
 		cg.updatePosAnimal();
 		cg.drawGame();
-		cg.getPlayer().DrawPLayer();
 		mx.unlock();
 		
 		if (cg.getPlayer().getY() == 1) {
 			cg.getPlayer().increaseLevel();
 			if (cg.isFinish()) {
-				break;
+				cg.congrats();
+				if (sound) cg.congratsVoice();
+				if (cg.askForRestart(mx)) {
+					cg.getPlayer().getLevel() = 1;
+					if (templv != cg.getPlayer().getLevel())
+					{
+						startCar = endCar;
+						startTruck = endTruck;
+					}
+				}
+				else
+					break;
 			}
 			cg.resetGame();
 		}
@@ -108,7 +121,8 @@ void SubThread()
 
 int main()
 {
-	int temp = ' ';
+	//cg.congrats();
+	//system("pause");
 	ShowConsoleCursor(false);
 	FixConsoleWindow();
 	//menu = 0;
@@ -146,11 +160,11 @@ int main()
 							}
 							else if (menuInGame == 1)
 							{
-								
+								cg.saveGame(mx);
 							}
 							else if (menuInGame == 2)
 							{
-
+								cg.loadGame(mx);
 							}
 							else if (menuInGame == 3)
 							{
@@ -186,6 +200,7 @@ int main()
 							}
 						}
 						cg.drawBackground();
+						cg.guide();
 						cg.resumeGame(t1);
 					}
 					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
@@ -193,7 +208,10 @@ int main()
 					}*/
 				}
 				else {
-					Sleep(5000);
+					Sleep(2000);
+					if(sound) 
+						cg.ambulanceVoice(mx);
+					Sleep(2000);
 					if (cg.askForRestart(mx)) {
 						cg.getPlayer() = CPEOPLE();
 						system("cls");
@@ -209,7 +227,7 @@ int main()
 		}
 		else if (menu == 1)
 		{
-
+			cg.loadGame(mx);
 		}
 		else if (menu == 2)
 		{

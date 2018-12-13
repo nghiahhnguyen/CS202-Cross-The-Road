@@ -30,3 +30,4 @@ void CAMBULANCE::DrawLeft()
 	GotoXY(mX, mY + 2);
 	cout << "AAAA";
 }
+

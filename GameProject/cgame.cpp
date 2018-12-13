@@ -156,6 +156,25 @@ void CGAME::drawGame()
     //Sleep(100);
 }
 
+void CGAME::congrats()
+{
+	system("cls");
+	GotoXY(15, 4);
+	cout << "    __   ___   ____    ____  ____    ____  ______  __ __  _       ____  ______  ____  ___   ____   _____ __  __ ";
+	GotoXY(15, 5);
+	cout << "   /  ] /   \\ |    \\  /    ||    \\  /    ||      ||  |  || |     /    ||      ||    |/   \\ |    \\ / ___/|  ||  |";
+	GotoXY(15, 6);
+	cout << "  /  / |     ||  _  ||   __||  D  )|  o  ||      ||  |  || |    |  o  ||      | |  ||     ||  _  (   \\_ |  ||  |";
+	GotoXY(15, 7);
+	cout << " /  /  |  O  ||  |  ||  |  ||    / |     ||_|  |_||  |  || |___ |     ||_|  |_| |  ||  O  ||  |  |\\__  ||__||__|";
+	GotoXY(15, 8);
+	cout << "/   \\_ |     ||  |  ||  |_ ||    \\ |  _  |  |  |  |  :  ||     ||  _  |  |  |   |  ||     ||  |  |/  \\ | __  __ ";
+	GotoXY(15, 9);
+	cout << "\\     ||     ||  |  ||     ||  .  \\|  |  |  |  |  |     ||     ||  |  |  |  |   |  ||     ||  |  |\\    ||  ||  |";
+	GotoXY(15, 10);
+	cout << " \\____| \\___/ |__|__||___,_||__|\\_||__|__|  |__|   \\__,_||_____||__|__|  |__|  |____|\\___/ |__|__| \\___||__||__|";
+}
+
 void CGAME::updatePosPlayer(char a)
 {
     if (a == 'w')
@@ -257,6 +276,9 @@ void CGAME::eraseOldObstacle()
 
 void CGAME::resetGame()
 {
+	system("cls");
+	drawBackground();
+	guide();
     eraseOldObstacle();
     // TODO: FIX THIS BUG
     GotoXY(MAXWIDTH, 7);
@@ -415,7 +437,16 @@ void CGAME::ambulanceEffect(mutex& mx)
         }
     }
 }
+void CGAME::congratsVoice()
+{
+	PlaySound(L"congrats.wav", NULL, SND_FILENAME);
+}
 
+void CGAME::ambulanceVoice(mutex& mx)
+{
+	//lock_guard<mutex> lock(mx);
+	PlaySound(L"ambulance.wav", NULL, SND_FILENAME);
+}
 bool CGAME::fileExist(const string& fileName)
 {
     struct stat buffer;

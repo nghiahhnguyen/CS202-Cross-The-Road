@@ -1,5 +1,5 @@
 #include "cpeople.h"
-int CPEOPLE::getLevel()
+short& CPEOPLE::getLevel()
 {
     return level;
 }

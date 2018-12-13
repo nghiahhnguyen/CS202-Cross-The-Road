@@ -76,4 +76,7 @@ public:
 	CTRAFFICLIGHT& getTruckLaneLight();
 	bool fileExist(const string&);
 	void resetData();
+	void congrats();
+	void ambulanceVoice(mutex&);
+	void congratsVoice();
 };
