@@ -30,6 +30,9 @@ public:
     void Left(int);
     void Right(int);
     void Down(int);
+	inline void setAlive() {
+		mState = true;
+	}
     bool isImpact1(CVEHICLE* const& vehicle); // true = impact, false = not impact
     bool isImpact2(CANIMAL* const& animal);
     bool isFinish();

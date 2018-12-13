@@ -128,19 +128,33 @@ int main()
 	ShowConsoleCursor(false);
 	FixConsoleWindow();
 	//menu = 0;
+	bool loadGameFromMenu = false;
 	while (1)
 	{
-		StartMenu();
-		EraseMenu();
+		if (loadGameFromMenu)
+			menu = 0;
+		else
+		{
+			StartMenu();
+			EraseMenu();
+		}
 		thread t1;
 		if (menu == 0)
 		{
 			cg.loadingBar();
-			cg.resetData();
+			if(!loadGameFromMenu)
+				cg.resetData();
+			loadGameFromMenu = false;
 			IS_RUNNING = true;
+			cg.getPlayer().setAlive();
 			temp = ' ';
 			cg.startGame(t1);
+			bool exitFromSaveGame = false;
 			while (1) {
+				if (exitFromSaveGame) {
+					exitFromSaveGame = false;
+					break;
+				}
 				if (_kbhit()) {
 					temp = _getch();
 					MOVING = temp;
@@ -158,19 +172,26 @@ int main()
 							EraseMenu();
 							if (menuInGame == 0)
 							{
+								cg.drawBackground();
+								cg.guide();
+								cg.resumeGame(t1);
 								break;
 							}
 							else if (menuInGame == 1)
 							{
 								if (cg.saveGame(mx)) {
+									cg.resumeGame(t1);
 									cg.exitGame(&t1, IS_RUNNING);
+									exitFromSaveGame = true;
 									break;
 								}
 							}
 							else if (menuInGame == 2)
 							{
 								cg.loadGame(mx);
-								cg.startGame(t1);
+								cg.drawBackground();
+								cg.guide();
+								cg.resumeGame(t1);
 								break;
 							}
 							else if (menuInGame == 3)
@@ -206,9 +227,6 @@ int main()
 								}
 							}
 						}
-						cg.drawBackground();
-						cg.guide();
-						cg.resumeGame(t1);
 					}
 					else if (temp == 't') {
 						cg.pauseGame(t1);
@@ -253,6 +271,10 @@ int main()
 		else if (menu == 1)
 		{
 			cg.loadGame(mx);
+			system("cls");
+			loadGameFromMenu = true;
+			//cg.startGame(t1);
+			continue;
 		}
 		else if (menu == 2)
 		{
