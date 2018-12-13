@@ -352,12 +352,18 @@ bool CGAME::askForRestart(mutex& mx)
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
     cout << line2;
 
-    char answer = _getch();
+	char answer;
+	while (true) {
+		answer = getch();
+		if (answer == 'y' || answer == 'n')
+			break;
+	}
     if (answer == 'y')
         return true;
     else
         return false;
 }
+
 //ambulance effect
 void CGAME::ambulanceEffect(mutex& mx)
 {
@@ -465,7 +471,7 @@ void CGAME::saveGame(mutex& mx)
 {
 
     lock_guard<mutex> lock(mx);
-    int boxWidth = 62, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+    int boxWidth = 100, boxHeight = 4, startBoxX = 34, startBoxY = 32;
 
     //Draw the board
     GotoXY(startBoxX, startBoxY);
@@ -496,14 +502,14 @@ void CGAME::saveGame(mutex& mx)
     buffer.reserve(10000);
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
     cout << line2;
+	ShowConsoleCursor(true);
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
-    ShowConsoleCursor(true);
 
     while (true) {
 
         cin >> fileName;
         clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
-        fileName = "\\saves" + fileName + ".bin";
+        fileName = "./saves/" + fileName;
         // if the file already exists
         if (fileExist(fileName)) {
             clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
@@ -525,14 +531,13 @@ void CGAME::saveGame(mutex& mx)
                 continue;
             }
         }
-        ofstream fout(fileName, ios::binary);
+        ofstream fout(fileName, ios::out | ios::binary);
         buffer.clear();
 
         // player
-        buffer += to_string(getPlayer().getX());
-        buffer.push_back(' ');
-        buffer += to_string(getPlayer().getY());
-        buffer += "\n";
+		// save mX and mY
+		fout.write((char*)&(getPlayer().getX()), sizeof getPlayer().getX());
+		fout.write((char*)&(getPlayer().getY()), sizeof getPlayer().getY());
 
         // level
         buffer += to_string(getPlayer().getLevel());
@@ -590,9 +595,8 @@ void CGAME::saveGame(mutex& mx)
 
 void CGAME::loadGame(mutex& mx)
 {
-    string path = "D:\\Nghia\\Hoc Tap Nghia\\Cross-The-Road\\GameProject\\saves", extension = ".bin";
 	lock_guard<mutex> lock(mx);
-	int boxWidth = 62, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+	int boxWidth = 100, boxHeight = 4, startBoxX = 34, startBoxY = 32;
 
 	//Draw the board
 	GotoXY(startBoxX, startBoxY);
@@ -619,26 +623,18 @@ void CGAME::loadGame(mutex& mx)
 		cout << '=';
 	}
 
-	string line2 = "Enter the name of save file: ", fileName, buffer;
-	buffer.reserve(10000);
+	string line2 = "Enter the name of save file: ", fileName;
 	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
 	cout << line2;
-	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 	ShowConsoleCursor(true);
+	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 	while (true) {
-
 		cin >> fileName;
+		fileName = "./saves/" + fileName;
 		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
-		
-		bool isNonexistent = false;
-
 		char buffer[1000];
-		ifstream fin(fileName, ios::binary);
-		if (!fin.read(buffer, 1000)) {
-			isNonexistent = true;
-		}
-
-		if (isNonexistent) {
+		ifstream fin(fileName, ios::in | ios::binary);
+		if (!fileExist(fileName)) {
 			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
 			// write the line
 			string line3 = "File do not exist. Do you want to abort? (y/n)";
@@ -652,13 +648,15 @@ void CGAME::loadGame(mutex& mx)
 				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
 				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
 				string line4 = "Enter another file name:";
-				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 1);
+				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 				cout << line4;
-				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 2);
+				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 				continue;
 			}
 			else break;
 		}
+
+		fin.read(buffer, 1000);
 		string tmp(buffer);
 		stringstream ss(tmp);
 		
@@ -699,8 +697,7 @@ void CGAME::loadGame(mutex& mx)
 			ss >> birds[i].mX >> birds[i].mY;
 		}
 	}
-
-
+	ShowConsoleCursor(false);
 }
 
 void CGAME::resetData()

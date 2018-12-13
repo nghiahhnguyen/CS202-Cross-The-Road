@@ -10,7 +10,6 @@ class CGAME;
 class CPEOPLE {
     int mX, mY; // position
     bool mState; // status
-    string name;
     int score;
     short level;
     int tempX, tempY;

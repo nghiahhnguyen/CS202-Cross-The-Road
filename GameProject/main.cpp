@@ -146,7 +146,6 @@ int main()
 					if (temp == 27) {
 						cg.exitGame(&t1, IS_RUNNING);
 						break;
-						//return 0;
 					}
 					else if (temp == 'p') {
 						cg.pauseGame(t1);
@@ -203,9 +202,19 @@ int main()
 						cg.guide();
 						cg.resumeGame(t1);
 					}
-					/*else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+					else if (temp == 't') {
+						cg.pauseGame(t1);
+						cg.loadGame(mx); 
 						cg.resumeGame(t1);
-					}*/
+					}
+					else if (temp == 'l') {
+						cg.pauseGame(t1);
+						cg.saveGame(mx);
+						cg.resumeGame(t1);
+					}
+					else if(temp == 'w' || temp =='a' ||temp == 's' || temp == 'd'){
+						cg.resumeGame(t1);
+					}
 				}
 				else {
 					Sleep(2000);
@@ -223,6 +232,8 @@ int main()
 						break;
 					}
 				}
+				int c;
+				temp = ' ';
 			}
 		}
 		else if (menu == 1)
