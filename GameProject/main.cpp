@@ -219,7 +219,7 @@ int main()
 						cg.pauseGame(t1);
 						if (cg.saveGame(mx))
 						{
-							//cg.resumeGame(t1);
+							cg.resumeGame(t1);
 							cg.exitGame(&t1, IS_RUNNING);
 							break;
 						}
