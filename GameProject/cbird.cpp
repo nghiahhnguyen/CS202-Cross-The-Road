@@ -6,9 +6,11 @@ void CBIRD::Draw()//y=5
 {
 	CANIMAL::Draw();
 	GotoXY(mX, mY);
-	cout << "Y  Y";		
+	cout << "<@__";		
 	GotoXY(mX, mY + 1);
-	cout << " YY ";
+	cout << "(_-/";
+	GotoXY(mX, mY + 2);
+	cout << " \\ \\";
 }
 
 void CBIRD::Tell() {
