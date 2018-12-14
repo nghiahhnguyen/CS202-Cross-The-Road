@@ -86,6 +86,14 @@ void CGAME::drawBackground()
             }
         }
     }
+	GotoXY(23, 29);
+	cout << "================";
+	GotoXY(23, 30);
+	cout << "|";
+	GotoXY(38, 30);
+	cout << "|";
+	GotoXY(23, 31);
+	cout << "================";
 }
 
 void CGAME::guide()
@@ -276,9 +284,9 @@ void CGAME::makeSound()
 
 void CGAME::updateLevel()
 {
-    GotoXY(60, 30);
-    cout << "              ";
-    GotoXY(60, 30);
+    GotoXY(28, 30);
+    cout << "        ";
+    GotoXY(28, 30);
     cout << "LEVEL " << getPlayer().getLevel();
 }
 
@@ -508,11 +516,11 @@ void clearLine(int x, int y, int length)
     }
 }
 
-bool CGAME::saveGame(mutex& mx)
+bool CGAME::saveGame(mutex& mx, bool inMenu)
 {
 
     lock_guard<mutex> lock(mx);
-    int boxWidth = 100, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+    int boxWidth = 62, boxHeight = 4, startBoxX = 0, startBoxY = 32;
 
     //Draw the board
     GotoXY(startBoxX, startBoxY);
@@ -521,14 +529,14 @@ bool CGAME::saveGame(mutex& mx)
     }
     GotoXY(startBoxX, startBoxY + 1);
     for (int j = 0; j < boxWidth; ++j) {
-        if (j == 0 || j == boxWidth - 1)
+        if (j == boxWidth - 1)
             cout << '|';
         else
             cout << ' ';
     }
     GotoXY(startBoxX, startBoxY + 2);
     for (int j = 0; j < boxWidth; ++j) {
-        if (j == 0 || j == boxWidth - 1)
+        if (j == boxWidth - 1)
             cout << '|';
         else
             cout << ' ';
@@ -542,7 +550,8 @@ bool CGAME::saveGame(mutex& mx)
     string line2 = "Enter the name of save file: ", fileName;
     GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
     cout << line2;
-    GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
+	if(!inMenu)
+		GotoXY(0, startBoxY + 2);
 
     while (true) {
 
@@ -552,7 +561,8 @@ bool CGAME::saveGame(mutex& mx)
         fileName = "./saves/" + fileName;
         // if the file already exists
         if (fileExist(fileName)) {
-            clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
+			clearLine(startBoxX, startBoxY + 1, boxWidth - 1);
+			clearLine(startBoxX, startBoxY + 2, boxWidth - 1);
             // write the line
             string line3 = "File already exists. Do you want to override? (y/n)";
             GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
@@ -608,7 +618,7 @@ bool CGAME::saveGame(mutex& mx)
     } 
 
 	for (int i = 1; i < 3; ++i) {
-		clearLine(startBoxX + 1, startBoxY + i, boxWidth - 2);
+		clearLine(startBoxX, startBoxY + i, boxWidth - 1);
 	}
 	
 	string line3 = "Do you want to exit the game? (y/n)";
@@ -624,10 +634,127 @@ bool CGAME::saveGame(mutex& mx)
 	return false;
 }
 
-void CGAME::loadGame(mutex& mx)
+//bool CGAME::saveGame(mutex& mx)
+//{
+//
+//	lock_guard<mutex> lock(mx);
+//	int boxWidth = 100, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+//
+//	//Draw the board
+//	GotoXY(startBoxX, startBoxY);
+//	for (int j = 0; j < boxWidth; ++j) {
+//		cout << '=';
+//	}
+//	GotoXY(startBoxX, startBoxY + 1);
+//	for (int j = 0; j < boxWidth; ++j) {
+//		if (j == 0 || j == boxWidth - 1)
+//			cout << '|';
+//		else
+//			cout << ' ';
+//	}
+//	GotoXY(startBoxX, startBoxY + 2);
+//	for (int j = 0; j < boxWidth; ++j) {
+//		if (j == 0 || j == boxWidth - 1)
+//			cout << '|';
+//		else
+//			cout << ' ';
+//	}
+//
+//	GotoXY(startBoxX, startBoxY + 3);
+//	for (int j = 0; j < boxWidth; ++j) {
+//		cout << '=';
+//	}
+//
+//	string line2 = "Enter the name of save file: ", fileName;
+//	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
+//	cout << line2;
+//	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
+//
+//	while (true) {
+//
+//		cin >> fileName;
+//		GetAsyncKeyState(VK_RETURN);
+//		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
+//		fileName = "./saves/" + fileName;
+//		// if the file already exists
+//		if (fileExist(fileName)) {
+//			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
+//			// write the line
+//			string line3 = "File already exists. Do you want to override? (y/n)";
+//			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
+//			cout << line3;
+//
+//			int ans;
+//			GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
+//			ans = _getch();
+//			if (ans != 'y') {
+//				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
+//				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
+//				string line4 = "Enter another file name:";
+//				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 1);
+//				cout << line4;
+//				GotoXY(startBoxX + (boxWidth - line4.size()) / 2, startBoxY + 2);
+//				continue;
+//			}
+//		}
+//		ofstream fout(fileName, ios::out | ios::binary);
+//		// player
+//		// save mX and mY
+//		binary_write(fout, getPlayer().mX);
+//		binary_write(fout, getPlayer().mY);
+//
+//		// level
+//		binary_write(fout, getPlayer().getLevel());
+//
+//		// trucks
+//		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+//			binary_write(fout, trucks[i].mX);
+//			binary_write(fout, trucks[i].mY);
+//		}
+//
+//		// cars
+//		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+//			binary_write(fout, cars[i].mX);
+//			binary_write(fout, cars[i].mY);
+//		}
+//
+//		// dinos
+//		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+//			binary_write(fout, dinosaurs[i].mX);
+//			binary_write(fout, dinosaurs[i].mY);
+//		}
+//
+//		// birds
+//		for (int i = 0; i < getPlayer().getLevel(); ++i) {
+//			binary_write(fout, birds[i].mX);
+//			binary_write(fout, birds[i].mY);
+//		}
+//		fout.close();
+//		break;
+//	}
+//
+//	for (int i = 1; i < 3; ++i) {
+//		clearLine(startBoxX + 1, startBoxY + i, boxWidth - 2);
+//	}
+//
+//	string line3 = "Do you want to exit the game? (y/n)";
+//	GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
+//	cout << line3;
+//
+//	GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
+//	int c = _getch();
+//	for (int i = 0; i < 4; ++i) {
+//		clearLine(startBoxX, startBoxY + i, boxWidth);
+//	}
+//	if (c == 'y') return true;
+//	return false;
+//}
+
+
+void CGAME::loadGame(mutex& mx, bool inMenu)
 {
 	lock_guard<mutex> lock(mx);
-	int boxWidth = 100, boxHeight = 4, startBoxX = 34, startBoxY = 32;
+	int boxWidth = 62, boxHeight = 4, startBoxX = 0, startBoxY = 32;
 
 	//Draw the board
 	GotoXY(startBoxX, startBoxY);
@@ -636,14 +763,14 @@ void CGAME::loadGame(mutex& mx)
 	}
 	GotoXY(startBoxX, startBoxY + 1);
 	for (int j = 0; j < boxWidth; ++j) {
-		if (j == 0 || j == boxWidth - 1)
+		if (j == boxWidth - 1)
 			cout << '|';
 		else
 			cout << ' ';
 	}
 	GotoXY(startBoxX, startBoxY + 2);
 	for (int j = 0; j < boxWidth; ++j) {
-		if (j == 0 || j == boxWidth - 1)
+		if (j == boxWidth - 1)
 			cout << '|';
 		else
 			cout << ' ';
@@ -657,15 +784,18 @@ void CGAME::loadGame(mutex& mx)
 	string line2 = "Enter the name of save file: ", fileName;
 	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
 	cout << line2;
-	GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
+	if(!inMenu)
+		GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2);
 	while (true) {
 		cin >> fileName;
 		GetAsyncKeyState(VK_RETURN);
 		fileName = "./saves/" + fileName;
-		clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 2, line2.size());
+		clearLine(startBoxX, startBoxY + 2, boxWidth - 1);
 		ifstream fin(fileName, ios::out | ios::binary);
 		if (!fin) {
-			clearLine(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1, line2.size());
+			clearLine(startBoxX, startBoxY + 1, boxWidth - 1);
+			clearLine(startBoxX, startBoxY + 2, boxWidth - 1);
+
 			// write the line
 			string line3 = "File do not exists. Do you want to abort? (y/n)";
 			GotoXY(startBoxX + (boxWidth - line3.size()) / 2, startBoxY + 1);
@@ -674,8 +804,8 @@ void CGAME::loadGame(mutex& mx)
 			int c = _getch();
 			GotoXY(startBoxX + boxWidth / 2, startBoxY + 2);
 			if (c != 'y') {
-				clearLine(startBoxX + 1, startBoxY + 1, boxWidth - 2);
-				clearLine(startBoxX + 1, startBoxY + 2, boxWidth - 2);
+				clearLine(startBoxX, startBoxY + 1, boxWidth - 1);
+				clearLine(startBoxX, startBoxY + 2, boxWidth - 1);
 				GotoXY(startBoxX + (boxWidth - line2.size()) / 2, startBoxY + 1);
 				string line4 = "Enter another file name:";
 				cout << line4;

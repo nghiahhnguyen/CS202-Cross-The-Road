@@ -54,8 +54,8 @@ public:
     void resetGame();
 	void exitGame(thread*, bool&);
 	void startGame(thread&);
-	void loadGame(mutex&);
-	bool saveGame(mutex&);
+	void loadGame(mutex&, bool = false);
+	bool saveGame(mutex&, bool = false);
 	void pauseGame(thread&);
 	void resumeGame(thread&);
 	//control moving player
