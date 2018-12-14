@@ -179,7 +179,7 @@ int main()
 							}
 							else if (menuInGame == 1)
 							{
-								if (cg.saveGame(mx)) {
+								if (cg.saveGame(mx, true)) {
 									cg.resumeGame(t1);
 									cg.exitGame(&t1, IS_RUNNING);
 									exitFromSaveGame = true;
@@ -188,7 +188,7 @@ int main()
 							}
 							else if (menuInGame == 2)
 							{
-								cg.loadGame(mx);
+								cg.loadGame(mx, true);
 								cg.drawBackground();
 								cg.guide();
 								cg.resumeGame(t1);
@@ -270,7 +270,7 @@ int main()
 		}
 		else if (menu == 1)
 		{
-			cg.loadGame(mx);
+			cg.loadGame(mx, true);
 			system("cls");
 			loadGameFromMenu = true;
 			//cg.startGame(t1);
