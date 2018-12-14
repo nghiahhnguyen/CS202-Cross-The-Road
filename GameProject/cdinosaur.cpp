@@ -6,11 +6,11 @@ void CDINOSAUR::Draw()//y=5
 {
 	CANIMAL::Draw();
 	GotoXY(mX, mY);
-	cout << "  YY";
+	cout <<"  "<<char(219)<<char(220);
 	GotoXY(mX, mY + 1);
-	cout << " YY ";
+	cout <<" "<<char(219)<<char(219);
 	GotoXY(mX, mY + 2);
-	cout << "YYY ";
+	cout <<char(219)<<char(219)<<char(219);
 }
 
 void CDINOSAUR::Tell() {
