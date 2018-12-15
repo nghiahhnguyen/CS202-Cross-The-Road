@@ -3,6 +3,7 @@
 #include <random>
 #include <chrono>
 #include <consoleapi.h>
+#include "header.cpp"
 
 char MOVING;
 bool IS_RUNNING = true; 
@@ -135,6 +136,7 @@ int main()
 			menu = 0;
 		else
 		{
+			system("cls");
 			StartMenu();
 			EraseMenu();
 		}

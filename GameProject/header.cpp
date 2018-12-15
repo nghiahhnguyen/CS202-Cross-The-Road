@@ -30,6 +30,7 @@ int StartMenu()
 		{
 			if (GetAsyncKeyState(VK_UP) != 0)
 			{
+				//Sleep(500);
 				pointer -= 1;
 				if (pointer == -1)
 					pointer = 3;
@@ -37,6 +38,7 @@ int StartMenu()
 			}
 			else if ((GetAsyncKeyState(VK_DOWN) != 0))
 			{
+				//Sleep(500);
 				pointer++;
 				if (pointer == 4)
 					pointer = 0;
