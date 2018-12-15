@@ -75,7 +75,7 @@ void SubThread()
 			cg.ambulanceEffect(mx);
 			break;
 		}
-		cg.updateLevel(mx);
+		cg.updateLevel();
 		
 		// If player is still alive
 		if (!cg.getPlayer().isDead()) 
@@ -111,10 +111,8 @@ void SubThread()
 						startTruck = endTruck;
 					}
 				}
-				else {
-					temp = 27;
+				else
 					break;
-				}
 			}
 			cg.drawBackground();
 			cg.resetGame();

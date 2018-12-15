@@ -67,7 +67,7 @@ public:
     void increaseTrafficAndFlock();
 	bool isFinish();
 	void makeSound();
-	void updateLevel(mutex&);
+	void updateLevel();
 	void updateObstacle();
 	void eraseOldObstacle();
 	bool askForRestart(mutex&);

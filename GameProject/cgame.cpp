@@ -282,9 +282,8 @@ void CGAME::makeSound()
     birds[0].Tell();
 }
 
-void CGAME::updateLevel(mutex& mx)
+void CGAME::updateLevel()
 {
-	lock_guard<mutex> lock(mx);
     GotoXY(28, 30);
     cout << "        ";
     GotoXY(28, 30);
