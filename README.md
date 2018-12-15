@@ -4,4 +4,5 @@ This is a game project made by 4 students of class 17APCS1 - VNU-HCM University 
 - Quoc-Huy Le
 - Hien Tran Nguyen
 - Hoang-Dat Le
-The game simulate the act of crossing the road t
+
+The game simulate the act of crossing the road to cr
